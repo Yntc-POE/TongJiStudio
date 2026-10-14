@@ -2,9 +2,9 @@
 <html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="app-version" content="1.9.0">
+<meta name="app-version" content="2.0.0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>桐记工坊 v1.9.0</title>
+<title>桐记工坊 v2.0.0</title>
 <style>
 :root{
   --bg:#f7f8fa;
@@ -336,7 +336,7 @@ div[style*="var(--ta)"]{border-radius:10px!important}
 <div class="settings-group">
 <div class="settings-group-title">更新</div>
 <div class="setting-row clickable" onclick="checkUpdateManual()">
-<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v1.9.0</div></div>
+<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v2.0.0</div></div>
 <span class="chev">&rsaquo;</span>
 </div>
 </div>
@@ -357,7 +357,7 @@ div[style*="var(--ta)"]{border-radius:10px!important}
 </div>
 </div>
 <div class="top-controls">
-<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v1.9.0</span></h2>
+<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v2.0.0</span></h2>
 <div style="display:flex;gap:6px;align-items:center;">
 <button class="help-btn" onclick="exportConfig()">导出</button>
 <label class="help-btn" for="configFile">导入</label>
@@ -635,6 +635,11 @@ QQ群：<span>1036501276</span><br>
 <div class="status" id="statusEnh"></div>
 </div>
 <div class="card">
+<label>破限词（用户自备）</label>
+<span class="hint">软件不提供、不内置任何破限内容。此处填写你自备的破限词，会随本页 AI 请求（扩写、生图）一并发送，用于防止部分模型拒绝生成；留空则不附加。</span>
+<textarea id="imgJailbreak" rows="2" placeholder="粘贴你自己准备的破限词（留空则不附加）"></textarea>
+</div>
+<div class="card">
 <label> 提示词</label>
 <textarea id="imgPrompt" rows="4" placeholder="描述你想生成的画面"></textarea>
 <textarea id="imgNegative" rows="2" placeholder="负面提示词（可选）"></textarea>
@@ -678,7 +683,7 @@ QQ群：<span>1036501276</span><br>
 <p>作者：<span>桐</span> | 联系方式：<span>2228907871</span> | QQ群：<span>1036501276</span></p>
 <p>本工具为<span>公益使用</span>，如发现任何收费行为，请及时联系作者举报！</p>
 <p>桐记工坊完全免费。如果它帮到了你，欢迎 <a style="color:var(--accent);cursor:pointer;" onclick="openDonate()">赞赏支持作者</a>（随缘、不强制）。</p>
-<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v1.9.0 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
+<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v2.0.0 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
 </div>
 
 <canvas id="watermarkCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;opacity:0.05;"></canvas>
@@ -819,7 +824,8 @@ function showEnhHelp(){alert(`【提示词助手 · 使用说明】
 ① 前置准备：先在上方「生图 API 设置」填好地址和 Key，点「一键拉取模型」并选择一个模型（没完成这步时，点生成会先提醒你）；
 ② 输入需求：用大白话描述你想要的画面，一句话就行；
 ③ 一键生成：软件会按内置提示词模板帮模型理解你的需求，扩写成专业生图提示词，并自动填入下方「提示词」栏；
-④ 回到「生成」区点「生成图片」出图。不满意可以多生成几次，结果每次不同。`);}
+④ 回到「生成」区点「生成图片」出图。不满意可以多生成几次，结果每次不同。
+⑤ 「破限词（用户自备）」按需填写：会随本页请求一并发送，帮助部分模型不拒绝生成（软件不提供该内容，留空不附加）。`);}
 
 async function fetchEnhModels(){
  var st=document.getElementById('statusEnh');
@@ -852,6 +858,11 @@ async function enhanceImgPrompt(){
  if(!idea){idea=(document.getElementById('imgPrompt').value||'').trim();}
  if(!idea){st.textContent='请先描述一下你想要的画面';st.style.color='#e5484d';return;}
  var sys=ENH_PROMPT;
+var jbText=(document.getElementById('imgJailbreak')?document.getElementById('imgJailbreak').value.trim():'');
+if(jbText){sys=sys+`
+
+【用户自备要求（最高优先级）】
+`+jbText;}
  if(document.getElementById('imgEnhEnglish').checked){sys=sys+`
 
 【本次特别要求】正向与负向提示词请全部用英文输出。`;}
@@ -875,7 +886,8 @@ async function enhanceImgPrompt(){
  }catch(e){st.textContent='生成失败：'+(e.message||'请检查网络');st.style.color='#e5484d';}
 }
 
-async function generateImage(){const rawUrl=document.getElementById('imgApiUrl').value.trim();const apiKey=document.getElementById('imgApiKey').value.trim();const model=document.getElementById('imgModel').value.trim();const prompt=document.getElementById('imgPrompt').value.trim();const negative=document.getElementById('imgNegative').value.trim();const size=document.getElementById('imgSize').value;const status=document.getElementById('statusMsg4');const preview=document.getElementById('imgPreview');const downloadBtn=document.getElementById('downloadImgBtn');if(!rawUrl||!apiKey||!model||!prompt)return alert('请完整填写生图 API 地址、Key、模型和提示词！');status.textContent='正在生成图片，请稍候...';preview.innerHTML='⏳ 生成中...';downloadBtn.style.display='none';try{const baseUrl=getBaseUrl(rawUrl);const response=await fetch(`${baseUrl}/images/generations`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},body:JSON.stringify({model:model,prompt:prompt+(negative?`\n\n负面提示词：${negative}`:''),n:1,size:size,response_format:'url'})});if(!response.ok){const errData=await response.json().catch(()=>({}));const s=response.status;let hint=s===400?'提示词被拒/参数错误':s===401||s===403?'认证失败':s===404?'模型不存在':s===429?'请求太频繁或额度用完':s>=500?'服务端错误':'未知错误';throw new Error(`[${s}] ${hint}${errData.error?.message?'\n原始信息：'+errData.error.message:''}`);}const data=await response.json();const imgUrl=data.data[0].url||(data.data[0].b64_json?`data:image/png;base64,${data.data[0].b64_json}`:'');if(!imgUrl)throw new Error('未返回图片地址');currentImgUrl=imgUrl;preview.innerHTML=`<img src="${imgUrl}" />`;downloadBtn.style.display='block';status.textContent=' 图片生成成功！';}catch(error){status.textContent=` 生成失败: ${error.message}`;preview.innerHTML='';}}
+async function generateImage(){const rawUrl=document.getElementById('imgApiUrl').value.trim();const apiKey=document.getElementById('imgApiKey').value.trim();const model=document.getElementById('imgModel').value.trim();const prompt=document.getElementById('imgPrompt').value.trim();const negative=document.getElementById('imgNegative').value.trim();const size=document.getElementById('imgSize').value;const status=document.getElementById('statusMsg4');const preview=document.getElementById('imgPreview');const downloadBtn=document.getElementById('downloadImgBtn');
+const jbText=(document.getElementById('imgJailbreak')?document.getElementById('imgJailbreak').value.trim():'');if(!rawUrl||!apiKey||!model||!prompt)return alert('请完整填写生图 API 地址、Key、模型和提示词！');status.textContent='正在生成图片，请稍候...';preview.innerHTML='⏳ 生成中...';downloadBtn.style.display='none';try{const baseUrl=getBaseUrl(rawUrl);const response=await fetch(`${baseUrl}/images/generations`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},body:JSON.stringify({model:model,prompt:prompt+(negative?`\n\n负面提示词：${negative}`:'')+(jbText?' '+jbText:''),n:1,size:size,response_format:'url'})});if(!response.ok){const errData=await response.json().catch(()=>({}));const s=response.status;let hint=s===400?'提示词被拒/参数错误':s===401||s===403?'认证失败':s===404?'模型不存在':s===429?'请求太频繁或额度用完':s>=500?'服务端错误':'未知错误';throw new Error(`[${s}] ${hint}${errData.error?.message?'\n原始信息：'+errData.error.message:''}`);}const data=await response.json();const imgUrl=data.data[0].url||(data.data[0].b64_json?`data:image/png;base64,${data.data[0].b64_json}`:'');if(!imgUrl)throw new Error('未返回图片地址');currentImgUrl=imgUrl;preview.innerHTML=`<img src="${imgUrl}" />`;downloadBtn.style.display='block';status.textContent=' 图片生成成功！';}catch(error){status.textContent=` 生成失败: ${error.message}`;preview.innerHTML='';}}
 function saveTextFile(filename, content){if(window.Android&&typeof Android.saveFile==='function'){try{Android.saveFile(filename, content);return;}catch(e){}}const blob=new Blob([content],{type:'text/plain'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(url);},1500);}
 function downloadImage(){if(!currentImgUrl)return alert('请先生成图片！');const fname='generated_'+Date.now()+'.png';if(window.Android&&typeof Android.saveImage==='function'){Android.saveImage(fname,currentImgUrl);return;}const a=document.createElement('a');a.href=currentImgUrl;a.download=fname;a.target='_blank';document.body.appendChild(a);a.click();document.body.removeChild(a);}
 function downloadPersona(){const output=document.getElementById('output1').value;if(!output)return alert('请先生成人设卡！');const platform=document.getElementById('targetPlatform').value;const isJson=platform!=='text';const ext=isJson?'json':'txt';saveTextFile((document.getElementById('charName').value||'character')+'_'+platform+'.'+ext, output);}
