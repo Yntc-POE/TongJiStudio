@@ -2,9 +2,9 @@
 <html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="app-version" content="4.0.0">
+<meta name="app-version" content="4.1.0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>桐记工坊 v4.0.0</title>
+<title>桐记工坊 v4.1.0</title>
 <style>
 :root{
   --bg:#f7f8fa;
@@ -254,7 +254,7 @@ div[style*="var(--ta)"]{border-radius:10px!important}
 .chat-status{margin-top:8px;background:var(--ta);border:1px solid var(--bd);border-radius:10px;padding:10px;font-size:12px;color:var(--tx2);white-space:pre-wrap;line-height:1.8;}
 .chat-img{max-width:100%;border-radius:10px;display:block;margin-bottom:4px;}
 .npc-name{color:var(--accent);font-weight:600;}
-/* 沉浸式酒馆 */
+/* 沉浸式模式 */
 #chatImmersiveExit{display:none;position:fixed;top:10px;right:10px;z-index:950;width:auto;margin:0;padding:5px 12px;font-size:12px;background:rgba(20,20,24,.55);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:999px;cursor:pointer;}
 body.chat-immersive .top-controls,body.chat-immersive .tab-bar,body.chat-immersive .footer,body.chat-immersive #watermarkCanvas{display:none !important;}
 body.chat-immersive{padding:0 10px !important;max-width:none !important;background:#0f1013;}
@@ -387,7 +387,7 @@ body.chat-immersive #chatImmersiveExit{display:block;}
 <div class="settings-group">
 <div class="settings-group-title">更新</div>
 <div class="setting-row clickable" onclick="checkUpdateManual()">
-<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v4.0.0</div></div>
+<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v4.1.0</div></div>
 <span class="chev">&rsaquo;</span>
 </div>
 </div>
@@ -408,7 +408,7 @@ body.chat-immersive #chatImmersiveExit{display:block;}
 </div>
 </div>
 <div class="top-controls">
-<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v4.0.0</span></h2>
+<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v4.1.0</span></h2>
 <div style="display:flex;gap:6px;align-items:center;">
 <button class="help-btn" onclick="exportConfig()">导出</button>
 <label class="help-btn" for="configFile">导入</label>
@@ -514,14 +514,14 @@ QQ群：<span>1036501276</span><br>
 <label><span class="step">2</span>选择目标软件 / 格式</label>
 <span class="hint">不熟悉格式的话，直接选第一项"通用V2格式"即可。</span>
 <select id="targetPlatform">
-<option value="v2">通用 V2 格式（酒馆 / RikkaHub / Tavo / Kelivo 等）</option>
+<option value="v2">通用 V2 格式（SillyTavern / RikkaHub / Tavo / Kelivo 等）</option>
 <option value="operit">Operit 专属格式</option>
 <option value="text">通用纯文本（Character.AI / Chatbox）</option>
 </select>
 </div>
 <div class="card">
 <label> HTML 转正则（可选）</label>
-<span class="hint">输入触发词 + 一段 HTML，自动生成酒馆正则规则。生成人设卡时会自动塞进角色卡。</span>
+<span class="hint">输入触发词 + 一段 HTML，自动生成正则规则。生成人设卡时会自动塞进角色卡。</span>
 <input type="text" id="regexTrigger" placeholder="触发词，例：【古风卡组】">
 <input type="text" id="regexName" value="HTML美化" placeholder="规则名称">
 <textarea id="regexHtml" rows="6" placeholder="在这里粘贴你的 HTML 代码"></textarea>
@@ -619,7 +619,7 @@ QQ群：<span>1036501276</span><br>
 <select id="pluginPlatform">
 <option value="orangechat">橘瓣 (OrangeChat) - QuickJS 沙箱插件</option>
 <option value="operit">Operit - TypeScript 脚本</option>
-<option value="sillytavern">SillyTavern (酒馆) - 浏览器扩展</option>
+<option value="sillytavern">SillyTavern - 浏览器扩展</option>
 <option value="autojs">Auto.js - 安卓悬浮窗脚本</option>
 </select>
 </div>
@@ -758,7 +758,7 @@ QQ群：<span>1036501276</span><br>
 <label> HTML 转正则（独立工具）</label>
 <span class="hint">只生成规则，不影响人设卡。可复制或下载后自行粘贴到前端。</span>
 <select id="regexTarget2">
-<option value="sillytavern">SillyTavern (酒馆) / Tavo</option>
+<option value="sillytavern">SillyTavern / Tavo</option>
 <option value="risuai">RisuAI</option>
 </select>
 <input type="text" id="regexTrigger2" placeholder="触发词，例：【古风卡组】">
@@ -774,7 +774,7 @@ QQ群：<span>1036501276</span><br>
 <div id="tab-worldbook" class="tab-content">
 <div class="card">
 <label>世界书条目生成</label>
-<span class="hint">AI 帮你生成世界观、地点、NPC、物品、事件等剧情条目；使用「人设卡」页配置的 API。生成后可导出：文本 / 酒馆 JSON / 通用 JSON（酒馆 JSON 可直接在 SillyTavern 的世界书里导入）。</span>
+<span class="hint">AI 帮你生成世界观、地点、NPC、物品、事件等剧情条目；使用「人设卡」页配置的 API。生成后可导出：文本 / SillyTavern JSON / 通用 JSON（可直接导入 SillyTavern）。</span>
 <input type="text" id="wbSubject" placeholder="主题 / 角色 / 世界观名称，例如：沈昭厌 或 大唐江湖">
 <textarea id="wbDesc" rows="3" placeholder="补充描述（可选）：想要的氛围、已有设定、特别要求……"></textarea>
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
@@ -799,7 +799,7 @@ QQ群：<span>1036501276</span><br>
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
 <select id="wbFormat" style="flex:1;min-width:170px;" onchange="renderWbOutput()">
 <option value="txt">文本格式（阅读 / 手动复制）</option>
-<option value="st">SillyTavern 世界书 JSON（酒馆导入）</option>
+<option value="st">SillyTavern 世界书 JSON（可直接导入）</option>
 <option value="json">通用 JSON（二次处理用）</option>
 </select>
 <button class="btn btn-copy" onclick="copyText('wbOutput')">复制全部</button>
@@ -839,7 +839,7 @@ QQ群：<span>1036501276</span><br>
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
 <select id="memFormat" style="flex:1;min-width:170px;" onchange="renderMemOutput()">
 <option value="txt">文本格式（阅读 / 手动复制）</option>
-<option value="st">SillyTavern 世界书 JSON（酒馆导入）</option>
+<option value="st">SillyTavern 世界书 JSON（可直接导入）</option>
 <option value="json">通用 JSON（二次处理用）</option>
 </select>
 <button class="btn btn-copy" onclick="copyText('memOutput')">复制全部</button>
@@ -850,7 +850,7 @@ QQ群：<span>1036501276</span><br>
 <div id="tab-statusbar" class="tab-content">
 <div class="card">
 <label>状态栏工坊</label>
-<span class="hint">描述你想要的状态栏（显示哪些信息、什么风格），AI 会生成"三件套"：①给 AI 的输出指令 ②显示用 HTML 模板 ③配套的酒馆正则规则（可直接导入）。使用「人设卡」页配置的 API。</span>
+<span class="hint">描述你想要的状态栏（显示哪些信息、什么风格），AI 会生成"三件套"：①给 AI 的输出指令 ②显示用 HTML 模板 ③配套的正则规则（可直接导入 SillyTavern）。使用「人设卡」页配置的 API。</span>
 <textarea id="sbDesc" rows="3" placeholder="例如：古风淡雅，显示心情、好感度（0~100）、时间、地点；放在每轮回复结尾"></textarea>
 <select id="sbStyle" style="margin-top:8px;">
 <option value="auto">风格：自动（按描述）</option>
@@ -874,7 +874,7 @@ QQ群：<span>1036501276</span><br>
 </div>
 <div class="card">
 <label>③ 配套正则规则（SillyTavern JSON）</label>
-<span class="hint">在酒馆的「扩展 → 正则」里导入这个 JSON，聊天中就会出现状态栏。</span>
+<span class="hint">在 SillyTavern 的「扩展 → 正则」里导入这个 JSON，聊天中就会出现状态栏。</span>
 <textarea id="sbRule" rows="8" placeholder="生成后显示在这里..."></textarea>
 <button class="btn btn-copy" onclick="copyText('sbRule')">复制正则</button>
 <button class="btn btn-download" onclick="downloadSbRule()">下载规则 JSON</button>
@@ -882,7 +882,7 @@ QQ群：<span>1036501276</span><br>
 </div>
 <div id="tab-chat" class="tab-content active">
 <div class="card">
-<label>聊天设置（迷你酒馆）</label>
+<label>聊天设置</label>
 <span class="hint">与角色自由对话，流式输出；对话自动保存在本机。下方独立配置留空时，自动沿用「人设卡」页的 API。</span>
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
 <input type="text" id="chatApiUrl" placeholder="API 地址（可留空沿用主配置）" style="flex:1;min-width:150px;margin:0;" oninput="saveChatCfg()">
@@ -893,7 +893,7 @@ QQ群：<span>1036501276</span><br>
 <button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="fetchChatModels()">拉取模型</button>
 <button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatCopyMain()">沿用主配置</button>
 </div>
-<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin-top:8px;"><input type="checkbox" id="chatImmersiveChk" style="width:auto;margin:0;" onchange="chatImmersive(this.checked)">沉浸式模式（全屏酒馆，右上角可退出）</label>
+<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin-top:8px;"><input type="checkbox" id="chatImmersiveChk" style="width:auto;margin:0;" onchange="chatImmersive(this.checked)">沉浸式模式（全屏聊天，右上角可退出）</label>
 </div>
 <div class="card">
 <label>会话</label>
@@ -1017,12 +1017,14 @@ QQ群：<span>1036501276</span><br>
 <label>联动</label>
 <span class="hint">世界书关键词触发、状态栏渲染、提示词注入、剧情提取——和 App 其他 TAB 打通。世界书用「世界书」页导出的 JSON 即可导入。</span>
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-<input type="file" id="chatWbFile" accept=".json,application/json" style="display:none;" onchange="chatImportWb(this)">
+<input type="file" id="chatWbFile" accept=".json,.txt,application/json,text/plain" style="display:none;" onchange="chatImportWb(this)">
 <label class="btn btn-small" for="chatWbFile" style="display:inline-block;width:auto;margin:0;padding:6px 10px;font-size:12px;text-align:center;">导入世界书 JSON</label>
 <label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox" id="chatWbOn" checked style="width:auto;margin:0;" onchange="chatSaveLink()">启用关键词触发</label>
 <span id="chatWbCount" class="hint" style="margin:0;"></span>
 <button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatClearWb()">清空世界书</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatWbBookPanel()">查看书目</button>
 </div>
+<div id="chatWbBookList" style="display:none;margin-top:10px;"></div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
 <input type="file" id="chatTplFile" accept=".html,.txt,text/html" style="display:none;" onchange="chatImportStatusTpl(this)">
 <label class="btn btn-small" for="chatTplFile" style="display:inline-block;width:auto;margin:0;padding:6px 10px;font-size:12px;text-align:center;">导入状态栏模板</label>
@@ -1072,7 +1074,7 @@ QQ群：<span>1036501276</span><br>
 <p>作者：<span>桐</span> | 联系方式：<span>2228907871</span> | QQ群：<span>1036501276</span></p>
 <p>本工具为<span>公益使用</span>，如发现任何收费行为，请及时联系作者举报！</p>
 <p>桐记工坊完全免费。如果它帮到了你，欢迎 <a style="color:var(--accent);cursor:pointer;" onclick="openDonate()">赞赏支持作者</a>（随缘、不强制）。</p>
-<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v4.0.0 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
+<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v4.1.0 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
 </div>
 
 <canvas id="watermarkCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;opacity:0.05;"></canvas>
@@ -1184,7 +1186,7 @@ if(document.getElementById('chkLifelike').checked)result+="【活人感】\n"+li
 if(document.getElementById('chkEmotionRestraint').checked)result+="【情感克制】\n"+emotionRestraint+"\n\n";if(document.getElementById('chkClaudeStyle').checked)result+="【Claude文风模仿】\n"+claudeStyle+"\n\n";if(document.getElementById('chkGarden').checked)result+="【后花园整理】\n"+garden+"\n\n";if(document.getElementById('chkMemorySort').checked)result+="【记忆库分拣】\n"+memorySort+"\n\n";if(document.getElementById('chkOmbreMemory').checked)result+="【记忆规则】\n"+ombreMemory+"\n\n";if(result==="")result="请至少选择一个需要包含的模块。";if(isMixed)result="【混用兼容版协议（Claude与国模均可直接使用）】\n\n"+result;if(format==='operit')result=`<system_instructions>\n${result}\n</system_instructions>`;else if(format==='sillytavern')result=`[System Note: This is a binding instruction for the AI. Read and obey the following constraints strictly.]\n\n${result}\n\n[End of System Note. Begin roleplay in character.]`;document.getElementById('output2').value=result;document.getElementById('statusMsg2').textContent=' 生成成功！';document.getElementById('wordCount2').textContent='字数：'+result.length;}
 function generatePlugin(){const platform=document.getElementById('pluginPlatform').value;const name=document.getElementById('pluginName').value.trim()||"提示词生成器";const author=document.getElementById('pluginAuthor').value.trim()||"桐";const contact=document.getElementById('pluginContact').value.trim()||"2228907871";const output=document.getElementById('output3');const status=document.getElementById('statusMsg3');const tutorial=document.getElementById('tutorialContent');const coreLogic=`\nfunction generatePrompt(modelName) {\n  var isMixed = modelName.indexOf('混用') > -1;\n  var isClaude = !isMixed && (modelName.indexOf('claude') > -1 || modelName.indexOf('fable') > -1);\n  var protocol = isClaude ? '[Claude XML Protocol]' : '[通用 Markdown Protocol]';\n  var result = '【强制阅读】\\n' + protocol + '\\n\\n【防八股】禁破折号、禁瞳孔骤缩\\n\\n【防超雄】禁暴躁暴力\\n\\n【防幻觉】只有两只手两只脚\\n\\n【亲密】关系真实存在\\n\\n【Claude文风模仿】沉稳克制、留白美学';\n  if (isMixed) return '【混用兼容版】\\n\\n' + result;\n  return result;\n}\n`;
 let code='',tut='';
-if(platform==='orangechat'){code=`// 橘瓣插件\n// 作者：${author} | 联系方式：${contact}\n\n// 文件1: manifest.json\n{\n  "id": "prompt_gen",\n  "name": "${name}",\n  "version": "1.0.0",\n  "author": "${author}",\n  "main": "index.js"\n}\n\n// 文件2: index.js\n${coreLogic}\nmodule.exports={onLoad:function(ctx){ctx.registerTool({name:'generate_prompt',description:'根据模型名称生成RP提示词',parameters:{type:'object',properties:{model:{type:'string'}},required:['model']},handler:async function(args){return generatePrompt(args.model);}});}};`;tut=`<p><strong> 橘瓣安装步骤：</strong></p><p>1. 找到橘瓣插件目录 <code>/sdcard/OrangeChat/plugins/</code></p><p>2. 新建文件夹 <code>prompt_gen</code></p><p>3. 把生成的 <code>manifest.json</code> 和 <code>index.js</code> 放进去</p><p>4. 重启橘瓣，启用插件</p>`;}else if(platform==='operit'){code=`// Operit 脚本\n// 作者：${author} | 联系方式：${contact}\n\n${coreLogic}\nasync function main() { return generatePrompt('混用'); }\nexport { generatePrompt, main };`;tut=`<p><strong> Operit 安装步骤：</strong></p><p>1. 打开 Operit，进入脚本/开发者工具页面</p><p>2. 新建脚本 <code>prompt_gen.ts</code></p><p>3. 粘贴代码保存</p><p>4. 在工具设置里注册为可调用工具</p>`;}else if(platform==='sillytavern'){code=`// 酒馆扩展\n// 作者：${author} | 联系方式：${contact}\n\n// manifest.json\n{\n  "display_name": "${name}",\n  "loading_order": 100,\n  "js": "index.js",\n  "author": "${author}",\n  "version": "1.0.0"\n}\n\n// index.js\n${coreLogic}\njQuery(async()=>{const btn=document.createElement('div');btn.className='list-group-item flex-container flexGap5';btn.innerHTML='<span>${name}</span>';btn.addEventListener('click',()=>{const model=prompt('请输入模型名:','混用');if(model===null)return;$('#send_textarea').val(generatePrompt(model)).trigger('input');});$('#extensions_settings').append(btn);});`;tut=`<p><strong> 酒馆扩展安装步骤：</strong></p><p>1. 打开 <code>data/&lt;用户名&gt;/extensions/</code></p><p>2. 新建文件夹 <code>prompt-gen</code></p><p>3. 创建 <code>manifest.json</code>、<code>index.js</code></p><p>4. 刷新酒馆，在扩展菜单启用</p>`;}else if(platform==='autojs'){code=`// Auto.js 悬浮窗脚本\n// 作者：${author} | 联系方式：${contact}\n"ui-thread nodejs";\n\n${coreLogic}\nvar window=floaty.window(<frame gravity="center" bg="#1e1e24"><vertical padding="10"><text text="${name}" textColor="#bb86fc"/><button id="genBtn" text="生成提示词"/></vertical></frame>);\nwindow.genBtn.click(function(){dialogs.rawInput("请输入模型","混用").then(function(model){if(!model)return;setClip(generatePrompt(model));toast("已复制");});});`;tut=`<p><strong> Auto.js 安装步骤：</strong></p><p>1. 安装 Auto.js</p><p>2. 新建脚本 <code>prompt_gen.js</code></p><p>3. 粘贴代码保存</p><p>4. 运行，悬浮窗出现</p>`;}output.value=code;tutorial.innerHTML=tut;status.textContent=` 已生成 ${platform} 插件代码`;}
+if(platform==='orangechat'){code=`// 橘瓣插件\n// 作者：${author} | 联系方式：${contact}\n\n// 文件1: manifest.json\n{\n  "id": "prompt_gen",\n  "name": "${name}",\n  "version": "1.0.0",\n  "author": "${author}",\n  "main": "index.js"\n}\n\n// 文件2: index.js\n${coreLogic}\nmodule.exports={onLoad:function(ctx){ctx.registerTool({name:'generate_prompt',description:'根据模型名称生成RP提示词',parameters:{type:'object',properties:{model:{type:'string'}},required:['model']},handler:async function(args){return generatePrompt(args.model);}});}};`;tut=`<p><strong> 橘瓣安装步骤：</strong></p><p>1. 找到橘瓣插件目录 <code>/sdcard/OrangeChat/plugins/</code></p><p>2. 新建文件夹 <code>prompt_gen</code></p><p>3. 把生成的 <code>manifest.json</code> 和 <code>index.js</code> 放进去</p><p>4. 重启橘瓣，启用插件</p>`;}else if(platform==='operit'){code=`// Operit 脚本\n// 作者：${author} | 联系方式：${contact}\n\n${coreLogic}\nasync function main() { return generatePrompt('混用'); }\nexport { generatePrompt, main };`;tut=`<p><strong> Operit 安装步骤：</strong></p><p>1. 打开 Operit，进入脚本/开发者工具页面</p><p>2. 新建脚本 <code>prompt_gen.ts</code></p><p>3. 粘贴代码保存</p><p>4. 在工具设置里注册为可调用工具</p>`;}else if(platform==='sillytavern'){code=`// SillyTavern 扩展\n// 作者：${author} | 联系方式：${contact}\n\n// manifest.json\n{\n  "display_name": "${name}",\n  "loading_order": 100,\n  "js": "index.js",\n  "author": "${author}",\n  "version": "1.0.0"\n}\n\n// index.js\n${coreLogic}\njQuery(async()=>{const btn=document.createElement('div');btn.className='list-group-item flex-container flexGap5';btn.innerHTML='<span>${name}</span>';btn.addEventListener('click',()=>{const model=prompt('请输入模型名:','混用');if(model===null)return;$('#send_textarea').val(generatePrompt(model)).trigger('input');});$('#extensions_settings').append(btn);});`;tut=`<p><strong> SillyTavern 扩展安装步骤：</strong></p><p>1. 打开 <code>data/&lt;用户名&gt;/extensions/</code></p><p>2. 新建文件夹 <code>prompt-gen</code></p><p>3. 创建 <code>manifest.json</code>、<code>index.js</code></p><p>4. 刷新 SillyTavern，在扩展菜单启用</p>`;}else if(platform==='autojs'){code=`// Auto.js 悬浮窗脚本\n// 作者：${author} | 联系方式：${contact}\n"ui-thread nodejs";\n\n${coreLogic}\nvar window=floaty.window(<frame gravity="center" bg="#1e1e24"><vertical padding="10"><text text="${name}" textColor="#bb86fc"/><button id="genBtn" text="生成提示词"/></vertical></frame>);\nwindow.genBtn.click(function(){dialogs.rawInput("请输入模型","混用").then(function(model){if(!model)return;setClip(generatePrompt(model));toast("已复制");});});`;tut=`<p><strong> Auto.js 安装步骤：</strong></p><p>1. 安装 Auto.js</p><p>2. 新建脚本 <code>prompt_gen.js</code></p><p>3. 粘贴代码保存</p><p>4. 运行，悬浮窗出现</p>`;}output.value=code;tutorial.innerHTML=tut;status.textContent=` 已生成 ${platform} 插件代码`;}
 async function searchWeb(query,provider,key){if(!provider||!key)return "";try{if(provider==='serper'){const res=await fetch('https://google.serper.dev/search',{method:'POST',headers:{'X-API-KEY':key,'Content-Type':'application/json'},body:JSON.stringify({q:query,num:5})});if(!res.ok)throw new Error(`HTTP ${res.status}`);const data=await res.json();return (data.organic||[]).map(r=>`【${r.title}】\n${r.snippet}\n链接：${r.link}`).join('\n\n');}else if(provider==='tavily'){const res=await fetch('https://api.tavily.com/search',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({api_key:key,query:query,max_results:5})});if(!res.ok)throw new Error(`HTTP ${res.status}`);const data=await res.json();return (data.results||[]).map(r=>`【${r.title}】\n${r.content}\n链接：${r.url}`).join('\n\n');}return "";}catch(e){return `[搜索失败: ${e.message}]`;}}
 async function generatePluginWithApi(){const rawUrl=document.getElementById('apiUrl').value.trim();const apiKey=document.getElementById('apiKey').value.trim();const model=document.getElementById('modelSelect').value;const platform=document.getElementById('pluginPlatform').value;const name=document.getElementById('pluginName').value.trim()||"提示词生成器";const author=document.getElementById('pluginAuthor').value.trim()||"桐";const contact=document.getElementById('pluginContact').value.trim()||"2228907871";const searchProvider=document.getElementById('searchProvider').value;const searchKey=document.getElementById('searchKey').value.trim();const status=document.getElementById('statusMsg3');const output=document.getElementById('output3');if(!rawUrl||!apiKey||!model)return alert('请先在「人设卡」页面填写 API 地址、Key，并拉取选择模型！');status.textContent='正在处理...';let searchContext="";if(searchProvider&&searchKey){const platformNames={orangechat:'橘瓣',operit:'Operit',sillytavern:'SillyTavern',autojs:'Auto.js'};const query=document.getElementById('searchQuery').value.trim()||`${platformNames[platform]} 插件 开发文档 API`;status.textContent=`正在检索「${query}」...`;searchContext=await searchWeb(query,searchProvider,searchKey);status.textContent='检索完成，正在让 AI 生成插件代码...';}else{status.textContent='未启用搜索，直接让 AI 生成插件...';}const platformDoc=`目标平台：${platform}\n平台名：${searchProvider?searchContext:'（未联网检索）'}`;const systemPrompt=`你是一个专业的插件开发工程师。请根据用户提供的目标平台信息，生成一个完整可用的插件代码。\n\n要求：\n1. 只输出代码和必要注释。\n2. 插件功能：注册一个「generatePrompt」函数。\n3. 输出格式按目标平台规范。\n\n插件元信息：\n- 插件名：${name}\n- 作者：${author}\n- 联系方式：${contact}\n\n${platformDoc}`;
 try{const baseUrl=getBaseUrl(rawUrl);const response=await fetch(`${baseUrl}/chat/completions`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},body:JSON.stringify({model:model,messages:[{role:'system',content:systemPrompt},{role:'user',content:`请为 ${platform} 平台生成插件代码。${searchContext?'\n\n检索资料：\n'+searchContext:''}`}],temperature:0.6,max_tokens:8192})});if(!response.ok){const errData=await response.json().catch(()=>({}));const s=response.status;let hint=s===401||s===403?'认证失败':s===404?'地址或模型不存在':s===429?'请求太频繁或额度用完':s>=500?'服务端错误':'请求格式错误';throw new Error(`[${s}] ${hint}${errData.error?.message?'\n原始信息：'+errData.error.message:''}`);}const data=await response.json();let resultText=data.choices[0].message.content.trim();resultText=resultText.replace(/^```[a-z]*\s*/,'').replace(/```$/,'');output.value=resultText;status.textContent=' 插件已生成！';}catch(error){status.textContent=` 生成失败: ${error.message}`;}}
@@ -1492,7 +1494,7 @@ var FAQ_LIB=[
 ② 确认 Key 完整、未过期、余额充足；
 ③ 部分中转站不支持 /models 接口，可手动输入模型名试试；
 ④ 仍然不行就换一个中转站（群里公告有推荐）。`},
-{q:'V2 / Operit / 纯文本 怎么选？',a:`V2 是酒馆（SillyTavern）通用角色卡格式；Operit 是本工具配套的专属格式；纯文本适合 Character.AI 等场景。不熟悉就先用 V2。`},
+{q:'V2 / Operit / 纯文本 怎么选？',a:`V2 是 SillyTavern 通用角色卡格式；Operit 是本工具配套的专属格式；纯文本适合 Character.AI 等场景。不熟悉就先用 V2。`},
 {q:'世界书是什么？',a:`世界书是注入给 AI 的背景资料库，每条包含关键词和内容，聊天中出现关键词时自动触发。用「世界书」TAB 可以一键生成各类条目。`},
 {q:'生图功能怎么用？',a:`在「生图」页填好地址、Key 和模型（生图模型名和聊天模型不同，如 dall-e-3、flux、sdxl），写完提示词点生成即可；也可以用「提示词助手」让 AI 扩写你的需求。`},
 {q:'API Key 安全吗？',a:`Key 只保存在你本机，请求直连你填写的接口，不经过任何第三方。但导出的配置文件会包含 Key，分享前请先清空。`}
@@ -1688,7 +1690,7 @@ function downloadSbRule(){
  saveTextFile('状态栏规则_'+Date.now()+'.json', out);
 }
 
-/* ===== 聊天（迷你酒馆） ===== */
+/* ===== 聊天 ===== */
 var CHAT_NL=String.fromCharCode(10);
 var chatMsgs=[];
 var chatStreaming=false;
@@ -2518,10 +2520,46 @@ function chatApplySpriteMarkers(text){
 }
 
 /* ===== 聊天：联动（世界书/状态栏/提示词/提取） ===== */
+function chatWbBookNames(){
+ var arr=chatWbArr();
+ var names=[];
+ arr.forEach(function(x){var b=x.b||'未命名';if(names.indexOf(b)<0)names.push(b);});
+ return names;
+}
+function chatWbBookPanel(){
+ var box=document.getElementById('chatWbBookList');
+ if(!box)return;
+ if(box.style.display==='none'){box.style.display='block';chatRenderWbBooks();}
+ else{box.style.display='none';}
+}
+function chatRenderWbBooks(){
+ var box=document.getElementById('chatWbBookList');
+ if(!box)return;
+ var names=chatWbBookNames();
+ var arr=chatWbArr();
+ if(!names.length){box.innerHTML='<span class="hint">还没有导入任何世界书</span>';return;}
+ box.innerHTML=names.map(function(b){
+ var cnt=0;
+ arr.forEach(function(x){if((x.b||'未命名')===b)cnt++;});
+ return '<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;border:1px solid var(--bd);border-radius:10px;padding:7px 10px;margin-bottom:6px;">'
+ +'<div style="font-size:12px;color:var(--tx);">'+escChat(b)+'<span style="color:var(--tx3);font-size:11px;margin-left:6px;">'+cnt+' 条</span></div>'
+ +'<button class="btn btn-small" data-book="'+escChat(b)+'" style="width:auto;margin:0;padding:3px 8px;font-size:11px;" onclick="chatDelBook(this)">删除此书</button>'
+ +'</div>';
+ }).join('');
+}
+function chatDelBook(btn){
+ var b=btn.getAttribute('data-book')||'';
+ if(!confirm('删除《'+b+'》的全部条目？'))return;
+ var arr=chatWbArr().filter(function(x){return (x.b||'未命名')!==b;});
+ try{localStorage.setItem('toolChatWb',JSON.stringify(arr));}catch(e){}
+ chatRenderWbBooks();
+ chatWbCount();
+ chatMemCount();
+}
 function chatWbArr(){try{return JSON.parse(localStorage.getItem('toolChatWb')||'[]');}catch(e){return [];}}
 function chatWbCount(){
  var el2=document.getElementById('chatWbCount');
- if(el2)el2.textContent='世界书 '+chatWbArr().length+' 条';
+ if(el2)el2.textContent='世界书 '+chatWbArr().length+' 条 · '+chatWbBookNames().length+' 本';
  chatTplState();
 }
 function chatTplState(){
@@ -2561,11 +2599,19 @@ function chatImportWb(inp){
  var f=inp.files&&inp.files[0];
  inp.value='';
  if(!f)return;
+ var nm0=String(f.name||'世界书');
+ var dot0=nm0.lastIndexOf('.');
+ if(dot0>0)nm0=nm0.slice(0,dot0);
+ var bookName=nm0||'世界书';
  var r=new FileReader();
  r.onload=function(e){
- try{
- var j=JSON.parse(String(e.target.result));
+ var raw=String(e.target.result||'');
  var list=[];
+ var errMsg='';
+ try{
+ var j=null;
+ try{j=JSON.parse(raw);}catch(ej){j=null;}
+ if(j){
  if(j&&j.entries&&!Array.isArray(j.entries)){
  var ks2=Object.keys(j.entries);
  ks2.forEach(function(k2){var it=j.entries[k2];if(it){var nn=wbNorm(it);if(nn.c)list.push(nn);}});
@@ -2573,14 +2619,31 @@ function chatImportWb(inp){
  j.entries.forEach(function(it){var nn=wbNorm(it);if(nn.c)list.push(nn);});
  }else if(Array.isArray(j)){
  j.forEach(function(it){var nn=wbNorm(it);if(nn.c)list.push(nn);});
- }else{throw new Error('格式不认识');}
+ }else{
+ errMsg='JSON 格式不认识';
+ }
+ }else{
+ if(raw.indexOf('【条目名】')>=0){
+ var arrT=parseWbEntries(raw);
+ arrT.forEach(function(x){list.push({n:x.name,k:x.keys,c:x.content});});
+ }else{
+ errMsg='TXT 未识别到条目：需为「世界书」页导出的文本格式（含【条目名】标记），或改用 JSON 文件';
+ }
+ }
+ }catch(err){errMsg=(err&&err.message)||'文件解析失败';}
+ if(!list.length){alert('导入失败：'+(errMsg||'没有解析到条目'));chatStatusMsg('导入失败',true);return;}
  list=list.slice(0,200);
- if(!list.length)throw new Error('没有解析到条目');
- localStorage.setItem('toolChatWb',JSON.stringify(list));
- chatWbCount();
+ list.forEach(function(x){x.b=bookName;});
+ var wb=chatWbArr();
+ wb=wb.concat(list);
+ wb=wb.slice(-400);
+ try{localStorage.setItem('toolChatWb',JSON.stringify(wb));}catch(e2){alert('存储失败（可能空间不足，请先删掉一些旧条目）');return;}
+ chatWbCount();chatMemCount();
+ try{chatRenderWbBooks();}catch(e3){}
+ alert('导入成功！文件《'+bookName+'》· 本次 '+list.length+' 条 · 当前共 '+chatWbArr().length+' 条 / '+chatWbBookNames().length+' 本');
  chatStatusMsg('世界书导入成功：'+list.length+' 条');
- }catch(err){chatStatusMsg('导入失败：'+(err.message||'请用「世界书」页导出的 JSON'),true);}
  };
+ r.onerror=function(){alert('文件读取失败');chatStatusMsg('文件读取失败',true);};
  r.readAsText(f);
 }
 function chatImportStatusTpl(inp){
@@ -2632,7 +2695,7 @@ async function chatExtractWb(silent){
  var arr2=parseWbEntries(o2);
  if(!arr2.length)throw new Error('解析失败，请重试');
  var wb=chatWbArr();
- arr2.forEach(function(x){wb.push({n:x.name,k:x.keys,c:x.content,m:1});});
+ arr2.forEach(function(x){wb.push({n:x.name,k:x.keys,c:x.content,m:1,b:'记忆库'});});
  wb=wb.slice(-200);
  localStorage.setItem('toolChatWb',JSON.stringify(wb));
  chatWbCount();chatMemCount();
@@ -2984,7 +3047,7 @@ function renderNpcList(){
  npcCount();
 }
 
-/* ===== 沉浸式酒馆 ===== */
+/* ===== 沉浸式模式 ===== */
 function chatImmersive(on){
  on=!!on;
  document.body.classList.toggle('chat-immersive',on);
@@ -3005,7 +3068,7 @@ function saveTextFile(filename, content){if(window.Android&&typeof Android.saveF
 function downloadImage(){if(!currentImgUrl)return alert('请先生成图片！');const fname='generated_'+Date.now()+'.png';if(window.Android&&typeof Android.saveImage==='function'){Android.saveImage(fname,currentImgUrl);return;}const a=document.createElement('a');a.href=currentImgUrl;a.download=fname;a.target='_blank';document.body.appendChild(a);a.click();document.body.removeChild(a);}
 function downloadPersona(){const output=document.getElementById('output1').value;if(!output)return alert('请先生成人设卡！');const platform=document.getElementById('targetPlatform').value;const isJson=platform!=='text';const ext=isJson?'json':'txt';saveTextFile((document.getElementById('charName').value||'character')+'_'+platform+'.'+ext, output);}
 function downloadPlugin(){const output=document.getElementById('output3').value;if(!output)return alert('请先生成插件！');const platform=document.getElementById('pluginPlatform').value;saveTextFile((document.getElementById('pluginName').value||'plugin')+'_'+platform+'.txt', output);}
-function copyText(elementId){const output=document.getElementById(elementId);if(!output.value)return alert('请先生成内容！');output.select();document.execCommand('copy');if(navigator.vibrate)try{navigator.vibrate([30,50,30]);}catch(e){}alert(' 已复制！去 Operit / 酒馆 粘贴吧');}
+function copyText(elementId){const output=document.getElementById(elementId);if(!output.value)return alert('请先生成内容！');output.select();document.execCommand('copy');if(navigator.vibrate)try{navigator.vibrate([30,50,30]);}catch(e){}alert(' 已复制！去 Operit / SillyTavern 粘贴吧');}
 function copyTutorial(){const t=document.getElementById('tutorialContent').innerText;if(!t)return alert('还没有教程内容');const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert(' 教程已复制');}
 function downloadPrompt(){const output=document.getElementById('output2').value;if(!output)return alert('请先生成提示词！');saveTextFile('prompt_'+Date.now()+'.txt', output);}
 function buildRegexRuleFrom(trigger,html,name,target){if(!trigger||!html)return null;const escaped=trigger.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');const ruleName=name||'HTML美化';if(target==='risuai'){return{comment:ruleName,type:'regex',in:'/'+escaped+'/g',out:html,flag:'<none>'};}return{id:'regex_'+Date.now(),scriptName:ruleName,findRegex:'/'+escaped+'/g',replaceString:html,trimStrings:[],placement:[2],disabled:false,markdownOnly:true,promptOnly:false,runOnEdit:true,substituteRegex:0,minDepth:null,maxDepth:null};}
@@ -3041,7 +3104,7 @@ function downloadRegex2(){const output=document.getElementById('regexOutput2').v
 document.addEventListener("click",function(e){var el=e.target;if(el&&el.textContent==="[?]"){e.preventDefault();}},true);</script>
 <script>
 /* ===== 小桐 TAB：人设卡创建对话小助手 ===== */
-var XT_GREETING = '你好呀，我是小桐，你的人设卡小助手。\n\n接下来我会陪你从零做一张人设卡，全程就像聊天一样，一次只问一个小问题：答不上来就说「你帮我写」；想补充设定，随时说「记一下：……」，我会写进注入区、按最高优先级执行。\n\n聊完之后，点上面的『编译卡片』，就能把成果填入『人设卡』页面，一键导出酒馆、Operit、纯文本所有格式。\n\n那我们先从最简单的开始：这个角色叫什么名字呀？（昵称、外号也可以一起告诉我。）';
+var XT_GREETING = '你好呀，我是小桐，你的人设卡小助手。\n\n接下来我会陪你从零做一张人设卡，全程就像聊天一样，一次只问一个小问题：答不上来就说「你帮我写」；想补充设定，随时说「记一下：……」，我会写进注入区、按最高优先级执行。\n\n聊完之后，点上面的『编译卡片』，就能把成果填入『人设卡』页面，一键导出 SillyTavern、Operit、纯文本所有格式。\n\n那我们先从最简单的开始：这个角色叫什么名字呀？（昵称、外号也可以一起告诉我。）';
 var xtHistory = [], xtImported = [], xtBusy = false;
 
 function xtLoad(){
@@ -3149,7 +3212,7 @@ function xtRender(){
 function xtSystemPrompt(){
   var inj = '';
   try{ var el = document.getElementById('xtInjection'); if(el) inj = (el.value || '').trim(); }catch(e){}
-  var base = '你是「小桐」，一位专门陪用户制作人设卡的对话向导。目标：用聊天的方式，让用户轻松完成一张可导入各平台的人设卡。\n\n【语气】友好、耐心、鼓励式；不催促、不评判、不给压力；先简短复述并肯定用户刚说的内容，再问下一个问题；一次只问一个问题。\n\n【固定流程（按顺序推进）】1.名字（昵称/外号）2.身份（一句话简介）3.性格（特点、小习惯）4.外貌与气质 5.背景（世界观、环境）6.关系（与用户的关系、称呼方式）7.语言（说话风格、口头禅）8.开场白（可代写）9.示例对话（可跳过、可代写）10.汇总确认。\n\n【每步规则】用户答不上来就给他 2~3 个结合现有设定的具体选项；他说「你帮我写」就直接代写并请他确认；说「跳过」就用默认值或留空；随时允许回改；说「记一下：……」就复述确认，并在全流程遵守。\n\n【注入区 · 最高优先级】\n' + (inj ? inj : '（无）') + '\n\n【完成时】第 10 步把六项内容（名字/身份/性格/背景/开场白/示例）简要列出请用户确认，然后提示：确认无误后，点上方『编译卡片』按钮，即可填入『人设卡』页面并导出所有平台格式。若用户坚持要直接输出，再按顺序给出：①酒馆 JSON ②Operit JSON ③纯文本。';
+  var base = '你是「小桐」，一位专门陪用户制作人设卡的对话向导。目标：用聊天的方式，让用户轻松完成一张可导入各平台的人设卡。\n\n【语气】友好、耐心、鼓励式；不催促、不评判、不给压力；先简短复述并肯定用户刚说的内容，再问下一个问题；一次只问一个问题。\n\n【固定流程（按顺序推进）】1.名字（昵称/外号）2.身份（一句话简介）3.性格（特点、小习惯）4.外貌与气质 5.背景（世界观、环境）6.关系（与用户的关系、称呼方式）7.语言（说话风格、口头禅）8.开场白（可代写）9.示例对话（可跳过、可代写）10.汇总确认。\n\n【每步规则】用户答不上来就给他 2~3 个结合现有设定的具体选项；他说「你帮我写」就直接代写并请他确认；说「跳过」就用默认值或留空；随时允许回改；说「记一下：……」就复述确认，并在全流程遵守。\n\n【注入区 · 最高优先级】\n' + (inj ? inj : '（无）') + '\n\n【完成时】第 10 步把六项内容（名字/身份/性格/背景/开场白/示例）简要列出请用户确认，然后提示：确认无误后，点上方『编译卡片』按钮，即可填入『人设卡』页面并导出所有平台格式。若用户坚持要直接输出，再按顺序给出：①SillyTavern JSON ②Operit JSON ③纯文本。';
   if(xtImported.length){ base += '\n\n【已导入卡片资料（供参考，可能被用户要求继续完善）】\n' + JSON.stringify(xtImported); }
   return base;
 }
@@ -3256,7 +3319,7 @@ async function xtCompile(){
       var tbs = document.querySelectorAll('.tab');
       for(var i = 0; i < tbs.length; i++){ if(tbs[i].textContent.indexOf('人设卡') > -1) tbs[i].classList.add('active'); }
     }catch(e7){}
-    alert('编译完成！已填入「人设卡」页面并自动生成：\n· 名字：' + card.name + '\n\n可在页面下方切换平台（酒馆 / Operit / 纯文本），点「下载文件」导出。');
+    alert('编译完成！已填入「人设卡」页面并自动生成：\n· 名字：' + card.name + '\n\n可在页面下方切换平台（SillyTavern / Operit / 纯文本），点「下载文件」导出。');
   }catch(err){
     alert('编译失败：' + err.message + '\n（可以多聊几句让信息更完整，或稍后重试）');
   }

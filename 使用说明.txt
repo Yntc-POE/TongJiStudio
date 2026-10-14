@@ -1,0 +1,31 @@
+桐记工坊 · 热更新部署说明（给 Yntc-POE）
+==========================================
+
+【你的仓库】Yntc-POE/TongJiStudio（已建好 ✓）
+
+【还差一步：上传两个文件】
+  把本文件夹里的两个文件传到仓库里：
+    index.html   —— App 新版界面文件
+    update.json  —— 版本清单（告诉 App 有没有新版本）
+
+  手机操作步骤：
+  1. 浏览器打开 github.com/Yntc-POE/TongJiStudio
+  2. 点「Add file」→「Upload files」
+  3. 选择本文件夹里的 index.html 和 update.json（一起选）
+  4. 点下方绿色按钮「Commit changes」
+
+【建议开启 Pages（更稳定）】
+  仓库 Settings → Pages → Source 选「Deploy from a branch」
+  → Branch 选 main → Save
+  （不开也行，App 会自动试试另外两个渠道）
+
+【测试热更新】
+1. 安装 /sdcard/Download/TongJiStudio_v1.5.0.apk
+2. 打开 App，等几秒钟
+3. 应弹出「发现新版本 v4.1.0」→ 点「立即刷新」
+4. 标题栏版本号变成 v4.1.0 → 热更新成功！
+
+【以后每次更新内容】
+1. 用新的 index.html 替换仓库里的 index.html
+2. 把 update.json 里的 "version" 改成更大的数字（如 1.5.2）
+3. 提交（Commit）后，所有装了 App 的人打开就会自动更新
