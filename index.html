@@ -2,9 +2,9 @@
 <html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="app-version" content="2.0.0">
+<meta name="app-version" content="2.6.0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>桐记工坊 v2.0.0</title>
+<title>桐记工坊 v2.6.0</title>
 <style>
 :root{
   --bg:#f7f8fa;
@@ -336,7 +336,7 @@ div[style*="var(--ta)"]{border-radius:10px!important}
 <div class="settings-group">
 <div class="settings-group-title">更新</div>
 <div class="setting-row clickable" onclick="checkUpdateManual()">
-<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v2.0.0</div></div>
+<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v2.6.0</div></div>
 <span class="chev">&rsaquo;</span>
 </div>
 </div>
@@ -357,7 +357,7 @@ div[style*="var(--ta)"]{border-radius:10px!important}
 </div>
 </div>
 <div class="top-controls">
-<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v2.0.0</span></h2>
+<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v2.6.0</span></h2>
 <div style="display:flex;gap:6px;align-items:center;">
 <button class="help-btn" onclick="exportConfig()">导出</button>
 <label class="help-btn" for="configFile">导入</label>
@@ -374,6 +374,7 @@ div[style*="var(--ta)"]{border-radius:10px!important}
 <div class="tab" onclick="switchTab('tab-plugin')"> 插件</div>
 <div class="tab" onclick="switchTab('tab-image')"> 生图</div>
 <div class="tab" onclick="switchTab('tab-regex')"> 正则</div>
+<div class="tab" onclick="switchTab('tab-worldbook')">世界书</div>
 </div>
 <div id="tab-xiaotong" class="tab-content">
 <div class="card">
@@ -643,15 +644,45 @@ QQ群：<span>1036501276</span><br>
 <label> 提示词</label>
 <textarea id="imgPrompt" rows="4" placeholder="描述你想生成的画面"></textarea>
 <textarea id="imgNegative" rows="2" placeholder="负面提示词（可选）"></textarea>
+<div style="margin-top:10px;">
+<span class="hint" style="display:block;margin-bottom:6px;">风格快捷插入（点一下加入提示词，再点一下移除）：</span>
+<div style="display:flex;flex-wrap:wrap;gap:6px;">
+<button class="btn btn-small" style="width:auto;margin:0;padding:5px 10px;font-size:12px;" onclick="applyStylePreset('写实摄影风格，超高清细节，自然光')">写实摄影</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:5px 10px;font-size:12px;" onclick="applyStylePreset('动漫风格，精致线条，鲜明色彩')">动漫风</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:5px 10px;font-size:12px;" onclick="applyStylePreset('中国古风，水墨意境，古典雅致')">古风</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:5px 10px;font-size:12px;" onclick="applyStylePreset('吉卜力风格，柔和色调，手绘质感')">吉卜力</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:5px 10px;font-size:12px;" onclick="applyStylePreset('赛博朋克风格，霓虹灯光，未来都市')">赛博朋克</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:5px 10px;font-size:12px;" onclick="applyStylePreset('3D渲染，电影级光影，精细建模')">3D渲染</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:5px 10px;font-size:12px;" onclick="applyStylePreset('水彩风格，柔和笔触，晕染效果')">水彩</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:5px 10px;font-size:12px;" onclick="applyStylePreset('油画风格，厚重笔触，古典质感')">油画</button>
+</div>
+</div>
 </div>
 <div class="card">
 <label> 参数</label>
-<select id="imgSize">
+<select id="imgSize" onchange="onImgSizeChange()">
 <option value="1024x1024">1024x1024（正方形）</option>
 <option value="1024x1792">1024x1792（竖屏）</option>
 <option value="1792x1024">1792x1024（横屏）</option>
 <option value="512x512">512x512（小图）</option>
+<option value="custom">自定义尺寸（在下方填写）</option>
 </select>
+<div id="customSizeWrap" style="display:none;margin-top:8px;">
+<div style="display:flex;gap:8px;align-items:center;">
+<input type="number" id="imgCustomW" placeholder="宽（像素）" style="flex:1;margin:0;">
+<span style="color:var(--tx3);font-size:12px;">×</span>
+<input type="number" id="imgCustomH" placeholder="高（像素）" style="flex:1;margin:0;">
+</div>
+<span class="hint" style="margin-top:6px;">范围 64~8192；是否支持任意尺寸取决于填入的 API 模型，不支持时会报错或按默认尺寸处理。</span>
+</div>
+</div>
+<div class="card">
+<label>参考图（图生图 · 可选） <span style="cursor:pointer;color:var(--tx2);font-size:11px;" onclick="showRefImgHelp()">[?]</span></label>
+<span class="hint">选一张参考图后，生成请求会携带它（image 字段）。是否生效取决于所填 API 模型/中转站是否支持图生图；不支持时可能报错或被忽略。</span>
+<input type="file" id="refImgFile" accept="image/*" style="display:none;" onchange="onRefImgPicked(this)">
+<label class="btn btn-small" for="refImgFile" style="display:inline-block;width:auto;margin:8px 0 0;padding:6px 10px;font-size:12px;text-align:center;">选择参考图</label>
+<button class="btn btn-small" id="refImgClearBtn" style="width:auto;margin:8px 0 0 8px;padding:6px 10px;font-size:12px;display:none;" onclick="clearRefImg()">移除参考图</button>
+<div id="refImgPreview" style="margin-top:8px;"></div>
 </div>
 <div class="card">
 <label> 生成</label>
@@ -659,6 +690,12 @@ QQ群：<span>1036501276</span><br>
 <div class="status" id="statusMsg4"></div>
 <div id="imgPreview" class="image-preview"></div>
 <button class="btn btn-download" id="downloadImgBtn" style="display:none;" onclick="downloadImage()"> 下载图片</button>
+</div>
+<div class="card">
+<label>生成历史</label>
+<span class="hint">最近生成的图片自动保存在这里（最多12张，刷新不丢）；点击缩略图可查看并重新下载。</span>
+<div id="imgHistory" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;"></div>
+<button class="btn btn-small" style="width:auto;margin:8px 0 0;padding:6px 10px;font-size:12px;" onclick="clearImgHistory()">清空历史</button>
 </div>
 </div>
 <div id="tab-regex" class="tab-content">
@@ -679,11 +716,47 @@ QQ群：<span>1036501276</span><br>
 <button class="btn btn-download" onclick="downloadRegex2()"> 下载为 JSON</button>
 </div>
 </div>
+<div id="tab-worldbook" class="tab-content">
+<div class="card">
+<label>世界书条目生成</label>
+<span class="hint">AI 帮你生成世界观、地点、NPC、物品、事件等剧情条目；使用「人设卡」页配置的 API。生成后可导出：文本 / 酒馆 JSON / 通用 JSON（酒馆 JSON 可直接在 SillyTavern 的世界书里导入）。</span>
+<input type="text" id="wbSubject" placeholder="主题 / 角色 / 世界观名称，例如：沈昭厌 或 大唐江湖">
+<textarea id="wbDesc" rows="3" placeholder="补充描述（可选）：想要的氛围、已有设定、特别要求……"></textarea>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<select id="wbType" style="flex:1;min-width:130px;">
+<option value="mix">综合（世界观+地点+NPC+物品）</option>
+<option value="world">世界观设定</option>
+<option value="place">地点场景</option>
+<option value="npc">NPC 人物</option>
+<option value="item">物品道具</option>
+<option value="event">事件剧情</option>
+</select>
+<select id="wbCount" style="width:110px;">
+<option value="3">3 条</option>
+<option value="5" selected>5 条</option>
+<option value="8">8 条</option>
+<option value="12">12 条</option>
+</select>
+</div>
+<button class="btn btn-download" onclick="generateWorldbook()">生成世界书条目</button>
+<div class="status" id="statusWb"></div>
+<textarea id="wbOutput" rows="12" placeholder="生成的世界书条目将显示在这里..."></textarea>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<select id="wbFormat" style="flex:1;min-width:170px;" onchange="renderWbOutput()">
+<option value="txt">文本格式（阅读 / 手动复制）</option>
+<option value="st">SillyTavern 世界书 JSON（酒馆导入）</option>
+<option value="json">通用 JSON（二次处理用）</option>
+</select>
+<button class="btn btn-copy" onclick="copyText('wbOutput')">复制全部</button>
+<button class="btn btn-download" onclick="downloadWorldbook()">下载文件</button>
+</div>
+</div>
+</div>
 <div class="footer">
 <p>作者：<span>桐</span> | 联系方式：<span>2228907871</span> | QQ群：<span>1036501276</span></p>
 <p>本工具为<span>公益使用</span>，如发现任何收费行为，请及时联系作者举报！</p>
 <p>桐记工坊完全免费。如果它帮到了你，欢迎 <a style="color:var(--accent);cursor:pointer;" onclick="openDonate()">赞赏支持作者</a>（随缘、不强制）。</p>
-<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v2.0.0 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
+<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v2.6.0 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
 </div>
 
 <canvas id="watermarkCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;opacity:0.05;"></canvas>
@@ -729,16 +802,17 @@ function handleFileUpload(file){const ext=(file.name.split('.').pop()||'').toLow
 function getBaseUrl(input){let url=input.trim().replace(/\/+$/,'');if(url.endsWith('/v1'))return url;return url+'/v1';}
 function openPresetPanel(){renderPresetList();document.getElementById('presetModal').style.display='flex';}
 function getPresets(){try{return JSON.parse(localStorage.getItem('toolboxPresets')||'{}');}catch(e){return {};}}
-function savePreset(){const name=document.getElementById('presetName').value.trim();if(!name)return alert('请填写方案名称');const presets=getPresets();const cfg={};['charName','charDesc','charPersonality','charFirstMes','searchProvider','searchKey','imgModel'].forEach(k=>{const el=document.getElementById(k);if(el)cfg[k]=el.value;});cfg.modules={};document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(cb=>{cfg.modules[cb.id]=cb.checked;});presets[name]=cfg;localStorage.setItem('toolboxPresets',JSON.stringify(presets));alert(' 已保存方案：'+name);renderPresetList();}
-function loadPreset(name){const presets=getPresets();const cfg=presets[name];if(!cfg)return;['charName','charDesc','charPersonality','charFirstMes','searchProvider','searchKey','imgModel'].forEach(k=>{if(cfg[k]!==undefined){const el=document.getElementById(k);if(el)el.value=cfg[k];}});if(cfg.modules){Object.keys(cfg.modules).forEach(id=>{const cb=document.getElementById(id);if(cb&&!cb.disabled)cb.checked=cfg.modules[id];});}alert(' 已加载方案：'+name);}
+function savePreset(){const name=document.getElementById('presetName').value.trim();if(!name)return alert('请填写方案名称');const presets=getPresets();const cfg={};['charName','charDesc','charPersonality','charFirstMes','searchProvider','searchKey','imgModel','imgJailbreak','xtInjection'].forEach(k=>{const el=document.getElementById(k);if(el)cfg[k]=el.value;});const imgEnhCb=document.getElementById('imgEnhEnglish');if(imgEnhCb)cfg.imgEnhEnglish=imgEnhCb.checked;cfg.modules={};document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(cb=>{cfg.modules[cb.id]=cb.checked;});presets[name]=cfg;localStorage.setItem('toolboxPresets',JSON.stringify(presets));alert(' 已保存方案：'+name);renderPresetList();}
+function loadPreset(name){const presets=getPresets();const cfg=presets[name];if(!cfg)return;['charName','charDesc','charPersonality','charFirstMes','searchProvider','searchKey','imgModel','imgJailbreak','xtInjection'].forEach(k=>{if(cfg[k]!==undefined){const el=document.getElementById(k);if(el)el.value=cfg[k];}});if(cfg.imgEnhEnglish!==undefined){const cb2=document.getElementById('imgEnhEnglish');if(cb2)cb2.checked=!!cfg.imgEnhEnglish;}if(cfg.modules){Object.keys(cfg.modules).forEach(id=>{const cb=document.getElementById(id);if(cb&&!cb.disabled)cb.checked=cfg.modules[id];});}alert(' 已加载方案：'+name);}
 function deletePreset(name){if(!confirm('确定删除方案：'+name+'？'))return;const presets=getPresets();delete presets[name];localStorage.setItem('toolboxPresets',JSON.stringify(presets));renderPresetList();}
 function renderPresetList(){const presets=getPresets();const list=document.getElementById('presetList');const keys=Object.keys(presets);if(!keys.length){list.innerHTML='<div style="font-size:12px;color:var(--tx3);text-align:center;padding:8px;">还没有保存的方案</div>';return;}list.innerHTML='';keys.forEach(name=>{const row=document.createElement('div');row.style.cssText='display:flex;gap:6px;margin-bottom:6px;align-items:center;';row.innerHTML='<span style="flex:1;font-size:13px;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+name+'</span>';const btnLoad=document.createElement('button');btnLoad.className='btn btn-small';btnLoad.style.cssText='width:auto;margin:0;padding:6px 10px;font-size:12px;';btnLoad.textContent='加载';btnLoad.onclick=()=>loadPreset(name);const btnDel=document.createElement('button');btnDel.className='btn btn-small';btnDel.style.cssText='width:auto;margin:0;padding:6px 10px;font-size:12px;';btnDel.textContent='删除';btnDel.onclick=()=>deletePreset(name);row.appendChild(btnLoad);row.appendChild(btnDel);list.appendChild(row);});}
 function vibrateOk(){if(navigator.vibrate)try{navigator.vibrate(50);}catch(e){}}
 (function watchStatus(){['statusMsg1','statusMsg2','statusMsg3','statusMsg4','statusMsg5'].forEach(id=>{const el=document.getElementById(id);if(!el)return;new MutationObserver(()=>{if(el.textContent.startsWith(''))vibrateOk();}).observe(el,{childList:true,characterData:true,subtree:true});});})();
 function clearApiInfo(){document.getElementById('apiUrl').value='';document.getElementById('apiKey').value='';document.getElementById('modelSelect').innerHTML='<option value="">请先输入API地址和Key，然后点击拉取</option>';document.getElementById('statusMsg1').textContent=' API信息已清空';}
 function toggleApiKeyVisible(){const el=document.getElementById('apiKey');el.type=el.type==='password'?'text':'password';}
-function exportConfig(){const cfg={apiUrl:document.getElementById('apiUrl').value,apiKey:document.getElementById('apiKey').value,imgApiUrl:document.getElementById('imgApiUrl').value,imgApiKey:document.getElementById('imgApiKey').value,imgModel:document.getElementById('imgModel').value,searchKey:document.getElementById('searchKey').value,searchProvider:document.getElementById('searchProvider').value,charName:document.getElementById('charName').value,charDesc:document.getElementById('charDesc').value,charPersonality:document.getElementById('charPersonality').value,charFirstMes:document.getElementById('charFirstMes').value,modules:{}};document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(cb=>{cfg.modules[cb.id]=cb.checked;});saveTextFile('toolbox_config_'+Date.now()+'.json', JSON.stringify(cfg,null,2));alert(' 配置已导出');}
-document.getElementById('configFile').addEventListener('change',function(){if(!this.files.length)return;const reader=new FileReader();reader.onload=function(e){try{const cfg=JSON.parse(e.target.result);['apiUrl','apiKey','imgApiUrl','imgApiKey','imgModel','searchKey','searchProvider','charName','charDesc','charPersonality','charFirstMes'].forEach(k=>{const el=document.getElementById(k);if(el&&cfg[k]!==undefined)el.value=cfg[k];});if(cfg.modules){Object.keys(cfg.modules).forEach(id=>{const cb=document.getElementById(id);if(cb&&!cb.disabled)cb.checked=cfg.modules[id];});}alert(' 配置已导入');}catch(err){alert(' 文件格式错误');}};reader.readAsText(this.files[0]);this.value='';});
+function setSelectValue(id,val){const s=document.getElementById(id);if(!s||val===undefined||val===null)return;let found=false;for(let i=0;i<s.options.length;i++){if(s.options[i].value===val){found=true;break;}}if(!found){const o=document.createElement('option');o.value=val;o.textContent=val;s.appendChild(o);}s.value=val;}
+function exportConfig(){const cfg={apiUrl:document.getElementById('apiUrl').value,apiKey:document.getElementById('apiKey').value,imgApiUrl:document.getElementById('imgApiUrl').value,imgApiKey:document.getElementById('imgApiKey').value,imgModel:document.getElementById('imgModel').value,searchKey:document.getElementById('searchKey').value,searchProvider:document.getElementById('searchProvider').value,charName:document.getElementById('charName').value,charDesc:document.getElementById('charDesc').value,charPersonality:document.getElementById('charPersonality').value,charFirstMes:document.getElementById('charFirstMes').value,imgJailbreak:document.getElementById('imgJailbreak').value,imgEnhEnglish:document.getElementById('imgEnhEnglish').checked,xtApiUrl:document.getElementById('xtApiUrl').value,xtApiKey:document.getElementById('xtApiKey').value,xtModel:document.getElementById('xtModelSelect').value,xtInjection:document.getElementById('xtInjection').value,modules:{}};document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(cb=>{cfg.modules[cb.id]=cb.checked;});saveTextFile('toolbox_config_'+Date.now()+'.json', JSON.stringify(cfg,null,2));alert(' 配置已导出');}
+document.getElementById('configFile').addEventListener('change',function(){if(!this.files.length)return;const reader=new FileReader();reader.onload=function(e){try{const cfg=JSON.parse(e.target.result);['apiUrl','apiKey','imgApiUrl','imgApiKey','imgModel','searchKey','searchProvider','charName','charDesc','charPersonality','charFirstMes','imgJailbreak','xtApiUrl','xtApiKey','xtInjection'].forEach(k=>{const el=document.getElementById(k);if(el&&cfg[k]!==undefined)el.value=cfg[k];});if(cfg.xtModel!==undefined)setSelectValue('xtModelSelect',cfg.xtModel);if(cfg.imgEnhEnglish!==undefined){const cb=document.getElementById('imgEnhEnglish');if(cb)cb.checked=!!cfg.imgEnhEnglish;}if(cfg.modules){Object.keys(cfg.modules).forEach(id=>{const cb=document.getElementById(id);if(cb&&!cb.disabled)cb.checked=cfg.modules[id];});}alert(' 配置已导入');}catch(err){alert(' 文件格式错误');}};reader.readAsText(this.files[0]);this.value='';});
 async function testApiConnection(){const rawUrl=document.getElementById('apiUrl').value.trim();const apiKey=document.getElementById('apiKey').value.trim();const statusMsg=document.getElementById('statusMsg1');if(!rawUrl||!apiKey){alert('请先填写 API 地址和 Key！');return;}if(!/^https?:\/\//i.test(rawUrl)){statusMsg.textContent='地址格式错误：必须以 http:// 或 https:// 开头';alert('地址格式错误：必须以 http:// 或 https:// 开头');return;}statusMsg.textContent='正在测试连接...';const baseUrl=getBaseUrl(rawUrl);try{let signal=null;let timer=null;if(typeof AbortController!=='undefined'){const ctrl=new AbortController();signal=ctrl.signal;timer=setTimeout(function(){ctrl.abort();},12000);}const res=await fetch(baseUrl+'/models',{headers:{'Authorization':'Bearer '+apiKey},signal:signal||undefined});if(timer)clearTimeout(timer);let msg='';if(res.status===401||res.status===403){msg='认证失败：API Key 错误或已过期';}else if(res.status===404){msg='404：地址写错了，检查是否是基础域名';}else if(res.status===429){msg='429：请求太频繁或额度用完了';}else if(res.status>=500){msg='服务器错误 '+res.status+'：中转站挂了，稍后重试';}else if(!res.ok){msg='HTTP '+res.status+'：未知错误';}else{const data=await res.json();const count=(data.data||data).length||0;msg='连接成功，共 '+count+' 个模型';}statusMsg.textContent=msg;alert(msg);}catch(e){let msg='';if(e&&e.name==='AbortError'){msg='连接超时（12 秒）：检查网络或地址';}else if(e&&String(e.message||'').indexOf('Failed to fetch')>-1){msg='跨域被拦或网络不通：检查地址/网络，或换中转站';}else{msg='连接失败：'+((e&&e.message)||'未知错误');}statusMsg.textContent=msg;alert(msg);}}
 async function fetchModels(){const rawUrl=document.getElementById('apiUrl').value.trim();const apiKey=document.getElementById('apiKey').value.trim();const statusMsg=document.getElementById('statusMsg1');const select=document.getElementById('modelSelect');if(!rawUrl||!apiKey)return alert('请先填写 API 地址和 Key！');const baseUrl=getBaseUrl(rawUrl);statusMsg.textContent='正在获取模型列表...';select.innerHTML='<option value="">加载中...</option>';try{const response=await fetch(`${baseUrl}/models`,{headers:{'Authorization':`Bearer ${apiKey}`}});if(!response.ok)throw new Error(`HTTP ${response.status}`);const data=await response.json();const models=(data.data||data).map(m=>m.id).filter(id=>id).sort();select.innerHTML='<option value="">请选择模型...</option>';models.forEach(id=>{const opt=document.createElement('option');opt.value=id;opt.textContent=id;select.appendChild(opt);});statusMsg.textContent=` 已加载 ${models.length} 个模型`;saveApiToSession();}catch(error){statusMsg.textContent=` 拉取失败: ${error.message}`;select.innerHTML='<option value="">拉取失败，请检查地址和Key</option>';}}
 function buildRegexRule(){const trigger=document.getElementById('regexTrigger').value.trim();const html=document.getElementById('regexHtml').value.trim();if(!trigger||!html)return null;const name=document.getElementById('regexName').value.trim()||'HTML美化';const escaped=trigger.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return{id:'regex_'+Date.now(),scriptName:name,findRegex:'/'+escaped+'/g',replaceString:html,trimStrings:[],placement:[2],disabled:false,markdownOnly:true,promptOnly:false,runOnEdit:true,substituteRegex:0,minDepth:null,maxDepth:null};}
@@ -886,8 +960,197 @@ if(jbText){sys=sys+`
  }catch(e){st.textContent='生成失败：'+(e.message||'请检查网络');st.style.color='#e5484d';}
 }
 
-async function generateImage(){const rawUrl=document.getElementById('imgApiUrl').value.trim();const apiKey=document.getElementById('imgApiKey').value.trim();const model=document.getElementById('imgModel').value.trim();const prompt=document.getElementById('imgPrompt').value.trim();const negative=document.getElementById('imgNegative').value.trim();const size=document.getElementById('imgSize').value;const status=document.getElementById('statusMsg4');const preview=document.getElementById('imgPreview');const downloadBtn=document.getElementById('downloadImgBtn');
-const jbText=(document.getElementById('imgJailbreak')?document.getElementById('imgJailbreak').value.trim():'');if(!rawUrl||!apiKey||!model||!prompt)return alert('请完整填写生图 API 地址、Key、模型和提示词！');status.textContent='正在生成图片，请稍候...';preview.innerHTML='⏳ 生成中...';downloadBtn.style.display='none';try{const baseUrl=getBaseUrl(rawUrl);const response=await fetch(`${baseUrl}/images/generations`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},body:JSON.stringify({model:model,prompt:prompt+(negative?`\n\n负面提示词：${negative}`:'')+(jbText?' '+jbText:''),n:1,size:size,response_format:'url'})});if(!response.ok){const errData=await response.json().catch(()=>({}));const s=response.status;let hint=s===400?'提示词被拒/参数错误':s===401||s===403?'认证失败':s===404?'模型不存在':s===429?'请求太频繁或额度用完':s>=500?'服务端错误':'未知错误';throw new Error(`[${s}] ${hint}${errData.error?.message?'\n原始信息：'+errData.error.message:''}`);}const data=await response.json();const imgUrl=data.data[0].url||(data.data[0].b64_json?`data:image/png;base64,${data.data[0].b64_json}`:'');if(!imgUrl)throw new Error('未返回图片地址');currentImgUrl=imgUrl;preview.innerHTML=`<img src="${imgUrl}" />`;downloadBtn.style.display='block';status.textContent=' 图片生成成功！';}catch(error){status.textContent=` 生成失败: ${error.message}`;preview.innerHTML='';}}
+function applyStylePreset(kw){
+ var ta=document.getElementById('imgPrompt');
+ var v=ta.value||'';
+ if(v.indexOf(kw)>=0){
+ v=v.split(kw).join('');
+ v=v.split('，，').join('，');
+ while(v.charAt(0)==='，')v=v.slice(1);
+ while(v.length&&v.charAt(v.length-1)==='，')v=v.slice(0,-1);
+ }else{
+ var last=v.charAt(v.length-1);
+ if(v&&last!=='，'&&last!==',')v=v+'，';
+ v=v+kw;
+ }
+ ta.value=v;
+ if(navigator.vibrate)try{navigator.vibrate(30);}catch(e){}
+}
+/* ===== 生成历史 ===== */
+var IMG_HIST_MAX=12;
+function imgHistoryArr(){try{return JSON.parse(localStorage.getItem('toolImgHistory')||'[]');}catch(e){return [];}}
+function renderImgHistory(){
+ var box=document.getElementById('imgHistory');
+ if(!box)return;
+ var arr=imgHistoryArr();
+ if(!arr.length){box.innerHTML='<span class="hint" style="grid-column:1/-1;">暂无历史，生成图片后会自动保存在这里</span>';return;}
+ box.innerHTML=arr.map(function(it,i){
+ return '<img src="'+it.u+'" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;border:1px solid var(--bd);cursor:pointer;background:var(--ta);" onclick="loadHistoryImg('+i+')" title="点击查看">';
+ }).join('');
+}
+function saveImgHistory(url){
+ if(!url)return;
+ var arr=imgHistoryArr();
+ arr.unshift({u:url,t:Date.now()});
+ if(arr.length>IMG_HIST_MAX)arr=arr.slice(0,IMG_HIST_MAX);
+ try{localStorage.setItem('toolImgHistory',JSON.stringify(arr));}catch(e){
+ arr=arr.slice(0,4);
+ try{localStorage.setItem('toolImgHistory',JSON.stringify(arr));}catch(e2){}
+ }
+ renderImgHistory();
+}
+function loadHistoryImg(i){
+ var arr=imgHistoryArr();
+ var it=arr[i];
+ if(!it)return;
+ currentImgUrl=it.u;
+ var preview=document.getElementById('imgPreview');
+ if(preview)preview.innerHTML='<img src="'+it.u+'" />';
+ var downloadBtn=document.getElementById('downloadImgBtn');
+ if(downloadBtn)downloadBtn.style.display='block';
+ var status=document.getElementById('statusMsg4');
+ if(status)status.textContent='已载入历史图片，可直接点「下载图片」保存';
+}
+function clearImgHistory(){
+ if(!confirm('确定清空生成历史吗？'))return;
+ try{localStorage.removeItem('toolImgHistory');}catch(e){}
+ renderImgHistory();
+}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){try{renderImgHistory();}catch(e){}});}else{try{renderImgHistory();}catch(e){}}
+/* ===== 参考图（图生图） ===== */
+var refImgData='';
+function onRefImgPicked(inp){
+ var f=inp&&inp.files&&inp.files[0];
+ if(!f)return;
+ if(f.size>4*1024*1024){alert('图片过大（超过4MB），请换一张小一些的');inp.value='';return;}
+ var r=new FileReader();
+ r.onload=function(e){refImgData=String((e&&e.target&&e.target.result)||'');renderRefImg();};
+ r.onerror=function(){alert('图片读取失败，请重试');};
+ r.readAsDataURL(f);
+ inp.value='';
+}
+function renderRefImg(){
+ var box=document.getElementById('refImgPreview');
+ var btn=document.getElementById('refImgClearBtn');
+ if(box){box.innerHTML=refImgData?('<img src="'+refImgData+'" style="width:96px;height:96px;object-fit:cover;border-radius:8px;border:1px solid var(--bd);">'):'';}
+ if(btn){btn.style.display=refImgData?'inline-block':'none';}
+}
+function clearRefImg(){refImgData='';renderRefImg();}
+function showRefImgHelp(){alert(`【参考图（图生图）使用说明】
+
+① 点「选择参考图」从相册或文件里选一张图片（建议小于4MB）；
+② 之后点「生成图片」，请求会携带这张参考图（image 字段）；
+③ 是否生效取决于你填写的 API 模型和你的中转站是否支持图生图——不支持时可能报错、也可能被忽略，属正常现象（换一个支持图生图的模型/中转站即可）；
+④ 参考图只在本次打开期间保留，关闭或刷新 App 会自动清除。`);}
+function onImgSizeChange(){const s=document.getElementById('imgSize');const w=document.getElementById('customSizeWrap');if(!s||!w)return;w.style.display=(s.value==='custom')?'block':'none';}
+/* ===== 世界书工坊 ===== */
+var wbEntries=[];
+function wbApiCheck(){
+ var u=(document.getElementById('apiUrl').value||'').trim();
+ var k=(document.getElementById('apiKey').value||'').trim();
+ var m=(document.getElementById('modelSelect').value||'').trim();
+ var st=document.getElementById('statusWb');
+ if(!u||!k){st.textContent='请先到「人设卡」页填写 API 地址和 Key';st.style.color='#e5484d';return null;}
+ if(!m){st.textContent='请先到「人设卡」页「一键拉取模型列表」并选择模型';st.style.color='#e5484d';return null;}
+ return {u:u,k:k,m:m,st:st};
+}
+async function generateWorldbook(){
+ var cfg=wbApiCheck();
+ if(!cfg){return;}
+ var st=cfg.st;
+ var subject=(document.getElementById('wbSubject').value||'').trim();
+ if(!subject){st.textContent='请先填写主题 / 角色 / 世界观名称';st.style.color='#e5484d';return;}
+ var desc=(document.getElementById('wbDesc').value||'').trim();
+ var type=document.getElementById('wbType').value;
+ var count=document.getElementById('wbCount').value;
+ var typeMap={mix:'综合（世界观、地点、NPC、物品混合）',world:'世界观设定',place:'地点场景',npc:'NPC 人物',item:'物品道具',event:'事件剧情'};
+ var typeLabel=typeMap[type]||'综合';
+ var sys=`你是「桐记工坊」内置的世界书条目撰写引擎。用户会给出主题和相关描述，你要为 AI 角色扮演生成可直接使用的世界书条目。
+
+【写作要求】
+1. 条目类型：${typeLabel}
+2. 条目数量：恰好 ${count} 条
+3. 每条内容 120~260 字，信息密度高、具体可用，能直接作为世界书条目注入角色扮演对话；
+4. 关键词给 3~6 个，用中文逗号分隔，覆盖该条目最可能被触发的词；
+5. 内容与主题一致，不要与用户描述矛盾；风格自然、有画面感。
+
+【输出格式】严格按下面格式输出，不要输出任何其他内容：
+【条目名】xxx
+【关键词】kw1, kw2
+【内容】yyy
+
+（然后下一条，以此类推，共 ${count} 条）`;
+ if(desc){sys=sys+(`
+
+【用户补充描述】
+`+desc);}
+ st.textContent='生成中...';st.style.color='';
+ try{
+ var base=getBaseUrl(cfg.u);
+ var res=await fetch(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.k},body:JSON.stringify({model:cfg.m,messages:[{role:'system',content:sys},{role:'user',content:'请为主题「'+subject+'」生成'+count+'条世界书条目。'}],temperature:0.85,max_tokens:2048})});
+ if(!res.ok)throw new Error('HTTP '+res.status);
+ var data=await res.json();
+ var out=((data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content)||'').trim();
+ if(!out)throw new Error('模型返回为空');
+ wbEntries=parseWbEntries(out);
+ if(!wbEntries.length){st.textContent='解析失败：模型未按格式输出，请重试';st.style.color='#e5484d';return;}
+ renderWbOutput();
+ st.textContent='已生成 '+wbEntries.length+' 条世界书条目';
+ }catch(e){st.textContent='生成失败：'+(e.message||'请检查网络');st.style.color='#e5484d';}
+}
+function parseWbEntries(t){
+ var arr=[];
+ var parts=String(t||'').split('【条目名】');
+ for(var i=1;i<parts.length;i++){
+ var p=parts[i];
+ var name=p,keys='',content='';
+ var ik=p.indexOf('【关键词】');
+ var ic=p.indexOf('【内容】');
+ if(ik>=0){name=p.slice(0,ik);if(ic>ik){keys=p.slice(ik+5,ic);content=p.slice(ic+4);}else{keys=p.slice(ik+5);}}
+ else if(ic>=0){name=p.slice(0,ic);content=p.slice(ic+4);}
+ name=name.trim();
+ while(name&&(name.charAt(0)===':'||name.charAt(0)==='：')){name=name.slice(1).trim();}
+ while(name&&(name.charAt(name.length-1)===':'||name.charAt(name.length-1)==='：')){name=name.slice(0,-1).trim();}
+ content=content.trim();
+ while(content&&(content.charAt(0)===':'||content.charAt(0)==='：')){content=content.slice(1).trim();}
+ if(!name&&!content)continue;
+ var keyArr=keys.split(/[，,、]/).map(function(x){return x.trim();}).filter(function(x){return !!x;});
+ arr.push({name:name||('条目'+(arr.length+1)),keys:keyArr,content:content});
+ }
+ if(!arr.length&&String(t||'').trim()){arr.push({name:'条目1',keys:[],content:String(t).trim()});}
+ return arr;
+}
+function renderWbOutput(){
+ if(!wbEntries.length){return;}
+ var fmt=document.getElementById('wbFormat').value;
+ var out='';
+ if(fmt==='st'){
+ var obj={entries:{}};
+ wbEntries.forEach(function(e,i){obj.entries[String(i)]={uid:i,key:e.keys,keysecondary:[],comment:e.name,content:e.content,constant:false,selective:true,order:100,position:0,disable:false};});
+ out=JSON.stringify(obj,null,2);
+ }else if(fmt==='json'){
+ var arr=wbEntries.map(function(e){return {name:e.name,keys:e.keys,content:e.content};});
+ out=JSON.stringify({name:((document.getElementById('wbSubject').value||'').trim()||'世界书'),entries:arr},null,2);
+ }else{
+ out=wbEntries.map(function(e){return `【条目名】${e.name}
+【关键词】${e.keys.join('，')}
+【内容】${e.content}`;}).join(`
+
+`);
+ }
+ document.getElementById('wbOutput').value=out;
+}
+function downloadWorldbook(){
+ var out=document.getElementById('wbOutput').value;
+ if(!out){alert('请先生成世界书条目！');return;}
+ var fmt=document.getElementById('wbFormat').value;
+ var subject=(document.getElementById('wbSubject').value||'worldbook').trim()||'worldbook';
+ var ext=(fmt==='txt')?'txt':'json';
+ saveTextFile(subject+'_世界书_'+Date.now()+'.'+ext, out);
+}
+
+async function generateImage(){const rawUrl=document.getElementById('imgApiUrl').value.trim();const apiKey=document.getElementById('imgApiKey').value.trim();const model=document.getElementById('imgModel').value.trim();const prompt=document.getElementById('imgPrompt').value.trim();const negative=document.getElementById('imgNegative').value.trim();let size=document.getElementById('imgSize').value;if(size==='custom'){const cw=parseInt(document.getElementById('imgCustomW').value.trim(),10);const ch=parseInt(document.getElementById('imgCustomH').value.trim(),10);if(!cw||!ch||cw<64||ch<64||cw>8192||ch>8192)return alert('自定义尺寸请填写 64~8192 之间的宽和高！');size=cw+'x'+ch;}const status=document.getElementById('statusMsg4');const preview=document.getElementById('imgPreview');const downloadBtn=document.getElementById('downloadImgBtn');
+const jbText=(document.getElementById('imgJailbreak')?document.getElementById('imgJailbreak').value.trim():'');if(!rawUrl||!apiKey||!model||!prompt)return alert('请完整填写生图 API 地址、Key、模型和提示词！');status.textContent='正在生成图片，请稍候...';preview.innerHTML='⏳ 生成中...';downloadBtn.style.display='none';try{const baseUrl=getBaseUrl(rawUrl);const response=await fetch(`${baseUrl}/images/generations`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},body:JSON.stringify({model:model,prompt:prompt+(negative?`\n\n负面提示词：${negative}`:'')+(jbText?' '+jbText:''),n:1,size:size,response_format:'url',...(refImgData?{image:refImgData}:{})})});if(!response.ok){const errData=await response.json().catch(()=>({}));const s=response.status;let hint=s===400?'提示词被拒/参数错误':s===401||s===403?'认证失败':s===404?'模型不存在':s===429?'请求太频繁或额度用完':s>=500?'服务端错误':'未知错误';throw new Error(`[${s}] ${hint}${errData.error?.message?'\n原始信息：'+errData.error.message:''}`);}const data=await response.json();const imgUrl=data.data[0].url||(data.data[0].b64_json?`data:image/png;base64,${data.data[0].b64_json}`:'');if(!imgUrl)throw new Error('未返回图片地址');currentImgUrl=imgUrl;try{saveImgHistory(imgUrl);}catch(e){}preview.innerHTML=`<img src="${imgUrl}" />`;downloadBtn.style.display='block';status.textContent=' 图片生成成功！';}catch(error){status.textContent=` 生成失败: ${error.message}`;preview.innerHTML='';}}
 function saveTextFile(filename, content){if(window.Android&&typeof Android.saveFile==='function'){try{Android.saveFile(filename, content);return;}catch(e){}}const blob=new Blob([content],{type:'text/plain'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(url);},1500);}
 function downloadImage(){if(!currentImgUrl)return alert('请先生成图片！');const fname='generated_'+Date.now()+'.png';if(window.Android&&typeof Android.saveImage==='function'){Android.saveImage(fname,currentImgUrl);return;}const a=document.createElement('a');a.href=currentImgUrl;a.download=fname;a.target='_blank';document.body.appendChild(a);a.click();document.body.removeChild(a);}
 function downloadPersona(){const output=document.getElementById('output1').value;if(!output)return alert('请先生成人设卡！');const platform=document.getElementById('targetPlatform').value;const isJson=platform!=='text';const ext=isJson?'json':'txt';saveTextFile((document.getElementById('charName').value||'character')+'_'+platform+'.'+ext, output);}
