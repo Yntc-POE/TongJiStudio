@@ -2,9 +2,9 @@
 <html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="app-version" content="2.6.0">
+<meta name="app-version" content="3.8.0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>桐记工坊 v2.6.0</title>
+<title>桐记工坊 v3.8.0</title>
 <style>
 :root{
   --bg:#f7f8fa;
@@ -225,6 +225,46 @@ div[style*="var(--ta)"]{border-radius:10px!important}
 .switch .knob:before{content:"";position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
 .switch input:checked + .knob{background:var(--accent);}
 .switch input:checked + .knob:before{transform:translateX(18px);}
+/* 聊天 */
+.chat-box{max-height:430px;overflow-y:auto;background:var(--ta);border:1px solid var(--bd);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;}
+.chat-row{display:flex;}
+.chat-row.chat-u{justify-content:flex-end;}
+.chat-row.chat-a{justify-content:flex-start;}
+.chat-bubble{max-width:82%;padding:9px 12px;border-radius:12px;font-size:1em;line-height:1.7;white-space:pre-wrap;word-break:break-word;}
+.chat-u .chat-bubble{background:var(--btn);color:var(--btnt);border-bottom-right-radius:4px;}
+.chat-a .chat-bubble{background:var(--surface);color:var(--tx);border:1px solid var(--bd);border-bottom-left-radius:4px;}
+.chat-input-row{display:flex;gap:8px;align-items:flex-end;margin-top:10px;}
+.chat-input-row textarea{flex:1;margin:0;}
+/* 聊天外观 */
+.chat-row{gap:8px;}
+.chat-av{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1px solid var(--bd);background:var(--ta);}
+.chat-av-ph{display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--tx2);}
+.chat-col{display:flex;flex-direction:column;max-width:82%;}
+.chat-name{font-size:11px;color:var(--tx3);margin:0 0 4px 4px;}
+.chat-u .chat-name{text-align:right;margin:0 4px 4px 0;}
+.chat-bubble{max-width:100%;}
+#chatWifuBox{display:none;margin-bottom:10px;border-radius:12px;overflow:hidden;border:1px solid var(--bd);}
+#chatWifuBox img{width:100%;height:190px;object-fit:cover;display:block;}
+.chat-box.bs-flat .chat-bubble{border-radius:6px !important;}
+.chat-box.bs-outline .chat-u .chat-bubble{background:transparent !important;border:1.5px solid #4d6bfe !important;color:var(--tx) !important;}
+.chat-box.bs-outline .chat-a .chat-bubble{background:transparent !important;border:1.5px solid var(--bd-strong) !important;}
+.chat-box.bs-dark{background:#16161a !important;}
+.chat-box.bs-dark .chat-a .chat-bubble{background:#232329 !important;color:#e8e8ea !important;border-color:#333 !important;}
+.chat-sticker{width:72px;height:72px;object-fit:cover;border-radius:10px;display:inline-block;vertical-align:middle;margin:4px 0;}
+.chat-status{margin-top:8px;background:var(--ta);border:1px solid var(--bd);border-radius:10px;padding:10px;font-size:12px;color:var(--tx2);white-space:pre-wrap;line-height:1.8;}
+.chat-img{max-width:100%;border-radius:10px;display:block;margin-bottom:4px;}
+.npc-name{color:var(--accent);font-weight:600;}
+/* 沉浸式酒馆 */
+#chatImmersiveExit{display:none;position:fixed;top:10px;right:10px;z-index:950;width:auto;margin:0;padding:5px 12px;font-size:12px;background:rgba(20,20,24,.55);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:999px;cursor:pointer;}
+body.chat-immersive .top-controls,body.chat-immersive .tab-bar,body.chat-immersive .footer,body.chat-immersive #watermarkCanvas{display:none !important;}
+body.chat-immersive{padding:0 10px !important;max-width:none !important;background:#0f1013;}
+body.chat-immersive .tab-content{display:none !important;}
+body.chat-immersive #tab-chat{display:block !important;}
+body.chat-immersive #tab-chat .card{display:none !important;}
+body.chat-immersive #tab-chat .card.chat-core{display:block !important;background:transparent;}
+body.chat-immersive .chat-core > label{display:none;}
+body.chat-immersive .chat-box{height:calc(100vh - 140px);max-height:none;background:transparent !important;background-image:none !important;border:none;}
+body.chat-immersive #chatImmersiveExit{display:block;}
 </style>
 </head>
 <body>
@@ -336,7 +376,7 @@ div[style*="var(--ta)"]{border-radius:10px!important}
 <div class="settings-group">
 <div class="settings-group-title">更新</div>
 <div class="setting-row clickable" onclick="checkUpdateManual()">
-<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v2.6.0</div></div>
+<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v3.8.0</div></div>
 <span class="chev">&rsaquo;</span>
 </div>
 </div>
@@ -357,7 +397,7 @@ div[style*="var(--ta)"]{border-radius:10px!important}
 </div>
 </div>
 <div class="top-controls">
-<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v2.6.0</span></h2>
+<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v3.8.0</span></h2>
 <div style="display:flex;gap:6px;align-items:center;">
 <button class="help-btn" onclick="exportConfig()">导出</button>
 <label class="help-btn" for="configFile">导入</label>
@@ -375,6 +415,10 @@ div[style*="var(--ta)"]{border-radius:10px!important}
 <div class="tab" onclick="switchTab('tab-image')"> 生图</div>
 <div class="tab" onclick="switchTab('tab-regex')"> 正则</div>
 <div class="tab" onclick="switchTab('tab-worldbook')">世界书</div>
+<div class="tab" onclick="switchTab('tab-library')">模板库</div>
+<div class="tab" onclick="switchTab('tab-memory')">剧情记忆</div>
+<div class="tab" onclick="switchTab('tab-statusbar')">状态栏</div>
+<div class="tab" onclick="switchTab('tab-chat')">聊天</div>
 </div>
 <div id="tab-xiaotong" class="tab-content">
 <div class="card">
@@ -752,11 +796,250 @@ QQ群：<span>1036501276</span><br>
 </div>
 </div>
 </div>
+<div id="tab-library" class="tab-content">
+<div class="card">
+<label>模板库</label>
+<span class="hint">常用提示词片段、开场白模板、风格指令；点条目展开、一键复制。内容随版本持续扩充，想加什么群里说一声。</span>
+<div id="tplList"></div>
+</div>
+<div class="card">
+<label>教程 / 常见问题</label>
+<span class="hint">新人指引与常见问题解答，内容随热更新推送。</span>
+<div id="faqList"></div>
+</div>
+</div>
+<div id="tab-memory" class="tab-content">
+<div class="card">
+<label>剧情记忆总结</label>
+<span class="hint">把一段对话/剧情记录丢进来，AI 会把它压缩成"记忆条目"（关键词+内容），可导出为世界书格式，继续玩不丢剧情。使用「人设卡」页配置的 API；内容很长时可以分段多次整理。</span>
+<textarea id="memInput" rows="10" placeholder="在这里粘贴对话记录 / 剧情内容（可直接整段复制聊天记录）"></textarea>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<input type="text" id="memSubject" placeholder="角色名 / 称呼（可选）" style="flex:1;min-width:140px;">
+<select id="memCount" style="width:130px;">
+<option value="1">压缩成 1 条</option>
+<option value="2">压缩成 2 条</option>
+<option value="3" selected>压缩成 3 条</option>
+<option value="5">压缩成 5 条</option>
+</select>
+</div>
+<button class="btn btn-download" onclick="generateMemory()">生成记忆条目</button>
+<div class="status" id="statusMem"></div>
+<textarea id="memOutput" rows="12" placeholder="生成的记忆条目将显示在这里..."></textarea>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<select id="memFormat" style="flex:1;min-width:170px;" onchange="renderMemOutput()">
+<option value="txt">文本格式（阅读 / 手动复制）</option>
+<option value="st">SillyTavern 世界书 JSON（酒馆导入）</option>
+<option value="json">通用 JSON（二次处理用）</option>
+</select>
+<button class="btn btn-copy" onclick="copyText('memOutput')">复制全部</button>
+<button class="btn btn-download" onclick="downloadMemory()">下载文件</button>
+</div>
+</div>
+</div>
+<div id="tab-statusbar" class="tab-content">
+<div class="card">
+<label>状态栏工坊</label>
+<span class="hint">描述你想要的状态栏（显示哪些信息、什么风格），AI 会生成"三件套"：①给 AI 的输出指令 ②显示用 HTML 模板 ③配套的酒馆正则规则（可直接导入）。使用「人设卡」页配置的 API。</span>
+<textarea id="sbDesc" rows="3" placeholder="例如：古风淡雅，显示心情、好感度（0~100）、时间、地点；放在每轮回复结尾"></textarea>
+<select id="sbStyle" style="margin-top:8px;">
+<option value="auto">风格：自动（按描述）</option>
+<option value="guofeng">古风淡雅</option>
+<option value="xiandai">现代简约</option>
+<option value="youxi">游戏界面</option>
+<option value="heian">暗黑炫酷</option>
+</select>
+<button class="btn btn-download" onclick="generateStatusBar()">生成状态栏三件套</button>
+<div class="status" id="statusSb"></div>
+</div>
+<div class="card">
+<label>① 给 AI 的输出指令（放进世界书 / 提示词）</label>
+<textarea id="sbInstruction" rows="6" placeholder="生成后显示在这里..."></textarea>
+<button class="btn btn-copy" onclick="copyText('sbInstruction')">复制指令</button>
+</div>
+<div class="card">
+<label>② 状态栏 HTML 模板</label>
+<textarea id="sbHtml" rows="8" placeholder="生成后显示在这里..."></textarea>
+<button class="btn btn-copy" onclick="copyText('sbHtml')">复制 HTML</button>
+</div>
+<div class="card">
+<label>③ 配套正则规则（SillyTavern JSON）</label>
+<span class="hint">在酒馆的「扩展 → 正则」里导入这个 JSON，聊天中就会出现状态栏。</span>
+<textarea id="sbRule" rows="8" placeholder="生成后显示在这里..."></textarea>
+<button class="btn btn-copy" onclick="copyText('sbRule')">复制正则</button>
+<button class="btn btn-download" onclick="downloadSbRule()">下载规则 JSON</button>
+</div>
+</div>
+<div id="tab-chat" class="tab-content">
+<div class="card">
+<label>聊天设置（迷你酒馆）</label>
+<span class="hint">与角色自由对话，流式输出；对话自动保存在本机。下方独立配置留空时，自动沿用「人设卡」页的 API。</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
+<input type="text" id="chatApiUrl" placeholder="API 地址（可留空沿用主配置）" style="flex:1;min-width:150px;margin:0;" oninput="saveChatCfg()">
+<input type="password" id="chatApiKey" placeholder="API Key（可留空）" style="flex:1;min-width:130px;margin:0;">
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+<select id="chatModelSelect" style="flex:1;min-width:140px;font-size:12px;"><option value="">模型（可留空沿用主配置）</option></select>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="fetchChatModels()">拉取模型</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatCopyMain()">沿用主配置</button>
+</div>
+<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin-top:8px;"><input type="checkbox" id="chatImmersiveChk" style="width:auto;margin:0;" onchange="chatImmersive(this.checked)">沉浸式模式（全屏酒馆，右上角可退出）</label>
+</div>
+<div class="card">
+<label>会话</label>
+<span class="hint">每个会话独立保存（角色设定 +聊天记录）；会话标题跟随角色名，切换下拉即可切换角色聊天。</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<select id="chatSessionSel" onchange="chatSwitchSession()" style="flex:1;min-width:170px;font-size:12px;"></select>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatCreateSession()">新建会话</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatDelSession()">删除会话</button>
+</div>
+</div>
+<div class="card">
+<label>角色设定</label>
+<input type="text" id="chatCharName" placeholder="角色名" oninput="saveChatCfg()">
+<textarea id="chatPersona" rows="4" placeholder="角色人设 / 对话规则（会作为系统提示发送）" oninput="saveChatCfg()"></textarea>
+<textarea id="chatFirstMes" rows="2" placeholder="开场白（点「新对话」时作为第一条消息，可留空）" oninput="saveChatCfg()"></textarea>
+<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatImportPersona()">从「人设卡」导入</button>
+<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox" id="chatStreamChk" checked style="width:auto;margin:0;">流式输出</label>
+<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox" id="chatVibChk" checked style="width:auto;margin:0;">完成震动</label>
+</div>
+<div style="margin-top:10px;">
+<span class="hint" style="cursor:pointer;" onclick="var w=document.getElementById('chatAdvBody');w.style.display=(w.style.display==='none')?'block':'none';">高级参数（点开调整）</span>
+<div id="chatAdvBody" style="display:none;margin-top:6px;">
+<input type="number" id="chatTemp" value="0.8" step="0.1" min="0" max="2" placeholder="温度" style="width:88px;margin:0;font-size:12px;display:inline-block;" oninput="saveChatCfg()">
+<input type="number" id="chatTopP" value="1" step="0.05" min="0" max="1" placeholder="top_p" style="width:88px;margin:0;font-size:12px;display:inline-block;" oninput="saveChatCfg()">
+<input type="number" id="chatMaxTok" value="2048" step="128" min="128" max="32768" placeholder="最大长度" style="width:110px;margin:0;font-size:12px;display:inline-block;" oninput="saveChatCfg()">
+<input type="number" id="chatCtxRounds" value="40" step="2" min="2" max="200" placeholder="上下文轮数" style="width:110px;margin:0;font-size:12px;display:inline-block;" oninput="saveChatCfg()">
+</div>
+</div>
+</div>
+<div class="card">
+<label>NPC 配角管理</label>
+<span class="hint">剧情配角独立分区：勾选「在场」的 NPC 会被强制要求积极扮演（台词/动作/性格区分）；输入框打 @名字 可立刻召唤 TA 出场；每个 NPC 可单独设头像。最多 8 个。</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="npcAdd()">添加 NPC</button>
+<span id="npcCount" class="hint" style="margin:0;"></span>
+<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox" id="npcActOn" style="width:auto;margin:0;" onchange="chatSaveLink()">NPC 独立参演（每个在场 NPC 用自己的模型单独发言）</label>
+</div>
+<div id="npcList" style="margin-top:10px;"></div>
+</div>
+<div class="card">
+<label>外观自定义</label>
+<span class="hint">头像、气泡、背景、字号、Wifu 大图；图片自动压缩存在本机。头像生成使用「生图」页的 API。</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<input type="file" id="chatAvatarFile" accept="image/*" style="display:none;" onchange="chatPickAvatar(this)">
+<input type="file" id="chatUserAvatarFile" accept="image/*" style="display:none;" onchange="chatPickUserAvatar(this)">
+<input type="file" id="chatBgFile" accept="image/*" style="display:none;" onchange="chatPickBg(this)">
+<label class="btn btn-small" for="chatAvatarFile" style="display:inline-block;width:auto;margin:0;padding:6px 10px;font-size:12px;text-align:center;">角色头像</label>
+<label class="btn btn-small" for="chatUserAvatarFile" style="display:inline-block;width:auto;margin:0;padding:6px 10px;font-size:12px;text-align:center;">我的头像</label>
+<label class="btn btn-small" for="chatBgFile" style="display:inline-block;width:auto;margin:0;padding:6px 10px;font-size:12px;text-align:center;">聊天背景</label>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatGenAvatar()">生成角色头像</button>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<select id="chatBubbleStyle" onchange="saveChatApp()" style="flex:1;min-width:130px;font-size:12px;">
+<option value="round">气泡：圆角经典</option>
+<option value="flat">气泡：扁平直角</option>
+<option value="outline">气泡：描边简约</option>
+<option value="dark">气泡：深色卡片</option>
+</select>
+<label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);margin:0;">我的气泡<input type="color" id="chatUserColor" value="#4d6bfe" onchange="saveChatApp()" style="width:30px;height:22px;padding:0;border:none;background:none;"></label>
+<label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);margin:0;">角色气泡<input type="color" id="chatAiColor" value="#ffffff" onchange="saveChatApp()" style="width:30px;height:22px;padding:0;border:none;background:none;"></label>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);margin:0;">字号<input type="number" id="chatFontSize" value="13.5" step="0.5" min="11" max="20" style="width:64px;margin:0;font-size:12px;" onchange="saveChatApp()"></label>
+<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox" id="chatShowName" checked style="width:auto;margin:0;" onchange="saveChatApp()">显示名字</label>
+<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox" id="chatWifuChk" style="width:auto;margin:0;" onchange="saveChatApp()">Wifu 大图模式</label>
+<label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);margin:0;">大图透明度<input type="range" id="chatWifuOp" min="15" max="100" value="60" style="width:90px;margin:0;" oninput="saveChatApp()"></label>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<input type="file" id="chatSpriteFile" accept="image/*" multiple style="display:none;" onchange="chatImportSprites(this)">
+<label class="btn btn-small" for="chatSpriteFile" style="display:inline-block;width:auto;margin:0;padding:6px 10px;font-size:12px;text-align:center;">导入立绘</label>
+<select id="chatSpriteSel" onchange="chatSetSprite(this.value)" style="font-size:12px;max-width:170px;"><option value="">立绘：默认头像</option></select>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatDelSprite()">删除当前立绘</button>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);margin:0;">背景预设
+<select id="chatBgPreset" onchange="chatApplyBGPreset()" style="font-size:12px;">
+<option value="auto">跟随主题</option>
+<option value="pure">纯色浅灰</option>
+<option value="grad1">青蓝渐变</option>
+<option value="grad2">暖阳渐变</option>
+<option value="grad3">暗夜渐变</option>
+</select>
+</label>
+</div>
+</div>
+<div class="card">
+<label>表情包（用户自备）</label>
+<span class="hint">软件不内置任何表情包。导入方式：把表情图重命名为关键词（如 开心.png、无语.jpg）→ 点「导入表情」一次可多选；聊天时 AI 会输出 [表情:开心]，自动替换成图片。导入后也能在这里改关键词。上限 30 张，自动压缩存本机。</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<input type="file" id="chatStickerFile" accept="image/*" multiple style="display:none;" onchange="chatImportStickers(this)">
+<label class="btn btn-small" for="chatStickerFile" style="display:inline-block;width:auto;margin:0;padding:6px 10px;font-size:12px;text-align:center;">导入表情（可多选）</label>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatListStickers()">查看 / 管理表情</button>
+<span id="chatStickerCount" class="hint" style="margin:0;"></span>
+</div>
+<div id="chatStickerList" style="display:none;margin-top:10px;"></div>
+</div>
+<div class="card">
+<label>联动</label>
+<span class="hint">世界书关键词触发、状态栏渲染、提示词注入、剧情提取——和 App 其他 TAB 打通。世界书用「世界书」页导出的 JSON 即可导入。</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<input type="file" id="chatWbFile" accept=".json,application/json" style="display:none;" onchange="chatImportWb(this)">
+<label class="btn btn-small" for="chatWbFile" style="display:inline-block;width:auto;margin:0;padding:6px 10px;font-size:12px;text-align:center;">导入世界书 JSON</label>
+<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox" id="chatWbOn" checked style="width:auto;margin:0;" onchange="chatSaveLink()">启用关键词触发</label>
+<span id="chatWbCount" class="hint" style="margin:0;"></span>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatClearWb()">清空世界书</button>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<input type="file" id="chatTplFile" accept=".html,.txt,text/html" style="display:none;" onchange="chatImportStatusTpl(this)">
+<label class="btn btn-small" for="chatTplFile" style="display:inline-block;width:auto;margin:0;padding:6px 10px;font-size:12px;text-align:center;">导入状态栏模板</label>
+<span id="chatTplState" class="hint" style="margin:0;"></span>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatClearTpl()">清除模板</button>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox" id="chatPrmOn" style="width:auto;margin:0;" onchange="chatSaveLink()">注入「提示词」页当前模块配置</label>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatExtractWb()">从聊天提取世界书条目</button>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatToRegex()">最后一条转正则工具</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatToMemory()">送去剧情记忆总结</button>
+</div>
+<div style="margin-top:8px;">
+<span class="hint" style="cursor:pointer;" onclick="var w=document.getElementById('chatCurvesWrap');w.style.display=(w.style.display==='none')?'block':'none';chatRenderCurves();">好感度 / 数值曲线（点开查看；AI 输出「字段：数值」会每轮自动记录）</span>
+<div id="chatCurvesWrap" style="display:none;margin-top:6px;">
+<div id="chatCurvesBox"><span class="hint">暂无数据</span></div>
+<button class="btn btn-small" style="width:auto;margin:6px 0 0;padding:4px 8px;font-size:11px;" onclick="chatClearCurves()">清空曲线数据</button>
+</div>
+</div>
+</div>
+<div class="card chat-core">
+<label>对话</label>
+<div id="chatWifuBox"><img id="chatWifuImg" alt=""></div>
+<div id="chatBox" class="chat-box"></div>
+<button id="chatImmersiveExit" onclick="chatImmersive(false)">退出沉浸</button>
+<div class="chat-input-row">
+<textarea id="chatInput" rows="2" placeholder="输入消息，Enter 发送；/draw 生图；@名字 召唤 NPC" onkeydown="chatKey(event)"></textarea>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 12px;" onclick="chatSend()">发送</button>
+<button class="btn btn-small" id="chatStopBtn" style="width:auto;margin:0;padding:6px 12px;display:none;" onclick="chatStop()">停止</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 12px;" onclick="chatRegen()">重新生成</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 12px;" onclick="chatNewSession()">新对话</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 12px;" onclick="chatSpeakLast()">朗读</button>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 12px;" onclick="chatExport('txt')">导出TXT</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 12px;" onclick="chatExport('json')">导出存档JSON</button>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 12px;" onclick="chatShareImage()">生成分享长图</button>
+</div>
+<div class="status" id="chatStatus"></div>
+</div>
+</div>
 <div class="footer">
 <p>作者：<span>桐</span> | 联系方式：<span>2228907871</span> | QQ群：<span>1036501276</span></p>
 <p>本工具为<span>公益使用</span>，如发现任何收费行为，请及时联系作者举报！</p>
 <p>桐记工坊完全免费。如果它帮到了你，欢迎 <a style="color:var(--accent);cursor:pointer;" onclick="openDonate()">赞赏支持作者</a>（随缘、不强制）。</p>
-<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v2.6.0 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
+<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v3.8.0 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
 </div>
 
 <canvas id="watermarkCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;opacity:0.05;"></canvas>
@@ -1147,6 +1430,1436 @@ function downloadWorldbook(){
  var subject=(document.getElementById('wbSubject').value||'worldbook').trim()||'worldbook';
  var ext=(fmt==='txt')?'txt':'json';
  saveTextFile(subject+'_世界书_'+Date.now()+'.'+ext, out);
+}
+
+/* ===== 模板库 / 教程 ===== */
+var TPL_LIB=[
+{cat:'提示词片段',name:'深化描写',desc:'让 AI 把细节写丰富',content:`请加深这一轮的细节描写：补充环境质感、身体感官（触感、温度、气味、声音）、细微表情与动作，让画面更有沉浸感，避免平铺直叙。`},
+{cat:'提示词片段',name:'推进剧情',desc:'打破原地打转',content:`本轮请主动推进剧情：引入一个新事件、新人物或转折点，保持节奏紧凑，不要重复已写过的内容，也不要结束剧情。`},
+{cat:'提示词片段',name:'心理描写',desc:'强化内心戏',content:`请着重刻画角色此刻的内心活动：犹豫、动摇、压抑或心动都通过细节表现出来，不要直接说破，留出体会空间。`},
+{cat:'提示词片段',name:'情感爆发',desc:'制造冲突张力',content:`本轮让积压的情绪爆发出来：写出冲突、质问或坦白的高张力场面，但每个人物的反应必须符合自身人设，不要 OOC。`},
+{cat:'提示词片段',name:'强制回归人设',desc:'角色跑偏时拉回',content:`注意：目前的描写有脱离人设（OOC）的迹象。请回顾人设卡中的性格、语气与说话习惯，立即纠正，并以角色原本的风格继续。`},
+{cat:'提示词片段',name:'场景过渡',desc:'自然切换场景',content:`请自然过渡到下一个场景：用一段简短的环境或时间描写完成转场，跳过无意义的流水账，衔接要顺滑。`},
+{cat:'开场白模板',name:'日常向',desc:'生活化开局',content:`【开场白示例（把 {角色名} 换成你的角色）】
+午后的阳光斜斜照进屋子，{角色名}靠在窗边，听到动静抬起头，语气懒懒的："来了？自己找地方坐。"`},
+{cat:'开场白模板',name:'冲突向',desc:'一上来就紧张',content:`【开场白示例】
+门被猛地推开。{角色名}站在门口，目光锋利地盯着你："你还有脸来？"空气瞬间僵住。`},
+{cat:'开场白模板',name:'悬念向',desc:'留一个钩子',content:`【开场白示例】
+深夜，{角色名}的手机突然亮起——一条来自陌生号码的消息："别相信你身边的人。"ta 盯着屏幕良久，缓缓抬起头。`},
+{cat:'风格指令',name:'古风文风',desc:'典雅古韵',content:`行文请使用古风文风：用词典雅凝练，适当化用诗词意象，多用短句与环境描写营造意境；对话符合古代身份，杜绝现代词汇。`},
+{cat:'风格指令',name:'日系轻小说',desc:'细腻清爽',content:`行文请使用日系轻小说文风：贴近视角的心理描写，句子清爽，大量细腻的感官与情绪细节，节奏舒缓。`},
+{cat:'风格指令',name:'冷硬悬疑',desc:'克制冷峻',content:`行文请保持冷硬悬疑风格：语言克制、信息密度高，多用短句和留白制造压迫感，不解释、不煽情。`},
+{cat:'风格指令',name:'幽默日常',desc:'轻松搞笑',content:`行文请保持轻松幽默的日常感：用吐槽、反差和小误会制造笑点，节奏明快，但不要夸张到失真人设。`}
+];
+var FAQ_LIB=[
+{q:'怎么开始用？',a:`① 在「人设卡」页填写 API 地址和 Key（免费资源见 QQ 群 1036501276 的群公告）；
+② 点「测试连接」，再点「一键拉取模型列表」选一个模型；
+③ 然后就能做卡、生成提示词、完善世界书了。`},
+{q:'拉不到模型 / 测试连接失败？',a:`① 确认地址填的是基础域名（如 https://api.deepseek.com，不要带 /v1 或多余路径）；
+② 确认 Key 完整、未过期、余额充足；
+③ 部分中转站不支持 /models 接口，可手动输入模型名试试；
+④ 仍然不行就换一个中转站（群里公告有推荐）。`},
+{q:'V2 / Operit / 纯文本 怎么选？',a:`V2 是酒馆（SillyTavern）通用角色卡格式；Operit 是本工具配套的专属格式；纯文本适合 Character.AI 等场景。不熟悉就先用 V2。`},
+{q:'世界书是什么？',a:`世界书是注入给 AI 的背景资料库，每条包含关键词和内容，聊天中出现关键词时自动触发。用「世界书」TAB 可以一键生成各类条目。`},
+{q:'生图功能怎么用？',a:`在「生图」页填好地址、Key 和模型（生图模型名和聊天模型不同，如 dall-e-3、flux、sdxl），写完提示词点生成即可；也可以用「提示词助手」让 AI 扩写你的需求。`},
+{q:'API Key 安全吗？',a:`Key 只保存在你本机，请求直连你填写的接口，不经过任何第三方。但导出的配置文件会包含 Key，分享前请先清空。`}
+];
+function renderTplLib(){
+ var box=document.getElementById('tplList');
+ if(!box)return;
+ var cats=[];
+ TPL_LIB.forEach(function(it){if(cats.indexOf(it.cat)<0)cats.push(it.cat);});
+ var html='';
+ cats.forEach(function(c){
+ html+='<div style="font-size:12px;color:var(--tx3);margin:10px 0 6px;">'+c+'</div>';
+ TPL_LIB.forEach(function(it,i){
+ if(it.cat!==c)return;
+ html+='<div style="border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;overflow:hidden;">'
+ +'<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;cursor:pointer;" onclick="toggleTpl('+i+')">'
+ +'<div style="font-size:13px;color:var(--tx);">'+it.name+'<span style="font-size:11px;color:var(--tx3);margin-left:8px;">'+it.desc+'</span></div>'
+ +'<span style="color:var(--tx3);font-size:12px;">展开 / 收起</span></div>'
+ +'<div id="tplBody'+i+'" style="display:none;padding:0 12px 10px;">'
+ +'<div style="font-size:12.5px;color:var(--tx2);line-height:1.8;white-space:pre-wrap;background:var(--ta);border-radius:8px;padding:10px;">'+it.content+'</div>'
+ +'<button class="btn btn-small" style="width:auto;margin:8px 0 0;padding:5px 10px;font-size:12px;" onclick="copyAny('+i+')">复制这段</button>'
+ +'</div></div>';
+ });
+ });
+ box.innerHTML=html;
+}
+function renderFaqLib(){
+ var box=document.getElementById('faqList');
+ if(!box)return;
+ box.innerHTML=FAQ_LIB.map(function(it,i){
+ return '<div style="border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;overflow:hidden;">'
+ +'<div style="padding:9px 12px;cursor:pointer;font-size:13px;color:var(--tx);" onclick="toggleFaq('+i+')">'+it.q+'</div>'
+ +'<div id="faqBody'+i+'" style="display:none;padding:0 12px 10px;">'
+ +'<div style="font-size:12.5px;color:var(--tx2);line-height:1.8;white-space:pre-wrap;background:var(--ta);border-radius:8px;padding:10px;">'+it.a+'</div>'
+ +'</div></div>';
+ }).join('');
+}
+function toggleTpl(i){var b=document.getElementById('tplBody'+i);if(!b)return;b.style.display=(b.style.display==='none')?'block':'none';}
+function toggleFaq(i){var b=document.getElementById('faqBody'+i);if(!b)return;b.style.display=(b.style.display==='none')?'block':'none';}
+function copyAny(i){
+ var it=TPL_LIB[i];
+ if(!it)return;
+ var ta=document.createElement('textarea');
+ ta.value=it.content;
+ document.body.appendChild(ta);
+ ta.select();
+ var ok=false;
+ try{ok=document.execCommand('copy');}catch(e){}
+ document.body.removeChild(ta);
+ if(ok){alert('已复制：'+it.name);}else{alert('复制失败，请长按文字手动复制');}
+}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){try{renderTplLib();renderFaqLib();}catch(e){}});}else{try{renderTplLib();renderFaqLib();}catch(e){}}
+
+/* ===== 剧情记忆工坊 ===== */
+var memEntries=[];
+function memApiCheck(){
+ var u=(document.getElementById('apiUrl').value||'').trim();
+ var k=(document.getElementById('apiKey').value||'').trim();
+ var m=(document.getElementById('modelSelect').value||'').trim();
+ var st=document.getElementById('statusMem');
+ if(!u||!k){st.textContent='请先到「人设卡」页填写 API 地址和 Key';st.style.color='#e5484d';return null;}
+ if(!m){st.textContent='请先到「人设卡」页「一键拉取模型列表」并选择模型';st.style.color='#e5484d';return null;}
+ return {u:u,k:k,m:m,st:st};
+}
+async function generateMemory(){
+ var cfg=memApiCheck();
+ if(!cfg){return;}
+ var st=cfg.st;
+ var text=(document.getElementById('memInput').value||'').trim();
+ if(text.length<30){st.textContent='请先粘贴对话/剧情内容（内容太短了）';st.style.color='#e5484d';return;}
+ var count=document.getElementById('memCount').value;
+ var subject=(document.getElementById('memSubject').value||'').trim();
+ var sys=`你是「桐记工坊」内置的剧情记忆整理引擎。用户会给你一段对话记录或剧情内容，你要把它压缩整理成世界书"记忆条目"，供 AI 角色扮演时长期记住已发生的剧情。
+
+【整理要求】
+1. 输出条目数：恰好 ${count} 条
+2. 每条包含：条目名（概括该记忆的主题）、关键词（3~6 个，中文逗号分隔，包含人物名、地点、关键物品或事件名）、内容（80~200 字，只保留对后续剧情重要的事实：发生了什么、关系变化、承诺、秘密、重要物品等，不要流水账）
+3. 按时间顺序整理，保留前因后果；
+4. 不要编造原文中没有的内容。`;
+ if(subject){sys=sys+(`
+
+【本次涉及的角色 / 主题】
+`+subject+'（关键词请尽量包含它）');}
+ st.textContent='整理中...（内容较长时需要一点时间）';st.style.color='';
+ try{
+ var base=getBaseUrl(cfg.u);
+ var res=await fetch(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.k},body:JSON.stringify({model:cfg.m,messages:[{role:'system',content:sys},{role:'user',content:text}],temperature:0.4,max_tokens:2048})});
+ if(!res.ok)throw new Error('HTTP '+res.status);
+ var data=await res.json();
+ var out=((data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content)||'').trim();
+ if(!out)throw new Error('模型返回为空');
+ memEntries=parseWbEntries(out);
+ if(!memEntries.length){st.textContent='解析失败：模型未按格式输出，请重试';st.style.color='#e5484d';return;}
+ renderMemOutput();
+ st.textContent='已生成 '+memEntries.length+' 条记忆条目';
+ }catch(e){st.textContent='生成失败：'+(e.message||'请检查网络');st.style.color='#e5484d';}
+}
+function renderMemOutput(){
+ if(!memEntries.length){return;}
+ var fmt=document.getElementById('memFormat').value;
+ var out='';
+ if(fmt==='st'){
+ var obj={entries:{}};
+ memEntries.forEach(function(e,i){obj.entries[String(i)]={uid:i,key:e.keys,keysecondary:[],comment:e.name,content:e.content,constant:false,selective:true,order:100,position:0,disable:false};});
+ out=JSON.stringify(obj,null,2);
+ }else if(fmt==='json'){
+ var arr=memEntries.map(function(e){return {name:e.name,keys:e.keys,content:e.content};});
+ out=JSON.stringify({name:((document.getElementById('memSubject').value||'').trim()||'剧情记忆'),entries:arr},null,2);
+ }else{
+ out=memEntries.map(function(e){return `【条目名】${e.name}
+【关键词】${e.keys.join('，')}
+【内容】${e.content}`;}).join(`
+
+`);
+ }
+ document.getElementById('memOutput').value=out;
+}
+function downloadMemory(){
+ var out=document.getElementById('memOutput').value;
+ if(!out){alert('请先生成记忆条目！');return;}
+ var fmt=document.getElementById('memFormat').value;
+ var subject=(document.getElementById('memSubject').value||'记忆').trim()||'记忆';
+ var ext=(fmt==='txt')?'txt':'json';
+ saveTextFile(subject+'_记忆条目_'+Date.now()+'.'+ext, out);
+}
+
+/* ===== 状态栏工坊 ===== */
+function sbApiCheck(){
+ var u=(document.getElementById('apiUrl').value||'').trim();
+ var k=(document.getElementById('apiKey').value||'').trim();
+ var m=(document.getElementById('modelSelect').value||'').trim();
+ var st=document.getElementById('statusSb');
+ if(!u||!k){st.textContent='请先到「人设卡」页填写 API 地址和 Key';st.style.color='#e5484d';return null;}
+ if(!m){st.textContent='请先到「人设卡」页「一键拉取模型列表」并选择模型';st.style.color='#e5484d';return null;}
+ return {u:u,k:k,m:m,st:st};
+}
+async function generateStatusBar(){
+ var cfg=sbApiCheck();
+ if(!cfg){return;}
+ var st=cfg.st;
+ var desc=(document.getElementById('sbDesc').value||'').trim();
+ if(!desc){st.textContent='请先描述你想要的状态栏';st.style.color='#e5484d';return;}
+ var styleMap={auto:'由你根据描述决定',guofeng:'古风淡雅（米白、墨色、淡金）',xiandai:'现代简约（白底、细边框、灰蓝点缀）',youxi:'游戏界面（深色底、金框、数值感）',heian:'暗黑炫酷（黑底、霓虹紫或青色）'};
+ var styleLabel=styleMap[document.getElementById('sbStyle').value]||'由你根据描述决定';
+ var sys=`你是「桐记工坊」内置的状态栏设计引擎。用户会描述想要的状态栏（显示哪些信息、什么风格），你要产出两部分内容。
+
+【第一部分：输出指令】
+写给角色扮演 AI 的指令（用户会把它放进世界书或提示词），要求：
+- 明确要求 AI 在每轮回复结尾，原样输出一个状态栏标签块：以 <status> 开头、以 </status> 结尾（标签名不要改动）；
+- 标签内每行一个"字段名：值"，涵盖用户要求的字段；
+- 数量 2~6 行，简洁明确，指令全文控制在 150 字以内。
+
+【第二部分：HTML 模板】
+一块用于漂亮展示状态栏的 HTML：
+- 单个 div 容器，全部样式写在 style 内联属性里（禁止 class、禁止外部 CSS、禁止 script）；
+- 必须包含占位符 $1（放在容器内部、保持原样，它代表状态内容）；
+- 使用 white-space:pre-wrap 保留换行；配色风格：${styleLabel}；
+- 宽度自适应（如 width:100%；box-sizing:border-box），圆角、内边距 10px 左右、字号 12~13px；
+- 代码紧凑、无注释。
+
+【输出格式】严格按下面格式输出，不要输出任何其他内容：
+【指令】
+（指令全文）
+【HTML】
+（HTML 代码）`;
+ st.textContent='生成中...';st.style.color='';
+ try{
+ var base=getBaseUrl(cfg.u);
+ var res=await fetch(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.k},body:JSON.stringify({model:cfg.m,messages:[{role:'system',content:sys},{role:'user',content:desc}],temperature:0.8,max_tokens:1600})});
+ if(!res.ok)throw new Error('HTTP '+res.status);
+ var data=await res.json();
+ var out=((data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content)||'').trim();
+ out=out.split('```').join('');
+ var i1=out.indexOf('【指令】');
+ var i2=out.indexOf('【HTML】');
+ if(i1<0||i2<0||i2<=i1)throw new Error('模型未按格式输出，请重试');
+ var instr=out.slice(i1+4,i2).trim();
+ var html=out.slice(i2+6).trim();
+ while(instr&&(instr.charAt(0)===':'||instr.charAt(0)==='：')){instr=instr.slice(1).trim();}
+ if(!instr||!html)throw new Error('模型未按格式输出，请重试');
+ if(html.indexOf('$1')<0){html='<div style="width:100%;box-sizing:border-box;white-space:pre-wrap;background:#1b1b1f;color:#e8e8ea;border:1px solid #444;border-radius:10px;padding:10px;font-size:13px;line-height:1.7;">$1</div>';}
+ document.getElementById('sbInstruction').value=instr;
+ document.getElementById('sbHtml').value=html;
+ var BS=String.fromCharCode(92);
+ var rule={id:'sb_'+Date.now(),scriptName:'状态栏显示',findRegex:'/<status>([^]*?)<'+BS+'/status>/g',replaceString:html,trimStrings:[],placement:[2],disabled:false,markdownOnly:true,promptOnly:false,runOnEdit:true,substituteRegex:0,minDepth:null,maxDepth:null};
+ document.getElementById('sbRule').value=JSON.stringify([rule],null,2);
+ st.textContent='已生成状态栏三件套，可分别复制使用';
+ }catch(e){st.textContent='生成失败：'+(e.message||'请检查网络');st.style.color='#e5484d';}
+}
+function downloadSbRule(){
+ var out=document.getElementById('sbRule').value;
+ if(!out){alert('请先生成状态栏！');return;}
+ saveTextFile('状态栏规则_'+Date.now()+'.json', out);
+}
+
+/* ===== 聊天（迷你酒馆） ===== */
+var CHAT_NL=String.fromCharCode(10);
+var chatMsgs=[];
+var chatStreaming=false;
+var chatAbort=null;
+function chatCfg(){
+ var u=(document.getElementById('chatApiUrl').value||'').trim();
+ var k=(document.getElementById('chatApiKey').value||'').trim();
+ var m=(document.getElementById('chatModelSelect').value||'').trim();
+ if(!u)u=(document.getElementById('apiUrl').value||'').trim();
+ if(!k)k=(document.getElementById('apiKey').value||'').trim();
+ if(!m){var ms=document.getElementById('modelSelect');if(ms)m=(ms.value||'').trim();}
+ return {u:u,k:k,m:m};
+}
+function chatStatusMsg(t,err){
+ var el=document.getElementById('chatStatus');
+ if(!el)return;
+ el.textContent=t||'';
+ el.style.color=err?'#e5484d':'';
+}
+async function fetchChatModels(){
+ var u=(document.getElementById('chatApiUrl').value||'').trim()||(document.getElementById('apiUrl').value||'').trim();
+ var k=(document.getElementById('chatApiKey').value||'').trim()||(document.getElementById('apiKey').value||'').trim();
+ if(!u||!k){chatStatusMsg('请先填写 API 地址和 Key（本页或人设卡页）',true);return;}
+ chatStatusMsg('正在拉取模型...');
+ try{
+ var base=getBaseUrl(u);
+ var res=await fetch(base+'/models',{headers:{'Authorization':'Bearer '+k}});
+ if(!res.ok)throw new Error('HTTP '+res.status);
+ var data=await res.json();
+ var list=(data.data||data.models||[]).map(function(m){return m.id||m.name||m;}).filter(function(x){return !!x;});
+ var sel=document.getElementById('chatModelSelect');
+ if(!list.length){chatStatusMsg('没有拉到模型，请检查地址和 Key',true);return;}
+ sel.innerHTML=list.map(function(m){return '<option value="'+m+'">'+m+'</option>';}).join('');
+ chatStatusMsg('已拉取到 '+list.length+' 个模型，请选择');
+ }catch(e){chatStatusMsg('拉取失败：'+(e.message||'请检查网络'),true);}
+}
+function chatCopyMain(){
+ var u=(document.getElementById('apiUrl').value||'').trim();
+ var k=(document.getElementById('apiKey').value||'').trim();
+ var m=(document.getElementById('modelSelect').value||'').trim();
+ if(u)document.getElementById('chatApiUrl').value=u;
+ if(k)document.getElementById('chatApiKey').value=k;
+ if(m)setSelectValue('chatModelSelect',m);
+ saveChatCfg();
+ chatStatusMsg('已沿用主配置');
+}
+function chatImportPersona(){
+ var n=(document.getElementById('charName').value||'').trim();
+ var d=(document.getElementById('charDesc').value||'').trim();
+ var pr=(document.getElementById('charPersonality').value||'').trim();
+ var f=(document.getElementById('charFirstMes').value||'').trim();
+ if(!n&&!d&&!pr&&!f){chatStatusMsg('「人设卡」页还没有填写内容',true);return;}
+ document.getElementById('chatCharName').value=n;
+ var per='';
+ if(d)per+='【身份简介】'+d+CHAT_NL;
+ if(pr)per+='【性格】'+pr;
+ document.getElementById('chatPersona').value=per;
+ document.getElementById('chatFirstMes').value=f;
+ saveChatCfg();
+ chatStatusMsg('已从「人设卡」导入角色信息');
+}
+function saveChatCfg(){
+ try{
+ var o={u:document.getElementById('chatApiUrl').value,model:document.getElementById('chatModelSelect').value,name:document.getElementById('chatCharName').value,persona:document.getElementById('chatPersona').value,first:document.getElementById('chatFirstMes').value,temp:document.getElementById('chatTemp').value,topP:document.getElementById('chatTopP').value,maxTok:document.getElementById('chatMaxTok').value,ctx:document.getElementById('chatCtxRounds').value};
+ localStorage.setItem('toolChatCfg',JSON.stringify(o));var sC=chatFind(chatCurId);if(sC){sC.name=(o.name||'').trim();sC.persona=o.persona||'';sC.first=o.first||'';localStorage.setItem('toolChatSessions',JSON.stringify(chatSessions));}
+ }catch(e){}
+}
+function loadChatCfg(){
+ try{
+ var o=JSON.parse(localStorage.getItem('toolChatCfg')||'{}');
+ if(o.u)document.getElementById('chatApiUrl').value=o.u;
+ if(o.model)setSelectValue('chatModelSelect',o.model);
+ if(o.name)document.getElementById('chatCharName').value=o.name;
+ if(o.persona)document.getElementById('chatPersona').value=o.persona;
+ if(o.first)document.getElementById('chatFirstMes').value=o.first;
+ if(o.temp)document.getElementById('chatTemp').value=o.temp;
+ if(o.topP)document.getElementById('chatTopP').value=o.topP;
+ if(o.maxTok)document.getElementById('chatMaxTok').value=o.maxTok;
+if(o.ctx)document.getElementById('chatCtxRounds').value=o.ctx;
+ }catch(e){}
+}
+function saveChat(){
+ try{
+ var s=chatFind(chatCurId);
+ if(s){s.name=(document.getElementById('chatCharName').value||'').trim();s.persona=(document.getElementById('chatPersona').value||'').trim();s.first=(document.getElementById('chatFirstMes').value||'').trim();s.msgs=chatMsgs.slice(-160);s.updatedAt=Date.now();}
+ localStorage.setItem('toolChatSessions',JSON.stringify(chatSessions));
+ localStorage.setItem('toolChatCur',chatCurId);
+ }catch(e){}
+}
+function loadChat(){
+ try{
+ var sess=JSON.parse(localStorage.getItem('toolChatSessions')||'[]');
+ if(sess&&sess.length){
+ chatSessions=sess;
+ chatCurId=localStorage.getItem('toolChatCur')||'';
+ }
+ if(!chatSessions.length){
+ var oldMsgs=JSON.parse(localStorage.getItem('toolChatMsgs')||'[]');
+ var cfg0={};
+ try{cfg0=JSON.parse(localStorage.getItem('toolChatCfg')||'{}');}catch(e0){}
+ var s0={id:'s'+Date.now(),name:cfg0.name||'',persona:cfg0.persona||'',first:cfg0.first||'',msgs:oldMsgs||[],updatedAt:Date.now()};
+ chatSessions=[s0];
+ chatCurId=s0.id;
+ }
+ if(!chatFind(chatCurId)){chatCurId=chatSessions[0].id;}
+ chatApplySessionToUI();
+ }catch(e){}
+}
+function escChat(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function renderChat(){
+ var box=document.getElementById('chatBox');
+ if(!box)return;
+ if(!chatMsgs.length){box.innerHTML='<div style="color:var(--tx3);font-size:12px;text-align:center;padding:20px 0;">还没有消息，点「新对话」或直接发送开始</div>';return;}
+ box.innerHTML=chatMsgs.map(function(m){var isU=m.role==='user';var av=chatAvatarHtml(isU);var cName2=((chatFind(chatCurId)||{}).name||'').trim()||'角色';var appA=chatApp();var showName=(appA.sn!==false);var nm=showName?('<div class="chat-name">'+escChat(isU?'我':cName2)+'</div>'):'';var st='';if(isU){if(appA.uc){st='background:'+appA.uc+';color:'+chatTextOn(appA.uc)+';border:none;';}}else{if(appA.ac){st='background:'+appA.ac+';color:'+chatTextOn(appA.ac)+';border:1px solid var(--bd);';}}var imgHtml=m.img?('<img class="chat-img" src="'+m.img+'">'):'';var bub='<div class="chat-bubble"'+(st?(' style="'+st+'"'):'')+'>'+imgHtml+chatRenderContent(m.content)+'</div>';var col='<div class="chat-col">'+nm+bub+'</div>';return '<div class="chat-row '+(isU?'chat-u':'chat-a')+'">'+(isU?(col+av):(av+col))+'</div>';}).join('');
+ chatApplyAppearance();
+ box.scrollTop=box.scrollHeight;
+}
+function updateChatLast(){
+ var box=document.getElementById('chatBox');
+ if(!box)return;
+ var els=box.querySelectorAll('.chat-bubble');
+ if(els.length)els[els.length-1].textContent=chatMsgs[chatMsgs.length-1].content;
+ box.scrollTop=box.scrollHeight;
+}
+function chatNewSession(){
+ if(chatStreaming)return;
+ chatMsgs=[];
+ var first=(document.getElementById('chatFirstMes').value||'').trim();
+ if(first)chatMsgs.push({role:'assistant',content:first});
+ saveChat();renderChat();
+ chatStatusMsg('已开启新对话');
+}
+function chatVib(){
+ var c=document.getElementById('chatVibChk');
+ if(!c||!c.checked)return;
+ if(navigator.vibrate)try{navigator.vibrate(40);}catch(e){}
+}
+function chatKey(e){
+ if(e&&e.key==='Enter'&&!e.shiftKey){e.preventDefault();chatSend();}
+}
+async function chatSend(){
+ if(chatStreaming){return;}
+ var input=document.getElementById('chatInput');
+ var text=(input.value||'').trim();
+ if(!text){return;}
+ var low=String(text).toLowerCase();
+ if(low.indexOf('/draw')===0){
+ input.value='';
+ await chatDraw(String(text).slice(5).trim());
+ return;
+ }
+ var cfg=chatCfg();
+ if(!cfg.u||!cfg.k){chatStatusMsg('请先配置 API 地址和 Key（本页或人设卡页）',true);return;}
+ if(!cfg.m){chatStatusMsg('请先选择模型（拉取本页模型或到人设卡页配置）',true);return;}
+ var npcs0=chatNpcs();
+ if(npcs0.length){
+ var npcChanged=false;
+ npcs0.forEach(function(x0){if(x0.n&&text.indexOf('@'+x0.n)>=0&&!x0.in){x0.in=true;npcChanged=true;}});
+ if(npcChanged){saveChat();renderNpcList();chatStatusMsg('已召唤 NPC 出场');}
+ }
+ input.value='';
+ chatMsgs.push({role:'user',content:text});
+ renderChat();saveChat();
+ await chatGenerate();
+}
+async function chatGenerate(){
+ if(chatStreaming){return;}
+ var cfg=chatCfg();
+ if(!cfg.u||!cfg.k){chatStatusMsg('请先配置 API 地址和 Key',true);return;}
+ if(!cfg.m){chatStatusMsg('请先选择模型',true);return;}
+ chatStreaming=true;
+ document.getElementById('chatStopBtn').style.display='inline-block';
+ chatStatusMsg('生成中...');
+ var name=(document.getElementById('chatCharName').value||'').trim();
+ var per=(document.getElementById('chatPersona').value||'').trim();
+ var sys='你现在扮演角色「'+(name||'角色')+'」与用户对话。始终保持该角色的身份、性格、语气与说话方式，不要跳出角色，不要以旁白身份说话。';
+ if(per){sys=sys+CHAT_NL+CHAT_NL+per;}
+ var stkArr=chatStickers();
+ if(stkArr.length){var ks=stkArr.map(function(x){return x.k;}).join('、');sys=sys+CHAT_NL+CHAT_NL+'【表情包】你可以使用以下表情包：'+ks+'。觉得合适时，在回复的末尾或句间单独输出 [表情:关键词]（例如 [表情:'+stkArr[0].k+']），系统会自动替换成图片；不要滥用，1~2轮最多用1个。';}
+ var sprArr=((chatFind(chatCurId)||{}).spr)||[];
+ if(sprArr.length){var sk=sprArr.map(function(x){return x.k;}).join('、');sys=sys+CHAT_NL+CHAT_NL+'【立绘】可用立绘：'+sk+'。情节明显变化（如情绪、场景）时，可输出 [立绘:关键词] 切换角色立绘，系统会自动切换并移除标记。';}
+ var wbChk=document.getElementById('chatWbOn');
+ if(wbChk&&wbChk.checked){
+ var wbArr=chatWbArr();
+ if(wbArr.length){
+ var recent='';
+ chatMsgs.slice(-6).forEach(function(m){if(m.role==='user'||m.role==='assistant')recent=recent+m.content+CHAT_NL;});
+ var hit=[];
+ for(var wi=0;wi<wbArr.length&&hit.length<5;wi++){
+ var e2=wbArr[wi];
+ for(var ki2=0;ki2<e2.k.length;ki2++){
+ if(e2.k[ki2]&&recent.indexOf(e2.k[ki2])>=0){hit.push(e2);break;}
+ }
+ }
+ if(hit.length){
+ sys=sys+CHAT_NL+CHAT_NL+'【世界书参考】';
+ hit.forEach(function(e3){sys=sys+CHAT_NL+'【'+e3.n+'】'+e3.c;});
+ }
+ }
+ }
+ var prmChk=document.getElementById('chatPrmOn');
+ if(prmChk&&prmChk.checked){
+ var pinj=chatPromptInjection();
+ if(pinj){sys=sys+CHAT_NL+CHAT_NL+pinj;}
+ }
+ var npcArr2=chatNpcs();
+ if(npcArr2.length){
+ var pin2=[];
+ npcArr2.forEach(function(x2){if(x2.in&&x2.n)pin2.push(x2);});
+ if(pin2.length){
+ var npcLines='';
+ pin2.forEach(function(x3){npcLines=npcLines+CHAT_NL+'· '+x3.n+(x3.r?('（'+x3.r+'）'):'')+(x3.p?('｜'+x3.p):'');});
+ var actOn0=document.getElementById('npcActOn');
+ if(actOn0&&actOn0.checked){
+ sys=sys+CHAT_NL+CHAT_NL+'【在场 NPC】'+npcLines+CHAT_NL+'这些 NPC 由系统单独驱动发言，你的回复只专注主演角色，不要替他们说话（可在叙述中简略带过他们的存在）。';
+ }else{
+ sys=sys+CHAT_NL+CHAT_NL+'【配角扮演要求】本场景包含以下在场 NPC：'+npcLines+CHAT_NL+'你必须积极扮演这些 NPC：让他们有实际的台词、动作与反应，不要只让主角一个人演；不同 NPC 的说话方式与性格要有明显区分，不得混淆；NPC 不在场时按剧情自然处理。每次回复尽量让在场 NPC 中至少一人有描写或台词（场景允许时）。';
+ }
+ }
+ }
+ var msgs=[{role:'system',content:sys}];
+ var ctxN=parseInt(document.getElementById('chatCtxRounds').value,10);if(!ctxN||ctxN<2)ctxN=40;chatMsgs.slice(-ctxN).forEach(function(m){if(m.role==='user'||m.role==='assistant')msgs.push({role:m.role,content:m.content});});
+ var useStream=!!(document.getElementById('chatStreamChk')&&document.getElementById('chatStreamChk').checked);
+ var temp=parseFloat(document.getElementById('chatTemp').value);if(isNaN(temp))temp=0.8;
+ var topP=parseFloat(document.getElementById('chatTopP').value);if(isNaN(topP))topP=1;
+ var maxTok=parseInt(document.getElementById('chatMaxTok').value,10);if(!maxTok)maxTok=2048;
+ try{
+ var base=getBaseUrl(cfg.u);
+ var body={model:cfg.m,messages:msgs,temperature:temp,top_p:topP,max_tokens:maxTok};
+ if(useStream)body.stream=true;
+ chatAbort=new AbortController();
+ var res=await fetch(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.k},body:JSON.stringify(body),signal:chatAbort.signal});
+ if(!res.ok){var t='';try{t=await res.text();}catch(e2){}throw new Error('HTTP '+res.status+(t?(' '+t.slice(0,80)):''));}
+ if(useStream){
+ chatMsgs.push({role:'assistant',content:''});
+ renderChat();
+ var idx=chatMsgs.length-1;
+ var reader=res.body.getReader();
+ var dec=new TextDecoder();
+ var buf='';
+ while(true){
+ var rd=await reader.read();
+ if(rd.done)break;
+ buf+=dec.decode(rd.value,{stream:true});
+ var pos;
+ while((pos=buf.indexOf(CHAT_NL))>=0){
+ var line=buf.slice(0,pos).trim();
+ buf=buf.slice(pos+1);
+ if(!line||line.indexOf('data:')!==0)continue;
+ var pl=line.slice(5).trim();
+ if(pl==='[DONE]')continue;
+ var piece='';
+ try{
+ var j=JSON.parse(pl);
+ var c=j.choices&&j.choices[0];
+ var d=c?(c.delta&&c.delta.content?c.delta.content:(c.message&&c.message.content?c.message.content:'')):'';
+ if(d)piece=d;
+ }catch(e){}
+ if(piece){chatMsgs[idx].content+=piece;updateChatLast();}
+ }
+ }
+ if(!chatMsgs[idx].content)chatMsgs[idx].content='（空回复）';
+ }else{
+ var data=await res.json();
+ var out=((data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content)||'').trim();
+ chatMsgs.push({role:'assistant',content:out||'（空回复）'});
+ renderChat();
+ }
+ var li=chatMsgs.length-1;
+ if(li>=0){chatMsgs[li].content=chatApplySpriteMarkers(chatMsgs[li].content);}
+ if(li>=0){chatTrackStatus(chatMsgs[li].content);}
+ saveChat();
+ renderChat();
+ chatStatusMsg('生成完成');
+ chatVib();
+ var npcAct1=document.getElementById('npcActOn');
+ if(npcAct1&&npcAct1.checked){
+ var pin3=[];
+ chatNpcs().forEach(function(x4){if(x4.in&&x4.n)pin3.push(x4);});
+ if(pin3.length){await npcPerform(pin3);}
+ }
+ }catch(e){
+ var em=((e&&e.message)||'').toLowerCase();
+ if(em.indexOf('abort')>=0){chatStatusMsg('已停止生成');}
+ else{chatStatusMsg('生成失败：'+(e.message||'请检查网络'),true);}
+ }finally{
+ chatStreaming=false;
+ document.getElementById('chatStopBtn').style.display='none';
+ chatAbort=null;
+ }
+}
+function chatStop(){if(chatAbort){try{chatAbort.abort();}catch(e){}}}
+function chatRegen(){
+ if(chatStreaming)return;
+ while(chatMsgs.length&&chatMsgs[chatMsgs.length-1].role!=='user'){chatMsgs.pop();}
+ if(!chatMsgs.length){chatStatusMsg('没有可重新生成的内容',true);return;}
+ saveChat();renderChat();
+ chatGenerate();
+}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){try{loadChatCfg();loadChat();loadChatApp();chatRenderSessionSel();renderChat();}catch(e){}});}else{try{loadChatCfg();loadChat();loadChatApp();chatRenderSessionSel();renderChat();}catch(e){}}
+
+/* ===== 聊天：多会话 + 数据管理 ===== */
+var chatSessions=[];
+var chatCurId='';
+function chatFind(id){for(var i=0;i<chatSessions.length;i++){if(chatSessions[i].id===id){return chatSessions[i];}}return null;}
+function chatRenderSessionSel(){
+ var sel=document.getElementById('chatSessionSel');
+ if(!sel)return;
+ var arr=chatSessions.slice().sort(function(a,b){return (b.updatedAt||0)-(a.updatedAt||0);});
+ sel.innerHTML=arr.map(function(s){var nm=(s.name||'').trim()||'未命名会话';var c=(s.msgs&&s.msgs.length)?('（'+s.msgs.length+'条）'):'（空）';return '<option value="'+s.id+'">'+escChat(nm+c)+'</option>';}).join('');
+ sel.value=chatCurId;
+}
+function chatApplySessionToUI(){
+ var cur=chatFind(chatCurId);
+ if(!cur)return;
+ chatMsgs=cur.msgs||[];
+ document.getElementById('chatCharName').value=cur.name||'';
+ document.getElementById('chatPersona').value=cur.persona||'';
+ document.getElementById('chatFirstMes').value=cur.first||'';
+ chatRefreshSpriteSel();
+ renderNpcList();
+}
+function chatSwitchSession(){
+ if(chatStreaming)return;
+ saveChat();
+ var id=document.getElementById('chatSessionSel').value;
+ if(!id||id===chatCurId){chatRenderSessionSel();return;}
+ chatCurId=id;
+ chatApplySessionToUI();
+ saveChatCfg();
+ renderChat();
+ chatStatusMsg('已切换会话');
+}
+function chatCreateSession(){
+ if(chatStreaming)return;
+ saveChat();
+ var s={id:'s'+Date.now(),name:'',persona:'',first:'',msgs:[],updatedAt:Date.now()};
+ chatSessions.push(s);
+ chatCurId=s.id;
+ chatMsgs=[];
+ document.getElementById('chatCharName').value='';
+ document.getElementById('chatPersona').value='';
+ document.getElementById('chatFirstMes').value='';
+ chatRenderSessionSel();
+ renderChat();
+ chatStatusMsg('已新建会话，填写角色设定后即可开聊');
+}
+function chatDelSession(){
+ if(chatStreaming)return;
+ if(!confirm('确定删除当前会话吗？删除后不可恢复！'))return;
+ var arr=chatSessions.filter(function(s){return s.id!==chatCurId;});
+ if(!arr.length){arr=[{id:'s'+Date.now(),name:'',persona:'',first:'',msgs:[],updatedAt:Date.now()}];}
+ chatSessions=arr;
+ chatCurId=chatSessions[0].id;
+ chatApplySessionToUI();
+ saveChat();
+ chatRenderSessionSel();
+ renderChat();
+ chatStatusMsg('已删除会话');
+}
+function chatExport(fmt){
+ saveChat();
+ var cur=chatFind(chatCurId);
+ var name=((cur&&cur.name)||'聊天记录').trim()||'聊天记录';
+ if(!chatMsgs.length){chatStatusMsg('没有可导出的内容',true);return;}
+ if(fmt==='txt'){
+ var t=chatMsgs.map(function(m){return (m.role==='user'?'我：':('【'+name+'】：'))+m.content;}).join(CHAT_NL+CHAT_NL);
+ saveTextFile(name+'_聊天记录_'+Date.now()+'.txt',t);
+ }else{
+ var o={name:(cur&&cur.name)||'',persona:(cur&&cur.persona)||'',first:(cur&&cur.first)||'',exportedAt:new Date().toString(),msgs:chatMsgs};
+ saveTextFile(name+'_聊天存档_'+Date.now()+'.json',JSON.stringify(o,null,2));
+ }
+ chatStatusMsg('已导出');
+}
+function chatRR(o,x,y,w,h,r){o.beginPath();o.moveTo(x+r,y);o.arcTo(x+w,y,x+w,y+h,r);o.arcTo(x+w,y+h,x,y+h,r);o.arcTo(x,y+h,x,y,r);o.arcTo(x,y,x+w,y,r);o.closePath();}
+function chatShareImage(){
+ if(!chatMsgs.length){chatStatusMsg('没有可分享的内容',true);return;}
+ chatStatusMsg('正在生成分享图...');
+ try{
+ var W=720,PAD=24,GAP=14,FS=16,LH=26;
+ var cv=document.createElement('canvas');
+ var ctx=cv.getContext('2d');
+ var maxW=W-PAD*2-120;
+ function wrapText(text){
+ var lines=[];var cur='';
+ ctx.font=FS+'px sans-serif';
+ for(var i=0;i<text.length;i++){
+ var ch=text.charAt(i);
+ if(ch===CHAT_NL){lines.push(cur);cur='';continue;}
+ if(ctx.measureText(cur+ch).width>maxW){lines.push(cur);cur=ch;}else{cur=cur+ch;}
+ }
+ lines.push(cur);
+ return lines;
+ }
+ var blocks=[];
+ chatMsgs.forEach(function(m){
+ var lines=wrapText(String(m.content||''));
+ blocks.push({u:m.role==='user',lines:lines,bh:lines.length*LH+24});
+ });
+ var headH=76;
+ var totalH=headH+PAD;
+ blocks.forEach(function(b){totalH+=b.bh+GAP;});
+ totalH+=PAD;
+ cv.width=W;cv.height=totalH;
+ var g=ctx.createLinearGradient(0,0,0,totalH);
+ g.addColorStop(0,'#f7f8fa');g.addColorStop(1,'#eef1f6');
+ ctx.fillStyle=g;ctx.fillRect(0,0,W,totalH);
+ var cur2=chatFind(chatCurId);
+ var tname=((cur2&&cur2.name)||'聊天记录').trim()||'聊天记录';
+ ctx.fillStyle='#111';ctx.font='bold 22px sans-serif';
+ ctx.fillText(tname,W/2-ctx.measureText(tname).width/2,46);
+ ctx.fillStyle='#9aa0a6';ctx.font='12px sans-serif';
+ var sub='桐记工坊 · '+new Date().toLocaleDateString();
+ ctx.fillText(sub,W/2-ctx.measureText(sub).width/2,64);
+ var y=headH+PAD;
+ ctx.font=FS+'px sans-serif';
+ blocks.forEach(function(b){
+ var tw=0;
+ b.lines.forEach(function(l){var m2=ctx.measureText(l).width;if(m2>tw)tw=m2;});
+ var bw=Math.min(maxW+28,tw+28);
+ var x=b.u?(W-PAD-bw):PAD;
+ ctx.fillStyle=b.u?'#4d6bfe':'#ffffff';
+ chatRR(ctx,x,y,bw,b.bh,12);ctx.fill();
+ if(!b.u){ctx.strokeStyle='#e5e7eb';ctx.lineWidth=1;chatRR(ctx,x,y,bw,b.bh,12);ctx.stroke();ctx.fillStyle='#222';}else{ctx.fillStyle='#ffffff';}
+ var ty=y+18+FS;
+ b.lines.forEach(function(l){ctx.fillText(l,x+14,ty);ty+=LH;});
+ y+=b.bh+GAP;
+ });
+ var data=cv.toDataURL('image/png');
+ var fn='聊天分享_'+Date.now()+'.png';
+ if(window.Android&&typeof Android.saveImage==='function'){try{Android.saveImage(fn,data);}catch(e){}}
+ else{var a=document.createElement('a');a.href=data;a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);}
+ chatStatusMsg('分享图已生成并保存到下载目录');
+ }catch(e){chatStatusMsg('生成分享图失败：'+(e.message||''),true);}
+}
+
+/* ===== 聊天：外观系统 ===== */
+function chatApp(){try{return JSON.parse(localStorage.getItem('toolChatApp')||'{}');}catch(e){return {};}}
+function chatCurAv(){var s=chatFind(chatCurId);return (s&&s.av)||'';}
+function chatTextOn(hex){
+ try{
+ hex=String(hex||'').replace('#','');
+ if(hex.length===3)hex=hex.charAt(0)+hex.charAt(0)+hex.charAt(1)+hex.charAt(1)+hex.charAt(2)+hex.charAt(2);
+ var r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);
+ var lum=(r*299+g*587+b*114)/1000;
+ return lum>170?'#222':'#fff';
+ }catch(e){return '#fff';}
+}
+function chatAvatarHtml(isUser){
+ var app=chatApp();
+ var src=isUser?app.uav:chatCurAv();
+ if(src)return '<img class="chat-av" src="'+src+'">';
+ var name=isUser?'我':(((chatFind(chatCurId)||{}).name)||'角');
+ return '<div class="chat-av chat-av-ph">'+escChat(String(name).charAt(0))+'</div>';
+}
+function chatApplyAppearance(){
+ var box=document.getElementById('chatBox');
+ if(!box)return;
+ var app=chatApp();
+ var fs=parseFloat(app.fs);if(isNaN(fs)||fs<10||fs>24)fs=13.5;
+ box.style.fontSize=fs+'px';
+ box.className='chat-box'+(app.bs?(' bs-'+app.bs):'');
+ var bgs=app.bgs||'auto';
+ if(app.bg){
+ box.style.backgroundImage='url('+app.bg+')';
+ box.style.backgroundSize='cover';
+ box.style.backgroundPosition='center';
+ }else{
+ box.style.backgroundImage='';
+ if(bgs==='pure')box.style.background='#f2f3f5';
+ else if(bgs==='grad1')box.style.background='linear-gradient(160deg,#e8f3ff,#d7e6ff)';
+ else if(bgs==='grad2')box.style.background='linear-gradient(160deg,#fff6e8,#ffe8d3)';
+ else if(bgs==='grad3')box.style.background='linear-gradient(160deg,#1c1c22,#131317)';
+ else box.style.background='';
+ }
+ var wfBox=document.getElementById('chatWifuBox');
+ var wfImg=document.getElementById('chatWifuImg');
+ var s2=chatFind(chatCurId);
+ var av=chatCurAv();
+ if(s2&&s2.sprCur&&s2.spr){for(var si=0;si<s2.spr.length;si++){if(s2.spr[si].k===s2.sprCur){av=s2.spr[si].d||av;break;}}}
+ if(wfBox&&wfImg){
+ if(app.wf&&av){wfBox.style.display='block';wfImg.src=av;wfImg.style.opacity=((parseFloat(app.wo)||60)/100);}
+ else{wfBox.style.display='none';}
+ }
+ var bd=document.body;
+ if(app.imm){
+ bd.style.backgroundImage=app.bg?('url('+app.bg+')'):'';
+ bd.style.backgroundSize='cover';
+ bd.style.backgroundPosition='center';
+ }else{
+ bd.style.backgroundImage='';
+ }
+}
+function saveChatApp(){
+ try{
+ var o=chatApp();
+ o.bs=document.getElementById('chatBubbleStyle').value;
+ o.uc=document.getElementById('chatUserColor').value;
+ o.ac=document.getElementById('chatAiColor').value;
+ o.fs=document.getElementById('chatFontSize').value;
+ o.sn=document.getElementById('chatShowName').checked;
+ o.wf=document.getElementById('chatWifuChk').checked;
+ o.wo=document.getElementById('chatWifuOp').value;
+ o.bgs=document.getElementById('chatBgPreset').value;
+ localStorage.setItem('toolChatApp',JSON.stringify(o));
+ }catch(e){}
+ chatApplyAppearance();
+ renderChat();
+}
+function loadChatApp(){
+ var app=chatApp();
+ try{
+ if(app.bs)document.getElementById('chatBubbleStyle').value=app.bs;
+ if(app.uc)document.getElementById('chatUserColor').value=app.uc;
+ if(app.ac)document.getElementById('chatAiColor').value=app.ac;
+ if(app.fs)document.getElementById('chatFontSize').value=app.fs;
+ if(app.sn!==undefined)document.getElementById('chatShowName').checked=!!app.sn;
+ if(app.wf)document.getElementById('chatWifuChk').checked=true;
+ if(app.wo)document.getElementById('chatWifuOp').value=app.wo;
+ if(app.bgs)document.getElementById('chatBgPreset').value=app.bgs;
+ try{chatStickerCount();chatRefreshSpriteSel();if(app.wbOn===false)document.getElementById('chatWbOn').checked=false;if(app.prmOn)document.getElementById('chatPrmOn').checked=true;if(app.npcAct)document.getElementById('npcActOn').checked=true;if(app.imm){document.body.classList.add('chat-immersive');var ck0=document.getElementById('chatImmersiveChk');if(ck0)ck0.checked=true;}chatWbCount();}catch(e9){}
+ }catch(e){}
+ chatApplyAppearance();
+}
+function chatReadImageCompressed(file,maxDim,quality,cb){
+ if(!file){cb('');return;}
+ if(file.size>8*1024*1024){alert('图片过大（超过8MB），请换一张');cb('');return;}
+ var r=new FileReader();
+ r.onload=function(e){
+ var img=new Image();
+ img.onload=function(){
+ var d='';
+ try{
+ var w=img.width||320,h=img.height||320;
+ var scale=Math.min(1,maxDim/Math.max(w,h));
+ var cw=Math.max(1,Math.round(w*scale)),chh=Math.max(1,Math.round(h*scale));
+ var cv=document.createElement('canvas');
+ cv.width=cw;cv.height=chh;
+ var ctx=cv.getContext('2d');
+ ctx.drawImage(img,0,0,cw,chh);
+ d=cv.toDataURL('image/jpeg',quality);
+ }catch(e2){d=String(e.target.result||'');}
+ cb(d);
+ };
+ img.onerror=function(){alert('图片读取失败');cb('');};
+ img.src=String(e.target.result);
+ };
+ r.onerror=function(){alert('图片读取失败');cb('');};
+ r.readAsDataURL(file);
+}
+function chatPickAvatar(inp){
+ var f=inp.files&&inp.files[0];
+ chatReadImageCompressed(f,320,0.85,function(d){
+ if(d){var s=chatFind(chatCurId);if(s){s.av=d;saveChat();}chatStatusMsg('角色头像已更新');}
+ renderChat();chatApplyAppearance();
+ inp.value='';
+ });
+}
+function chatPickUserAvatar(inp){
+ var f=inp.files&&inp.files[0];
+ chatReadImageCompressed(f,320,0.85,function(d){
+ if(d){var o=chatApp();o.uav=d;try{localStorage.setItem('toolChatApp',JSON.stringify(o));}catch(e){}chatStatusMsg('我的头像已更新');}
+ renderChat();
+ inp.value='';
+ });
+}
+function chatPickBg(inp){
+ var f=inp.files&&inp.files[0];
+ chatReadImageCompressed(f,900,0.82,function(d){
+ if(d){var o=chatApp();o.bg=d;try{localStorage.setItem('toolChatApp',JSON.stringify(o));}catch(e){alert('背景存储失败（可能空间不足），建议换小一点的图');}chatStatusMsg('聊天背景已更新');}
+ chatApplyAppearance();
+ inp.value='';
+ });
+}
+function chatApplyBGPreset(){
+ var o=chatApp();
+ o.bg='';
+ try{localStorage.setItem('toolChatApp',JSON.stringify(o));}catch(e){}
+ saveChatApp();
+}
+async function chatGenAvatar(){
+ var name=(((chatFind(chatCurId)||{}).name)||document.getElementById('chatCharName').value||'').trim();
+ if(!name){chatStatusMsg('请先填写角色名',true);return;}
+ var url=(document.getElementById('imgApiUrl').value||'').trim();
+ var key=(document.getElementById('imgApiKey').value||'').trim();
+ var model=(document.getElementById('imgModel').value||'').trim();
+ if(!url||!key||!model){chatStatusMsg('请先到「生图」页配置地址/Key/模型',true);return;}
+ chatStatusMsg('正在生成头像...');
+ try{
+ var base=getBaseUrl(url);
+ var res=await fetch(base+'/images/generations',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:model,prompt:name+'，角色头像，半身特写，精美插画，高清细节',n:1,size:'1024x1024',response_format:'url'})});
+ if(!res.ok)throw new Error('HTTP '+res.status);
+ var data=await res.json();
+ var imgUrl=data.data[0].url||(data.data[0].b64_json?('data:image/png;base64,'+data.data[0].b64_json):'');
+ if(!imgUrl)throw new Error('未返回图片');
+ var img=new Image();
+ img.onload=function(){
+ var d=imgUrl;
+ try{
+ var dim=320;
+ var scale=Math.min(1,dim/Math.max(img.width,img.height));
+ var cv=document.createElement('canvas');
+ cv.width=Math.max(1,Math.round(img.width*scale));
+ cv.height=Math.max(1,Math.round(img.height*scale));
+ cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+ try{d=cv.toDataURL('image/jpeg',0.85);}catch(e3){d=imgUrl;}
+ }catch(e2){d=imgUrl;}
+ var s=chatFind(chatCurId);
+ if(s){s.av=d;saveChat();}
+ chatStatusMsg('头像已生成并设置');
+ renderChat();chatApplyAppearance();
+ };
+ img.onerror=function(){chatStatusMsg('头像图片加载失败',true);};
+ img.src=imgUrl;
+ }catch(e){chatStatusMsg('生成失败：'+(e.message||'请检查网络'),true);}
+}
+
+/* ===== 聊天：表情包 + 立绘差分 ===== */
+function chatStickers(){try{return JSON.parse(localStorage.getItem('toolChatStickers')||'[]');}catch(e){return [];}}
+function chatSaveStickers(arr){
+ try{localStorage.setItem('toolChatStickers',JSON.stringify(arr));return true;}catch(e){alert('表情包存储失败（可能空间不足），建议少放几张或换小图');return false;}
+}
+function chatStickerCount(){
+ var el2=document.getElementById('chatStickerCount');
+ if(el2)el2.textContent='当前 '+chatStickers().length+'/30 张';
+}
+function chatImportStickers(inp){
+ var files=Array.from(inp.files||[]);
+ inp.value='';
+ if(!files.length)return;
+ var arr=chatStickers();
+ var room=30-arr.length;
+ if(room<=0){alert('表情包已达上限（30张）');return;}
+ if(files.length>room)files=files.slice(0,room);
+ var done=0,ok=0;
+ files.forEach(function(f,i){
+ var nm=String(f.name||('表情'+i));
+ var dot=nm.lastIndexOf('.');
+ if(dot>0)nm=nm.slice(0,dot);
+ nm=nm.trim().slice(0,12)||('表情'+(arr.length+ok+1));
+ chatReadImageCompressed(f,240,0.8,function(d){
+ done++;
+ if(d){arr.push({k:nm,d:d});ok++;}
+ if(done===files.length){
+ chatSaveStickers(arr);
+ chatStickerCount();
+ chatRenderStickerList();
+ chatStatusMsg('导入完成：成功 '+ok+' 张，当前共 '+arr.length+' 张');
+ }
+ });
+ });
+}
+function chatListStickers(){
+ var box=document.getElementById('chatStickerList');
+ if(!box)return;
+ if(box.style.display==='none'){box.style.display='block';chatRenderStickerList();}
+ else{box.style.display='none';}
+}
+function chatRenderStickerList(){
+ var box=document.getElementById('chatStickerList');
+ if(!box)return;
+ var arr=chatStickers();
+ if(!arr.length){box.innerHTML='<span class="hint">还没有表情包，点上方「导入表情」</span>';return;}
+ box.innerHTML=arr.map(function(s,i){
+ return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">'
+ +'<img src="'+s.d+'" style="width:36px;height:36px;border-radius:6px;object-fit:cover;border:1px solid var(--bd);">'
+ +'<input value="'+escChat(s.k).replace(/"/g,'"')+'" style="flex:1;margin:0;font-size:12px;" onchange="chatRenameSticker('+i+',this.value)">'
+ +'<button class="btn btn-small" style="width:auto;margin:0;padding:4px 8px;font-size:11px;" onclick="chatDelSticker('+i+')">删除</button>'
+ +'</div>';
+ }).join('');
+}
+function chatRenameSticker(i,v){
+ var arr=chatStickers();
+ if(!arr[i])return;
+ arr[i].k=String(v||'').trim().slice(0,12)||arr[i].k;
+ chatSaveStickers(arr);
+}
+function chatDelSticker(i){
+ var arr=chatStickers();
+ if(!arr[i])return;
+ arr.splice(i,1);
+ chatSaveStickers(arr);
+ chatRenderStickerList();
+ chatStickerCount();
+}
+function chatRenderContent(text){
+ var s=escChat(text);
+ var arr=chatStickers();
+ if(arr.length){
+ arr.forEach(function(it){
+ s=s.split('[表情:'+it.k+']').join('<img class="chat-sticker" src="'+it.d+'">');
+ });
+ }
+ var npcsR=chatNpcs();
+ if(npcsR.length){
+ npcsR.forEach(function(x1){
+ if(!x1.n)return;
+ var mk2=escChat(x1.n)+'：';
+ s=s.split(CHAT_NL+mk2).join(CHAT_NL+'<span class="npc-name">'+mk2+'</span>');
+ if(s.indexOf(mk2)===0){s='<span class="npc-name">'+mk2+'</span>'+s.slice(mk2.length);}
+ });
+ }
+ var OPEN='&lt;status&gt;';
+ var CLOSE='&lt;/status&gt;';
+ if(s.indexOf(OPEN)>=0){
+ var tpl='';
+ try{tpl=localStorage.getItem('toolChatStatusTpl')||'';}catch(e){}
+ var out='';
+ var rest=s;
+ while(rest.indexOf(OPEN)>=0){
+ var i=rest.indexOf(OPEN);
+ var j=rest.indexOf(CLOSE,i);
+ if(j<0)break;
+ out+=rest.slice(0,i);
+ var inner=rest.slice(i+OPEN.length,j);
+ out+=(tpl?tpl.split('$1').join(inner):('<div class="chat-status">'+inner+'</div>'));
+ rest=rest.slice(j+CLOSE.length);
+ }
+ out+=rest;
+ s=out;
+ }
+ return s;
+}
+function chatRefreshSpriteSel(){
+ var sel=document.getElementById('chatSpriteSel');
+ if(!sel)return;
+ var s=chatFind(chatCurId);
+ var arr=(s&&s.spr)||[];
+ var cur=(s&&s.sprCur)||'';
+ sel.innerHTML='<option value="">立绘：默认头像</option>'+arr.map(function(x){return '<option value="'+escChat(x.k).replace(/"/g,'"')+'">'+escChat(x.k)+'</option>';}).join('');
+ sel.value=cur;
+}
+function chatImportSprites(inp){
+ var files=Array.from(inp.files||[]);
+ inp.value='';
+ if(!files.length)return;
+ var s=chatFind(chatCurId);
+ if(!s)return;
+ if(!s.spr)s.spr=[];
+ var room=8-s.spr.length;
+ if(room<=0){alert('立绘已达上限（8张）');return;}
+ if(files.length>room)files=files.slice(0,room);
+ var done=0,ok=0;
+ files.forEach(function(f,i){
+ var nm=String(f.name||('立绘'+i));
+ var dot=nm.lastIndexOf('.');
+ if(dot>0)nm=nm.slice(0,dot);
+ nm=nm.trim().slice(0,12)||('立绘'+(s.spr.length+ok+1));
+ chatReadImageCompressed(f,600,0.82,function(d){
+ done++;
+ if(d){s.spr.push({k:nm,d:d});ok++;if(!s.sprCur)s.sprCur=nm;}
+ if(done===files.length){
+ saveChat();
+ chatRefreshSpriteSel();
+ document.getElementById('chatWifuChk').checked=true;
+ saveChatApp();
+ chatStatusMsg('立绘导入完成：成功 '+ok+' 张（Wifu 模式已开启）');
+ }
+ });
+ });
+}
+function chatSetSprite(k){
+ var s=chatFind(chatCurId);
+ if(!s)return;
+ s.sprCur=String(k||'');
+ saveChat();
+ saveChatApp();
+ chatStatusMsg(k?('已切换立绘：'+k):'立绘已设为默认头像');
+}
+function chatDelSprite(){
+ var s=chatFind(chatCurId);
+ if(!s||!s.sprCur||!s.spr||!s.spr.length){chatStatusMsg('没有可删除的立绘',true);return;}
+ if(!confirm('确定删除立绘：'+s.sprCur+'？'))return;
+ s.spr=s.spr.filter(function(x){return x.k!==s.sprCur;});
+ s.sprCur='';
+ saveChat();
+ chatRefreshSpriteSel();
+ saveChatApp();
+ chatStatusMsg('已删除立绘');
+}
+function chatApplySpriteMarkers(text){
+ var s=chatFind(chatCurId);
+ var t=String(text||'');
+ if(!s||!s.spr||!s.spr.length)return t;
+ s.spr.forEach(function(sp){
+ var mk='[立绘:'+sp.k+']';
+ if(t.indexOf(mk)>=0){
+ t=t.split(mk).join('');
+ s.sprCur=sp.k;
+ }
+ });
+ while(t.indexOf('[立绘:')>=0){
+ var i=t.indexOf('[立绘:');
+ var j=t.indexOf(']',i);
+ if(j<0)break;
+ t=t.slice(0,i)+t.slice(j+1);
+ }
+ saveChat();
+ chatApplyAppearance();
+ return t;
+}
+
+/* ===== 聊天：联动（世界书/状态栏/提示词/提取） ===== */
+function chatWbArr(){try{return JSON.parse(localStorage.getItem('toolChatWb')||'[]');}catch(e){return [];}}
+function chatWbCount(){
+ var el2=document.getElementById('chatWbCount');
+ if(el2)el2.textContent='世界书 '+chatWbArr().length+' 条';
+ chatTplState();
+}
+function chatTplState(){
+ var el2=document.getElementById('chatTplState');
+ if(!el2)return;
+ var t='';
+ try{t=localStorage.getItem('toolChatStatusTpl')||'';}catch(e){}
+ el2.textContent=t?'已设置模板':'未设置模板（默认样式）';
+}
+function chatSaveLink(){
+ try{
+ var o=chatApp();
+ o.wbOn=document.getElementById('chatWbOn').checked;
+ o.prmOn=document.getElementById('chatPrmOn').checked;
+ o.npcAct=document.getElementById('npcActOn').checked;
+ localStorage.setItem('toolChatApp',JSON.stringify(o));
+ }catch(e){}
+}
+function chatClearWb(){
+ if(!confirm('清空世界书条目库？'))return;
+ try{localStorage.removeItem('toolChatWb');}catch(e){}
+ chatWbCount();
+ chatStatusMsg('世界书已清空');
+}
+function chatClearTpl(){
+ if(!confirm('清除状态栏模板（恢复默认样式）？'))return;
+ try{localStorage.removeItem('toolChatStatusTpl');}catch(e){}
+ chatTplState();
+ chatStatusMsg('已清除模板');
+}
+function wbNorm(it){
+ var keys=it.keys||it.key||[];
+ if(typeof keys==='string')keys=keys.split(',');
+ return {n:String(it.name||it.comment||'条目').slice(0,30),k:keys.map(function(x){return String(x).trim();}).filter(function(x){return !!x;}),c:String(it.content||'')};
+}
+function chatImportWb(inp){
+ var f=inp.files&&inp.files[0];
+ inp.value='';
+ if(!f)return;
+ var r=new FileReader();
+ r.onload=function(e){
+ try{
+ var j=JSON.parse(String(e.target.result));
+ var list=[];
+ if(j&&j.entries&&!Array.isArray(j.entries)){
+ var ks2=Object.keys(j.entries);
+ ks2.forEach(function(k2){var it=j.entries[k2];if(it){var nn=wbNorm(it);if(nn.c)list.push(nn);}});
+ }else if(j&&Array.isArray(j.entries)){
+ j.entries.forEach(function(it){var nn=wbNorm(it);if(nn.c)list.push(nn);});
+ }else if(Array.isArray(j)){
+ j.forEach(function(it){var nn=wbNorm(it);if(nn.c)list.push(nn);});
+ }else{throw new Error('格式不认识');}
+ list=list.slice(0,200);
+ if(!list.length)throw new Error('没有解析到条目');
+ localStorage.setItem('toolChatWb',JSON.stringify(list));
+ chatWbCount();
+ chatStatusMsg('世界书导入成功：'+list.length+' 条');
+ }catch(err){chatStatusMsg('导入失败：'+(err.message||'请用「世界书」页导出的 JSON'),true);}
+ };
+ r.readAsText(f);
+}
+function chatImportStatusTpl(inp){
+ var f=inp.files&&inp.files[0];
+ inp.value='';
+ if(!f)return;
+ var r=new FileReader();
+ r.onload=function(e){
+ var t=String(e.target.result||'').trim();
+ if(!t){chatStatusMsg('文件是空的',true);return;}
+ try{localStorage.setItem('toolChatStatusTpl',t);}catch(e2){chatStatusMsg('模板存储失败',true);return;}
+ chatTplState();
+ chatStatusMsg(t.indexOf('$1')>=0?'模板已设置（含 $1，将代入状态内容）':'模板已设置（注意：没有 $1 占位符，状态内容不会显示）');
+ };
+ r.readAsText(f);
+}
+function chatPromptInjection(){
+ try{
+ var out=document.getElementById('output2');
+ var st=document.getElementById('statusMsg2');
+ var wc=document.getElementById('wordCount2');
+ if(!out)return '';
+ var old=out.value,os=st?st.textContent:'',ow=wc?wc.textContent:'';
+ generatePrompt();
+ var t=String(out.value||'');
+ out.value=old;
+ if(st)st.textContent=os;
+ if(wc)wc.textContent=ow;
+ return (t&&t.length>20)?t:'';
+ }catch(e){return '';}
+}
+async function chatExtractWb(){
+ if(chatStreaming)return;
+ if(!chatMsgs.length){chatStatusMsg('没有可提取的内容',true);return;}
+ var cfg=chatCfg();
+ if(!cfg.u||!cfg.k){chatStatusMsg('请先配置 API 地址和 Key',true);return;}
+ if(!cfg.m){chatStatusMsg('请先选择模型',true);return;}
+ chatStatusMsg('正在提取世界书条目...');
+ var text=chatMsgs.slice(-40).map(function(m){return (m.role==='user'?'用户：':'角色：')+m.content;}).join(CHAT_NL);
+ var sys='你是「桐记工坊」内置的剧情记忆整理引擎。用户会给你一段对话记录，你要把它压缩整理成世界书"记忆条目"。'+CHAT_NL+'【整理要求】'+CHAT_NL+'1. 输出条目数：3 条'+CHAT_NL+'2. 每条包含：条目名、关键词（3~6 个，中文逗号分隔，包含人物名、地点、关键事件等）、内容（80~200 字，只保留对后续剧情重要的事实）'+CHAT_NL+'3. 不要编造原文中没有的内容。'+CHAT_NL+CHAT_NL+'【输出格式】严格按下面格式输出，不要输出任何其他内容：'+CHAT_NL+'【条目名】xxx'+CHAT_NL+'【关键词】kw1, kw2'+CHAT_NL+'【内容】yyy';
+ try{
+ var base=getBaseUrl(cfg.u);
+ var res=await fetch(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.k},body:JSON.stringify({model:cfg.m,messages:[{role:'system',content:sys},{role:'user',content:text}],temperature:0.4,max_tokens:1500})});
+ if(!res.ok)throw new Error('HTTP '+res.status);
+ var data=await res.json();
+ var o2=((data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content)||'').trim();
+ if(!o2)throw new Error('模型返回为空');
+ var arr2=parseWbEntries(o2);
+ if(!arr2.length)throw new Error('解析失败，请重试');
+ var wb=chatWbArr();
+ arr2.forEach(function(x){wb.push({n:x.name,k:x.keys,c:x.content});});
+ wb=wb.slice(-200);
+ localStorage.setItem('toolChatWb',JSON.stringify(wb));
+ chatWbCount();
+ chatStatusMsg('已提取 '+arr2.length+' 条记忆，加入世界书触发库');
+ }catch(e){chatStatusMsg('提取失败：'+(e.message||'请检查网络'),true);}
+}
+
+/* ===== 聊天：联动二期 + 进阶 ===== */
+function chatLastAi(){
+ for(var i=chatMsgs.length-1;i>=0;i--){if(chatMsgs[i].role==='assistant'){return String(chatMsgs[i].content||'');}}
+ return '';
+}
+function chatToRegex(){
+ var last=chatLastAi();
+ if(!last){chatStatusMsg('没有可转换的 AI 回复',true);return;}
+ if(!confirm('将最后一条 AI 回复填入「正则」页的 HTML 转换工具？'))return;
+ var t=document.getElementById('regexHtml2');
+ if(!t){chatStatusMsg('未找到正则工具',true);return;}
+ t.value=last.split('```').join('');
+ var trig=document.getElementById('regexTrigger2');
+ if(trig&&!trig.value){trig.value=((chatFind(chatCurId)||{}).name||'').trim()||'聊天美化';}
+ try{switchTab('tab-regex');}catch(e){}
+ chatStatusMsg('已填入「正则」页，点「生成正则规则」即可');
+}
+function chatToMemory(){
+ if(!chatMsgs.length){chatStatusMsg('没有可总结的内容',true);return;}
+ if(!confirm('把当前聊天记录送到「剧情记忆」页总结？'))return;
+ var el2=document.getElementById('memInput');
+ if(!el2){chatStatusMsg('未找到剧情记忆页',true);return;}
+ var name=((chatFind(chatCurId)||{}).name||'').trim();
+ el2.value=chatMsgs.slice(-60).map(function(m){return (m.role==='user'?'我：':'【'+(name||'角色')+'】：')+m.content;}).join(CHAT_NL+CHAT_NL);
+ var sub=document.getElementById('memSubject');
+ if(sub&&!sub.value)sub.value=name||'';
+ try{switchTab('tab-memory');}catch(e){}
+ chatStatusMsg('已填入「剧情记忆」页，点「生成记忆条目」即可');
+}
+async function chatDraw(prompt){
+ var url=(document.getElementById('imgApiUrl').value||'').trim();
+ var key=(document.getElementById('imgApiKey').value||'').trim();
+ var model=(document.getElementById('imgModel').value||'').trim();
+ if(!url||!key||!model){chatStatusMsg('请先到「生图」页配置地址/Key/模型',true);return;}
+ chatMsgs.push({role:'user',content:'/draw '+prompt});
+ renderChat();saveChat();
+ chatStatusMsg('正在生图...');
+ try{
+ var base=getBaseUrl(url);
+ var res=await fetch(base+'/images/generations',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:model,prompt:prompt,n:1,size:'1024x1024',response_format:'url'})});
+ if(!res.ok)throw new Error('HTTP '+res.status);
+ var data=await res.json();
+ var imgUrl=data.data[0].url||(data.data[0].b64_json?('data:image/png;base64,'+data.data[0].b64_json):'');
+ if(!imgUrl)throw new Error('未返回图片');
+ chatMsgs.push({role:'assistant',content:'（图片已生成）',img:imgUrl});
+ renderChat();saveChat();
+ try{saveImgHistory(imgUrl);}catch(e){}
+ chatStatusMsg('图片已生成');
+ }catch(e){
+ chatMsgs.push({role:'assistant',content:'生图失败：'+(e.message||'请检查网络')});
+ renderChat();saveChat();
+ chatStatusMsg('生图失败',true);
+ }
+}
+function chatTrackStatus(text){
+ try{
+ var t=String(text||'');
+ var i=t.indexOf('<status>');
+ var j=t.indexOf('</status>',i);
+ if(i<0||j<0)return;
+ var body=t.slice(i+8,j);
+ var lines=body.split(CHAT_NL);
+ var store={};
+ try{store=JSON.parse(localStorage.getItem('toolChatCurves')||'{}');}catch(e){}
+ var changed=false;
+ lines.forEach(function(ln){
+ var idx=ln.indexOf('：');
+ if(idx<0)idx=ln.indexOf(':');
+ if(idx<=0)return;
+ var key=ln.slice(0,idx).trim();
+ if(!key||key.length>12)return;
+ var num=parseFloat(ln.slice(idx+1).trim());
+ if(isNaN(num))return;
+ var arr=store[key]||[];
+ arr.push({t:Date.now(),v:num});
+ if(arr.length>30)arr=arr.slice(-30);
+ store[key]=arr;changed=true;
+ });
+ if(changed){
+ localStorage.setItem('toolChatCurves',JSON.stringify(store));
+ chatRenderCurves();
+ }
+ }catch(e){}
+}
+function chatRenderCurves(){
+ var box=document.getElementById('chatCurvesBox');
+ if(!box)return;
+ var store={};
+ try{store=JSON.parse(localStorage.getItem('toolChatCurves')||'{}');}catch(e){}
+ var keys=Object.keys(store);
+ if(!keys.length){box.innerHTML='<span class="hint">暂无数据：AI 回复中的「字段：数值」会每轮自动记录</span>';return;}
+ box.innerHTML=keys.slice(0,6).map(function(k){
+ var arr=store[k]||[];
+ var last=arr.length?arr[arr.length-1].v:'-';
+ return '<div style="margin-bottom:8px;">'
+ +'<div style="font-size:12px;color:var(--tx2);margin-bottom:4px;">'+escChat(k)+'：<b style="color:var(--tx);">'+last+'</b></div>'
+ +'<canvas data-curve="'+escChat(k)+'" width="560" height="60" style="width:100%;height:60px;background:var(--ta);border-radius:8px;"></canvas>'
+ +'</div>';
+ }).join('');
+ var cvs=box.querySelectorAll('canvas[data-curve]');
+ for(var ci=0;ci<cvs.length;ci++){
+ var cv=cvs[ci];
+ var k2=cv.getAttribute('data-curve');
+ var arr2=store[k2]||[];
+ if(!arr2.length)continue;
+ var ctx2=cv.getContext('2d');
+ var W2=cv.width,H2=cv.height;
+ ctx2.clearRect(0,0,W2,H2);
+ var min=arr2[0].v,max=arr2[0].v;
+ arr2.forEach(function(pt){if(pt.v<min)min=pt.v;if(pt.v>max)max=pt.v;});
+ if(min===max){min=min-1;max=max+1;}
+ ctx2.strokeStyle='#4d6bfe';ctx2.lineWidth=2;
+ ctx2.beginPath();
+ arr2.forEach(function(pt,ii){
+ var x=8+(W2-16)*(arr2.length===1?0.5:(ii/(arr2.length-1)));
+ var y=H2-8-((pt.v-min)/(max-min))*(H2-16);
+ if(ii===0)ctx2.moveTo(x,y);else ctx2.lineTo(x,y);
+ });
+ ctx2.stroke();
+ }
+}
+function chatClearCurves(){
+ if(!confirm('清空曲线数据？'))return;
+ try{localStorage.removeItem('toolChatCurves');}catch(e){}
+ chatRenderCurves();
+ chatStatusMsg('曲线数据已清空');
+}
+function chatSpeakLast(){
+ try{
+ if(!('speechSynthesis' in window)){chatStatusMsg('本设备不支持语音朗读',true);return;}
+ if(window.speechSynthesis.speaking){window.speechSynthesis.cancel();chatStatusMsg('已停止朗读');return;}
+ var t=chatLastAi();
+ if(!t){chatStatusMsg('没有可朗读的内容',true);return;}
+ var i=t.indexOf('<status>');
+ var j=t.indexOf('</status>');
+ if(i>=0&&j>i)t=t.slice(0,i)+t.slice(j+9);
+ t=t.split('【').join('').split('】').join('').split('```').join('');
+ var u2=new SpeechSynthesisUtterance(t.slice(0,400));
+ u2.lang='zh-CN';u2.rate=1;u2.pitch=1;
+ window.speechSynthesis.cancel();
+ window.speechSynthesis.speak(u2);
+ chatStatusMsg('正在朗读最后一条（再点一次停止）');
+ }catch(e){chatStatusMsg('朗读失败：'+(e.message||''),true);}
+}
+
+/* ===== NPC 配角管理 ===== */
+function chatNpcs(){
+ var s=chatFind(chatCurId);
+ if(!s)return [];
+ if(!s.npcs)s.npcs=[];
+ return s.npcs;
+}
+function npcAdd(){
+ var s=chatFind(chatCurId);
+ if(!s)return;
+ if(!s.npcs)s.npcs=[];
+ if(s.npcs.length>=8){alert('NPC 最多 8 个');return;}
+ s.npcs.push({id:'n'+Date.now(),n:'',r:'',p:'',in:true,av:'',u:'',k:'',m:''});
+ saveChat();
+ renderNpcList();
+ chatStatusMsg('已添加 NPC，请填写名字和身份');
+}
+function npcSet(inp){
+ try{
+ var i=parseInt(inp.getAttribute('data-npc'),10);
+ var k=inp.getAttribute('data-k');
+ var arr=chatNpcs();
+ if(!arr[i])return;
+ if(k==='in')arr[i].in=!!inp.checked;
+ else if(k==='n')arr[i].n=String(inp.value||'').slice(0,40);
+ else if(k==='r')arr[i].r=String(inp.value||'').slice(0,60);
+ else if(k==='p')arr[i].p=String(inp.value||'').slice(0,120);
+ else if(k==='u')arr[i].u=String(inp.value||'').slice(0,200);
+ else if(k==='k')arr[i].k=String(inp.value||'').slice(0,200);
+ else if(k==='m')arr[i].m=String(inp.value||'').slice(0,80);
+ saveChat();
+ if(k==='n')renderNpcList();
+ }catch(e){}
+}
+function npcDel(btn){
+ try{
+ var i=parseInt(btn.getAttribute('data-npc'),10);
+ var arr=chatNpcs();
+ if(!arr[i])return;
+ if(!confirm('删除 NPC：'+((arr[i].n)||'未命名')+'？'))return;
+ arr.splice(i,1);
+ saveChat();
+ renderNpcList();
+ }catch(e){}
+}
+function npcPickAvatar(inp){
+ var i=parseInt(inp.getAttribute('data-npc'),10);
+ var f=inp.files&&inp.files[0];
+ chatReadImageCompressed(f,200,0.82,function(d){
+ if(d){var arr=chatNpcs();if(arr[i]){arr[i].av=d;saveChat();renderNpcList();}}
+ inp.value='';
+ });
+}
+function npcCount(){
+ var el2=document.getElementById('npcCount');
+ if(!el2)return;
+ var arr=chatNpcs();
+ var pin=0;
+ arr.forEach(function(x){if(x.in)pin++;});
+ el2.textContent=arr.length?('共 '+arr.length+' 个，在场 '+pin+' 个'):'';
+}
+function npcToggleCfg(i){
+ var box=document.getElementById('npcCfg'+i);
+ if(!box)return;
+ box.style.display=(box.style.display==='none')?'block':'none';
+}
+async function npcPerform(presentList){
+ var cfg0=chatCfg();
+ for(var i=0;i<presentList.length&&i<3;i++){
+ var x=presentList[i];
+ var u=(x.u||'').trim()||cfg0.u;
+ var k=(x.k||'').trim()||cfg0.k;
+ var m=(x.m||'').trim()||cfg0.m;
+ if(!u||!k||!m)continue;
+ try{
+ var recent='';
+ chatMsgs.slice(-8).forEach(function(mm){if(mm.role==='user'||mm.role==='assistant')recent=recent+(mm.role==='user'?'用户：':'')+mm.content+CHAT_NL;});
+ var sys2='你是「'+x.n+'」'+(x.r?('，身份：'+x.r):'')+(x.p?('，说话风格与设定：'+x.p):'')+CHAT_NL+'你正在参与一段角色扮演多人群聊。请根据最近的剧情，写出你此刻的言行：可以包括台词和简短动作描写，1~3句，符合你的身份性格；不要替其他角色发言，不要重复别人刚说过的话。'+CHAT_NL+'直接输出内容，以「'+x.n+'：」开头。';
+ var base2=getBaseUrl(u);
+ var res2=await fetch(base2+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+k},body:JSON.stringify({model:m,messages:[{role:'system',content:sys2},{role:'user',content:'【最近剧情】'+CHAT_NL+recent+CHAT_NL+'请写出你此刻的言行。'}],temperature:0.9,max_tokens:300})});
+ if(!res2.ok)continue;
+ var d2=await res2.json();
+ var t2=((d2.choices&&d2.choices[0]&&d2.choices[0].message&&d2.choices[0].message.content)||'').trim();
+ if(!t2)continue;
+ if(t2.indexOf(x.n+'：')!==0&&t2.indexOf(x.n+':')!==0){t2=x.n+'：'+t2;}
+ chatMsgs.push({role:'assistant',content:t2,npcName:x.n,npc:true});
+ renderChat();saveChat();
+ }catch(e){}
+ }
+ chatStatusMsg('NPC 参演完成');
+}
+function renderNpcList(){
+ var box=document.getElementById('npcList');
+ if(!box)return;
+ var arr=chatNpcs();
+ if(!arr.length){box.innerHTML='<span class="hint">还没有 NPC，点上方「添加 NPC」创建剧情配角</span>';npcCount();return;}
+ box.innerHTML=arr.map(function(x,i){
+ var av=x.av?('<img src="'+x.av+'" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid var(--bd);">'):'<div style="width:34px;height:34px;border-radius:50%;background:var(--ta);border:1px solid var(--bd);"></div>';
+ return '<div style="border:1px solid var(--bd);border-radius:10px;padding:10px;margin-bottom:8px;">'
+ +'<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
+ +av
+ +'<input value="'+escChat(x.n)+'" data-npc="'+i+'" data-k="n" placeholder="名字" style="flex:1;min-width:90px;margin:0;font-size:12px;" onchange="npcSet(this)">'
+ +'<label style="display:flex;align-items:center;gap:4px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox"'+(x.in?' checked':'')+' data-npc="'+i+'" data-k="in" style="width:auto;margin:0;" onchange="npcSet(this)">在场</label>'
+ +'</div>'
+ +'<input value="'+escChat(x.r)+'" data-npc="'+i+'" data-k="r" placeholder="身份 / 关系（例：妹妹，活泼爱撒娇）" style="margin:8px 0 0;font-size:12px;" onchange="npcSet(this)">'
+ +'<textarea rows="2" data-npc="'+i+'" data-k="p" placeholder="说话风格 / 补充设定（可选）" style="margin:8px 0 0;font-size:12px;" onchange="npcSet(this)">'+escChat(x.p)+'</textarea>'
+ +'<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">'
+ +'<input type="file" id="npcAvF'+i+'" accept="image/*" style="display:none;" data-npc="'+i+'" onchange="npcPickAvatar(this)">'
+ +'<label class="btn btn-small" for="npcAvF'+i+'" style="display:inline-block;width:auto;margin:0;padding:4px 10px;font-size:11px;text-align:center;">头像</label>'
+ +'<button class="btn btn-small" data-npc="'+i+'" style="width:auto;margin:0;padding:4px 10px;font-size:11px;" onclick="npcDel(this)">删除</button>'
+ +'<span style="cursor:pointer;font-size:11px;color:var(--tx3);padding:2px 6px;" onclick="npcToggleCfg('+i+')">独立模型 ▾</span>'
+ +'</div>'
+ +'<div id="npcCfg'+i+'" style="display:none;margin-top:8px;">'
+ +'<input value="'+escChat(x.u)+'" data-npc="'+i+'" data-k="u" placeholder="API 地址（留空沿用当前会话配置）" style="margin:0 0 6px;font-size:12px;" onchange="npcSet(this)">'
+ +'<input value="'+escChat(x.k)+'" data-npc="'+i+'" data-k="k" placeholder="API Key（留空沿用）" style="margin:0 0 6px;font-size:12px;" onchange="npcSet(this)">'
+ +'<input value="'+escChat(x.m)+'" data-npc="'+i+'" data-k="m" placeholder="模型名（留空沿用）" style="margin:0;font-size:12px;" onchange="npcSet(this)">'
+ +'</div>'
+ +'</div>';
+ }).join('');
+ npcCount();
+}
+
+/* ===== 沉浸式酒馆 ===== */
+function chatImmersive(on){
+ on=!!on;
+ document.body.classList.toggle('chat-immersive',on);
+ var chk=document.getElementById('chatImmersiveChk');
+ if(chk)chk.checked=on;
+ try{
+ var o=chatApp();
+ o.imm=on;
+ localStorage.setItem('toolChatApp',JSON.stringify(o));
+ }catch(e){}
+ if(on){try{switchTab('tab-chat');}catch(e){}}
+ chatApplyAppearance();
 }
 
 async function generateImage(){const rawUrl=document.getElementById('imgApiUrl').value.trim();const apiKey=document.getElementById('imgApiKey').value.trim();const model=document.getElementById('imgModel').value.trim();const prompt=document.getElementById('imgPrompt').value.trim();const negative=document.getElementById('imgNegative').value.trim();let size=document.getElementById('imgSize').value;if(size==='custom'){const cw=parseInt(document.getElementById('imgCustomW').value.trim(),10);const ch=parseInt(document.getElementById('imgCustomH').value.trim(),10);if(!cw||!ch||cw<64||ch<64||cw>8192||ch>8192)return alert('自定义尺寸请填写 64~8192 之间的宽和高！');size=cw+'x'+ch;}const status=document.getElementById('statusMsg4');const preview=document.getElementById('imgPreview');const downloadBtn=document.getElementById('downloadImgBtn');
