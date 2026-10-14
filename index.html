@@ -2,9 +2,9 @@
 <html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="app-version" content="3.8.0">
+<meta name="app-version" content="4.0.0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>桐记工坊 v3.8.0</title>
+<title>桐记工坊 v4.0.0</title>
 <style>
 :root{
   --bg:#f7f8fa;
@@ -265,6 +265,17 @@ body.chat-immersive #tab-chat .card.chat-core{display:block !important;backgroun
 body.chat-immersive .chat-core > label{display:none;}
 body.chat-immersive .chat-box{height:calc(100vh - 140px);max-height:none;background:transparent !important;background-image:none !important;border:none;}
 body.chat-immersive #chatImmersiveExit{display:block;}
+/* 毛玻璃（iOS 高斯模糊） */
+.chat-box.bs-glass{background:linear-gradient(160deg,rgba(255,255,255,.35),rgba(240,242,248,.2));}
+[data-theme="dark"] .chat-box.bs-glass{background:linear-gradient(160deg,rgba(30,30,36,.6),rgba(16,16,20,.55));}
+.chat-box.bs-glass .chat-bubble{background:rgba(255,255,255,.5);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);border:1px solid rgba(255,255,255,.65);}
+.chat-box.bs-glass .chat-u .chat-bubble{background:rgba(77,107,254,.58);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);border:1px solid rgba(255,255,255,.35);color:#fff;}
+[data-theme="dark"] .chat-box.bs-glass .chat-bubble{background:rgba(40,40,48,.5);border-color:rgba(255,255,255,.14);color:#e8e8ea;}
+[data-theme="dark"] .chat-box.bs-glass .chat-u .chat-bubble{background:rgba(77,107,254,.45);color:#fff;}
+.chat-box.bs-glass .chat-status{background:rgba(255,255,255,.42);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.55);}
+[data-theme="dark"] .chat-box.bs-glass .chat-status{background:rgba(40,40,48,.42);border-color:rgba(255,255,255,.12);}
+.chat-box.bs-glass ~ .chat-input-row textarea{background:rgba(255,255,255,.5);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border:1px solid rgba(255,255,255,.6);}
+[data-theme="dark"] .chat-box.bs-glass ~ .chat-input-row textarea{background:rgba(40,40,48,.5);border-color:rgba(255,255,255,.14);color:#e8e8ea;}
 </style>
 </head>
 <body>
@@ -376,7 +387,7 @@ body.chat-immersive #chatImmersiveExit{display:block;}
 <div class="settings-group">
 <div class="settings-group-title">更新</div>
 <div class="setting-row clickable" onclick="checkUpdateManual()">
-<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v3.8.0</div></div>
+<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v4.0.0</div></div>
 <span class="chev">&rsaquo;</span>
 </div>
 </div>
@@ -397,7 +408,7 @@ body.chat-immersive #chatImmersiveExit{display:block;}
 </div>
 </div>
 <div class="top-controls">
-<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v3.8.0</span></h2>
+<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v4.0.0</span></h2>
 <div style="display:flex;gap:6px;align-items:center;">
 <button class="help-btn" onclick="exportConfig()">导出</button>
 <label class="help-btn" for="configFile">导入</label>
@@ -408,7 +419,8 @@ body.chat-immersive #chatImmersiveExit{display:block;}
 <input type="file" id="configFile" accept=".json" style="display:none;">
 </div>
 <div class="tab-bar">
-<div class="tab active" onclick="switchTab('tab-persona')"> 人设卡</div>
+<div class="tab active" onclick="switchTab('tab-chat')">聊天</div>
+<div class="tab" onclick="switchTab('tab-persona')"> 人设卡</div>
 <div class="tab" onclick="switchTab('tab-xiaotong')"> 小桐</div>
 <div class="tab" onclick="switchTab('tab-prompt')"> 提示词</div>
 <div class="tab" onclick="switchTab('tab-plugin')"> 插件</div>
@@ -418,7 +430,6 @@ body.chat-immersive #chatImmersiveExit{display:block;}
 <div class="tab" onclick="switchTab('tab-library')">模板库</div>
 <div class="tab" onclick="switchTab('tab-memory')">剧情记忆</div>
 <div class="tab" onclick="switchTab('tab-statusbar')">状态栏</div>
-<div class="tab" onclick="switchTab('tab-chat')">聊天</div>
 </div>
 <div id="tab-xiaotong" class="tab-content">
 <div class="card">
@@ -452,7 +463,7 @@ body.chat-immersive #chatImmersiveExit{display:block;}
 </div>
 <input type="file" id="xtImportFile" accept=".json,.txt" style="display:none;" onchange="xtImportFile(this)">
 </div>
-<div id="tab-persona" class="tab-content active">
+<div id="tab-persona" class="tab-content">
 <div class="card">
 <label> API 设置（可选，用于自动生成人设）</label>
 <span class="hint">支持 OpenAI 格式接口。地址填基础域名即可，脚本自动补全 /v1。</span>
@@ -869,7 +880,7 @@ QQ群：<span>1036501276</span><br>
 <button class="btn btn-download" onclick="downloadSbRule()">下载规则 JSON</button>
 </div>
 </div>
-<div id="tab-chat" class="tab-content">
+<div id="tab-chat" class="tab-content active">
 <div class="card">
 <label>聊天设置（迷你酒馆）</label>
 <span class="hint">与角色自由对话，流式输出；对话自动保存在本机。下方独立配置留空时，自动沿用「人设卡」页的 API。</span>
@@ -919,9 +930,14 @@ QQ群：<span>1036501276</span><br>
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
 <button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="npcAdd()">添加 NPC</button>
 <span id="npcCount" class="hint" style="margin:0;"></span>
-<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox" id="npcActOn" style="width:auto;margin:0;" onchange="chatSaveLink()">NPC 独立参演（每个在场 NPC 用自己的模型单独发言）</label>
+<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox" id="npcActOn" style="width:auto;margin:0;" onchange="chatSaveLink()">NPC 独立参演（每个在场 NPC 用自己的模型单独发言） <span style="cursor:pointer;color:var(--tx2);font-size:11px;" onclick="event.preventDefault();event.stopPropagation();alert('每个 NPC由内置「配角参演提示词」驱动（人设一致/配合主演/不抢戏/有区分度/推进剧情），并自动注入世界观：世界书命中关键词的条目 + 最近 2 条记忆都会附加给该 NPC的模型；破限词可在「尺度/破限词」卡片自备（全局生效），每个 NPC也能在「独立模型」里单独填。每轮最多3个 NPC参演。')">[?]</span></label>
 </div>
 <div id="npcList" style="margin-top:10px;"></div>
+</div>
+<div class="card">
+<label>尺度 / 破限词（用户自备）</label>
+<span class="hint">软件不提供、不内置任何破限内容。此处填写你自备的破限词，会注入到本页所有 AI 请求（主对话 / NPC 参演 / 剧情总结）；每个 NPC 也可在「独立模型」里单独填一份。留空则不注入。</span>
+<textarea id="chatJailbreak" rows="3" placeholder="粘贴你自备的破限词（留空则不注入）" onchange="saveChatApp()"></textarea>
 </div>
 <div class="card">
 <label>外观自定义</label>
@@ -937,6 +953,7 @@ QQ群：<span>1036501276</span><br>
 </div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
 <select id="chatBubbleStyle" onchange="saveChatApp()" style="flex:1;min-width:130px;font-size:12px;">
+<option value="glass" selected>气泡：毛玻璃（iOS 高斯模糊）</option>
 <option value="round">气泡：圆角经典</option>
 <option value="flat">气泡：扁平直角</option>
 <option value="outline">气泡：描边简约</option>
@@ -944,6 +961,10 @@ QQ群：<span>1036501276</span><br>
 </select>
 <label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);margin:0;">我的气泡<input type="color" id="chatUserColor" value="#4d6bfe" onchange="saveChatApp()" style="width:30px;height:22px;padding:0;border:none;background:none;"></label>
 <label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);margin:0;">角色气泡<input type="color" id="chatAiColor" value="#ffffff" onchange="saveChatApp()" style="width:30px;height:22px;padding:0;border:none;background:none;"></label>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);margin:0;">圆角<input type="range" id="chatRadius" min="0" max="24" value="12" style="width:80px;margin:0;" oninput="saveChatApp()"></label>
+<label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);margin:0;">透明度<input type="range" id="chatOpacity" min="30" max="100" value="100" style="width:80px;margin:0;" oninput="saveChatApp()"></label>
 </div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
 <label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);margin:0;">字号<input type="number" id="chatFontSize" value="13.5" step="0.5" min="11" max="20" style="width:64px;margin:0;font-size:12px;" onchange="saveChatApp()"></label>
@@ -979,6 +1000,18 @@ QQ群：<span>1036501276</span><br>
 <span id="chatStickerCount" class="hint" style="margin:0;"></span>
 </div>
 <div id="chatStickerList" style="display:none;margin-top:10px;"></div>
+</div>
+<div class="card">
+<label>记忆库 / 剧情总结</label>
+<span class="hint">把剧情总结成"记忆条目"存入记忆库：命中关键词自动注入，最近 2 条记忆还会始终参考（续聊不丢剧情）。</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatExtractWb()">总结当前剧情 → 存入记忆库</button>
+<label style="display:flex;align-items:center;gap:6px;font-weight:normal;font-size:12px;color:var(--tx2);margin:0;"><input type="checkbox" id="chatAutoMem" style="width:auto;margin:0;" onchange="saveChatApp()">自动总结</label>
+<select id="chatAutoMemN" onchange="saveChatApp()" style="width:110px;font-size:12px;"><option value="10">每10轮</option><option value="20" selected>每20轮</option><option value="30">每30轮</option></select>
+<span id="chatMemCount" class="hint" style="margin:0;"></span>
+<button class="btn btn-small" style="width:auto;margin:0;padding:6px 10px;font-size:12px;" onclick="chatMemPanel()">查看 / 管理记忆</button>
+</div>
+<div id="chatMemList" style="display:none;margin-top:10px;"></div>
 </div>
 <div class="card">
 <label>联动</label>
@@ -1039,7 +1072,7 @@ QQ群：<span>1036501276</span><br>
 <p>作者：<span>桐</span> | 联系方式：<span>2228907871</span> | QQ群：<span>1036501276</span></p>
 <p>本工具为<span>公益使用</span>，如发现任何收费行为，请及时联系作者举报！</p>
 <p>桐记工坊完全免费。如果它帮到了你，欢迎 <a style="color:var(--accent);cursor:pointer;" onclick="openDonate()">赞赏支持作者</a>（随缘、不强制）。</p>
-<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v3.8.0 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
+<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v4.0.0 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
 </div>
 
 <canvas id="watermarkCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;opacity:0.05;"></canvas>
@@ -1769,7 +1802,7 @@ function renderChat(){
  var box=document.getElementById('chatBox');
  if(!box)return;
  if(!chatMsgs.length){box.innerHTML='<div style="color:var(--tx3);font-size:12px;text-align:center;padding:20px 0;">还没有消息，点「新对话」或直接发送开始</div>';return;}
- box.innerHTML=chatMsgs.map(function(m){var isU=m.role==='user';var av=chatAvatarHtml(isU);var cName2=((chatFind(chatCurId)||{}).name||'').trim()||'角色';var appA=chatApp();var showName=(appA.sn!==false);var nm=showName?('<div class="chat-name">'+escChat(isU?'我':cName2)+'</div>'):'';var st='';if(isU){if(appA.uc){st='background:'+appA.uc+';color:'+chatTextOn(appA.uc)+';border:none;';}}else{if(appA.ac){st='background:'+appA.ac+';color:'+chatTextOn(appA.ac)+';border:1px solid var(--bd);';}}var imgHtml=m.img?('<img class="chat-img" src="'+m.img+'">'):'';var bub='<div class="chat-bubble"'+(st?(' style="'+st+'"'):'')+'>'+imgHtml+chatRenderContent(m.content)+'</div>';var col='<div class="chat-col">'+nm+bub+'</div>';return '<div class="chat-row '+(isU?'chat-u':'chat-a')+'">'+(isU?(col+av):(av+col))+'</div>';}).join('');
+ box.innerHTML=chatMsgs.map(function(m){var isU=m.role==='user';var av=chatAvatarHtml(isU);var cName2=((chatFind(chatCurId)||{}).name||'').trim()||'角色';var appA=chatApp();var showName=(appA.sn!==false);var nm=showName?('<div class="chat-name">'+escChat(isU?'我':cName2)+'</div>'):'';var st='';if(isU){if(appA.uc){st='background:'+appA.uc+';color:'+chatTextOn(appA.uc)+';border:none;';}}else{if(appA.ac){st='background:'+appA.ac+';color:'+chatTextOn(appA.ac)+';border:1px solid var(--bd);';}}if(appA.rd!=null&&appA.rd!==''){st=st+'border-radius:'+(parseFloat(appA.rd)||0)+'px;';}if(appA.op!=null&&appA.op!==''){st=st+'opacity:'+((parseFloat(appA.op)||100)/100)+';';}var imgHtml=m.img?('<img class="chat-img" src="'+m.img+'">'):'';var bub='<div class="chat-bubble"'+(st?(' style="'+st+'"'):'')+'>'+imgHtml+chatRenderContent(m.content)+'</div>';var col='<div class="chat-col">'+nm+bub+'</div>';return '<div class="chat-row '+(isU?'chat-u':'chat-a')+'">'+(isU?(col+av):(av+col))+'</div>';}).join('');
  chatApplyAppearance();
  box.scrollTop=box.scrollHeight;
 }
@@ -1850,6 +1883,9 @@ async function chatGenerate(){
  if(e2.k[ki2]&&recent.indexOf(e2.k[ki2])>=0){hit.push(e2);break;}
  }
  }
+ var memArr0=[];
+ for(var mi0=wbArr.length-1;mi0>=0&&memArr0.length<2;mi0--){if(wbArr[mi0].m)memArr0.unshift(wbArr[mi0]);}
+ memArr0.forEach(function(e5){var dup=false;for(var hi0=0;hi0<hit.length;hi0++){if(hit[hi0]===e5){dup=true;break;}}if(!dup)hit.push(e5);});
  if(hit.length){
  sys=sys+CHAT_NL+CHAT_NL+'【世界书参考】';
  hit.forEach(function(e3){sys=sys+CHAT_NL+'【'+e3.n+'】'+e3.c;});
@@ -1874,6 +1910,9 @@ async function chatGenerate(){
  }else{
  sys=sys+CHAT_NL+CHAT_NL+'【配角扮演要求】本场景包含以下在场 NPC：'+npcLines+CHAT_NL+'你必须积极扮演这些 NPC：让他们有实际的台词、动作与反应，不要只让主角一个人演；不同 NPC 的说话方式与性格要有明显区分，不得混淆；NPC 不在场时按剧情自然处理。每次回复尽量让在场 NPC 中至少一人有描写或台词（场景允许时）。';
  }
+ var jbG='';
+ try{jbG=String(chatApp().jb||'').trim();}catch(e){}
+ if(jbG){sys=sys+CHAT_NL+CHAT_NL+jbG;}
  }
  }
  var msgs=[{role:'system',content:sys}];
@@ -1936,6 +1975,16 @@ async function chatGenerate(){
  var pin3=[];
  chatNpcs().forEach(function(x4){if(x4.in&&x4.n)pin3.push(x4);});
  if(pin3.length){await npcPerform(pin3);}
+ var amChk=document.getElementById('chatAutoMem');
+ if(amChk&&amChk.checked){
+ var s5=chatFind(chatCurId);
+ var since=chatMsgs.length-((s5&&s5.memAt)||0);
+ var n5=parseInt((document.getElementById('chatAutoMemN')||{}).value,10)||20;
+ if(since>=n5){
+ if(s5){s5.memAt=chatMsgs.length;saveChat();}
+ setTimeout(function(){try{chatExtractWb(true);}catch(e){}},600);
+ }
+ }
  }
  }catch(e){
  var em=((e&&e.message)||'').toLowerCase();
@@ -2117,7 +2166,7 @@ function chatApplyAppearance(){
  var app=chatApp();
  var fs=parseFloat(app.fs);if(isNaN(fs)||fs<10||fs>24)fs=13.5;
  box.style.fontSize=fs+'px';
- box.className='chat-box'+(app.bs?(' bs-'+app.bs):'');
+ box.className='chat-box bs-'+(app.bs||'glass');
  var bgs=app.bgs||'auto';
  if(app.bg){
  box.style.backgroundImage='url('+app.bg+')';
@@ -2160,6 +2209,11 @@ function saveChatApp(){
  o.wf=document.getElementById('chatWifuChk').checked;
  o.wo=document.getElementById('chatWifuOp').value;
  o.bgs=document.getElementById('chatBgPreset').value;
+ o.rd=document.getElementById('chatRadius').value;
+ o.op=document.getElementById('chatOpacity').value;
+ o.jb=document.getElementById('chatJailbreak').value;
+ o.amem=document.getElementById('chatAutoMem').checked;
+ o.amemN=document.getElementById('chatAutoMemN').value;
  localStorage.setItem('toolChatApp',JSON.stringify(o));
  }catch(e){}
  chatApplyAppearance();
@@ -2176,7 +2230,12 @@ function loadChatApp(){
  if(app.wf)document.getElementById('chatWifuChk').checked=true;
  if(app.wo)document.getElementById('chatWifuOp').value=app.wo;
  if(app.bgs)document.getElementById('chatBgPreset').value=app.bgs;
- try{chatStickerCount();chatRefreshSpriteSel();if(app.wbOn===false)document.getElementById('chatWbOn').checked=false;if(app.prmOn)document.getElementById('chatPrmOn').checked=true;if(app.npcAct)document.getElementById('npcActOn').checked=true;if(app.imm){document.body.classList.add('chat-immersive');var ck0=document.getElementById('chatImmersiveChk');if(ck0)ck0.checked=true;}chatWbCount();}catch(e9){}
+ if(app.rd!=null)document.getElementById('chatRadius').value=app.rd;
+ if(app.op!=null)document.getElementById('chatOpacity').value=app.op;
+ if(app.jb)document.getElementById('chatJailbreak').value=app.jb;
+ if(app.amem)document.getElementById('chatAutoMem').checked=true;
+ if(app.amemN)document.getElementById('chatAutoMemN').value=app.amemN;
+ try{chatStickerCount();chatRefreshSpriteSel();if(app.wbOn===false)document.getElementById('chatWbOn').checked=false;if(app.prmOn)document.getElementById('chatPrmOn').checked=true;if(app.npcAct)document.getElementById('npcActOn').checked=true;if(app.imm){document.body.classList.add('chat-immersive');var ck0=document.getElementById('chatImmersiveChk');if(ck0)ck0.checked=true;}chatMemCount();chatWbCount();}catch(e9){}
  }catch(e){}
  chatApplyAppearance();
 }
@@ -2553,7 +2612,7 @@ function chatPromptInjection(){
  return (t&&t.length>20)?t:'';
  }catch(e){return '';}
 }
-async function chatExtractWb(){
+async function chatExtractWb(silent){
  if(chatStreaming)return;
  if(!chatMsgs.length){chatStatusMsg('没有可提取的内容',true);return;}
  var cfg=chatCfg();
@@ -2562,6 +2621,7 @@ async function chatExtractWb(){
  chatStatusMsg('正在提取世界书条目...');
  var text=chatMsgs.slice(-40).map(function(m){return (m.role==='user'?'用户：':'角色：')+m.content;}).join(CHAT_NL);
  var sys='你是「桐记工坊」内置的剧情记忆整理引擎。用户会给你一段对话记录，你要把它压缩整理成世界书"记忆条目"。'+CHAT_NL+'【整理要求】'+CHAT_NL+'1. 输出条目数：3 条'+CHAT_NL+'2. 每条包含：条目名、关键词（3~6 个，中文逗号分隔，包含人物名、地点、关键事件等）、内容（80~200 字，只保留对后续剧情重要的事实）'+CHAT_NL+'3. 不要编造原文中没有的内容。'+CHAT_NL+CHAT_NL+'【输出格式】严格按下面格式输出，不要输出任何其他内容：'+CHAT_NL+'【条目名】xxx'+CHAT_NL+'【关键词】kw1, kw2'+CHAT_NL+'【内容】yyy';
+ try{var jbE=String(chatApp().jb||'').trim();if(jbE){sys=sys+CHAT_NL+CHAT_NL+jbE;}}catch(e){}
  try{
  var base=getBaseUrl(cfg.u);
  var res=await fetch(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.k},body:JSON.stringify({model:cfg.m,messages:[{role:'system',content:sys},{role:'user',content:text}],temperature:0.4,max_tokens:1500})});
@@ -2572,11 +2632,11 @@ async function chatExtractWb(){
  var arr2=parseWbEntries(o2);
  if(!arr2.length)throw new Error('解析失败，请重试');
  var wb=chatWbArr();
- arr2.forEach(function(x){wb.push({n:x.name,k:x.keys,c:x.content});});
+ arr2.forEach(function(x){wb.push({n:x.name,k:x.keys,c:x.content,m:1});});
  wb=wb.slice(-200);
  localStorage.setItem('toolChatWb',JSON.stringify(wb));
- chatWbCount();
- chatStatusMsg('已提取 '+arr2.length+' 条记忆，加入世界书触发库');
+ chatWbCount();chatMemCount();
+ chatStatusMsg('已总结 '+arr2.length+' 条记忆，存入记忆库');
  }catch(e){chatStatusMsg('提取失败：'+(e.message||'请检查网络'),true);}
 }
 
@@ -2737,7 +2797,7 @@ function npcAdd(){
  if(!s)return;
  if(!s.npcs)s.npcs=[];
  if(s.npcs.length>=8){alert('NPC 最多 8 个');return;}
- s.npcs.push({id:'n'+Date.now(),n:'',r:'',p:'',in:true,av:'',u:'',k:'',m:''});
+ s.npcs.push({id:'n'+Date.now(),n:'',r:'',p:'',in:true,av:'',u:'',k:'',m:'',jb:''});
  saveChat();
  renderNpcList();
  chatStatusMsg('已添加 NPC，请填写名字和身份');
@@ -2755,6 +2815,7 @@ function npcSet(inp){
  else if(k==='u')arr[i].u=String(inp.value||'').slice(0,200);
  else if(k==='k')arr[i].k=String(inp.value||'').slice(0,200);
  else if(k==='m')arr[i].m=String(inp.value||'').slice(0,80);
+ else if(k==='jb')arr[i].jb=String(inp.value||'').slice(0,300);
  saveChat();
  if(k==='n')renderNpcList();
  }catch(e){}
@@ -2791,8 +2852,19 @@ function npcToggleCfg(i){
  if(!box)return;
  box.style.display=(box.style.display==='none')?'block':'none';
 }
+var NPC_SYS_BUILTIN=`你是「桐记工坊」内置的角色扮演引擎，正在为一场多人群聊「配角参演」。你只扮演分配给你的那一个角色，绝不扮演其他任何人。
+
+【参演要求】
+1. 人设一致：严格遵守分配给你的角色设定（身份、性格、说话习惯），言行不能跑偏；细节可合理发挥，但不得与设定冲突。
+2. 配合主演：剧情围绕主演推进，你的作用是添彩——回应、接话、推动、制造反应，而不是抢戏或另起炉灶。
+3. 区分度：语气、用词、句式要有个人特色，让人一眼认出是你。
+4. 不越界：不替其他角色发言、不替用户行动、不写别人心理；不重复最近说过的内容。
+5. 推进剧情：每次回复至少带来一点新信息、新反应或新动作。
+6. 篇幅：1~3 句话（可含简短动作/神态描写），用中文。`;
 async function npcPerform(presentList){
  var cfg0=chatCfg();
+ var appJb='';
+ try{appJb=String(chatApp().jb||'').trim();}catch(e){}
  for(var i=0;i<presentList.length&&i<3;i++){
  var x=presentList[i];
  var u=(x.u||'').trim()||cfg0.u;
@@ -2802,9 +2874,17 @@ async function npcPerform(presentList){
  try{
  var recent='';
  chatMsgs.slice(-8).forEach(function(mm){if(mm.role==='user'||mm.role==='assistant')recent=recent+(mm.role==='user'?'用户：':'')+mm.content+CHAT_NL;});
- var sys2='你是「'+x.n+'」'+(x.r?('，身份：'+x.r):'')+(x.p?('，说话风格与设定：'+x.p):'')+CHAT_NL+'你正在参与一段角色扮演多人群聊。请根据最近的剧情，写出你此刻的言行：可以包括台词和简短动作描写，1~3句，符合你的身份性格；不要替其他角色发言，不要重复别人刚说过的话。'+CHAT_NL+'直接输出内容，以「'+x.n+'：」开头。';
+ var castName=((chatFind(chatCurId)||{}).name||'').trim()||'主演';
+ var sys2=NPC_SYS_BUILTIN+CHAT_NL+CHAT_NL+'【你扮演的角色】'+x.n+(x.r?('（'+x.r+'）'):'')+(x.p?('｜说话风格与补充设定：'+x.p):'')+CHAT_NL+'【本场主演】'+castName;
+ var hits=chatWbHits(recent);
+ if(hits.length){
+ sys2=sys2+CHAT_NL+CHAT_NL+'【世界书参考】';
+ hits.forEach(function(e3){sys2=sys2+CHAT_NL+'【'+e3.n+'】'+e3.c;});
+ }
+ var jb2=(x.jb||'').trim()||appJb;
+ if(jb2){sys2=sys2+CHAT_NL+CHAT_NL+jb2;}
  var base2=getBaseUrl(u);
- var res2=await fetch(base2+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+k},body:JSON.stringify({model:m,messages:[{role:'system',content:sys2},{role:'user',content:'【最近剧情】'+CHAT_NL+recent+CHAT_NL+'请写出你此刻的言行。'}],temperature:0.9,max_tokens:300})});
+ var res2=await fetch(base2+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+k},body:JSON.stringify({model:m,messages:[{role:'system',content:sys2},{role:'user',content:'【最近剧情】'+CHAT_NL+recent+CHAT_NL+'现在，请写出「'+x.n+'」此刻的言行（以「'+x.n+'：」开头）。'}],temperature:0.9,max_tokens:300})});
  if(!res2.ok)continue;
  var d2=await res2.json();
  var t2=((d2.choices&&d2.choices[0]&&d2.choices[0].message&&d2.choices[0].message.content)||'').trim();
@@ -2815,6 +2895,62 @@ async function npcPerform(presentList){
  }catch(e){}
  }
  chatStatusMsg('NPC 参演完成');
+}
+function chatWbHits(recent){
+ try{
+ var wbArr=chatWbArr();
+ if(!wbArr.length)return [];
+ var hit=[];
+ for(var wi=0;wi<wbArr.length&&hit.length<5;wi++){
+ var e2=wbArr[wi];
+ for(var ki2=0;ki2<e2.k.length;ki2++){
+ if(e2.k[ki2]&&recent.indexOf(e2.k[ki2])>=0){hit.push(e2);break;}
+ }
+ }
+ var memArr=[];
+ for(var mi1=wbArr.length-1;mi1>=0&&memArr.length<2;mi1--){if(wbArr[mi1].m)memArr.unshift(wbArr[mi1]);}
+ memArr.forEach(function(e5){var dup=false;for(var hi=0;hi<hit.length;hi++){if(hit[hi]===e5){dup=true;break;}}if(!dup)hit.push(e5);});
+ return hit;
+ }catch(e){return [];}
+}
+function chatMemArrList(){
+ var arr=chatWbArr();
+ var out=[];
+ for(var i=0;i<arr.length;i++){if(arr[i].m)out.push({i:i,e:arr[i]});}
+ return out;
+}
+function chatMemCount(){
+ var el2=document.getElementById('chatMemCount');
+ if(el2)el2.textContent='记忆 '+chatMemArrList().length+' 条';
+}
+function chatMemPanel(){
+ var box=document.getElementById('chatMemList');
+ if(!box)return;
+ if(box.style.display==='none'){box.style.display='block';chatRenderMemList();}
+ else{box.style.display='none';}
+}
+function chatRenderMemList(){
+ var box=document.getElementById('chatMemList');
+ if(!box)return;
+ var list=chatMemArrList();
+ if(!list.length){box.innerHTML='<span class="hint">记忆库是空的：点「总结当前剧情」或开启自动总结</span>';return;}
+ box.innerHTML=list.slice().reverse().map(function(it){
+ return '<div style="border:1px solid var(--bd);border-radius:10px;padding:8px 10px;margin-bottom:6px;">'
+ +'<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">'
+ +'<div style="font-size:12px;color:var(--tx);font-weight:600;">'+escChat(it.e.n)+'</div>'
+ +'<button class="btn btn-small" data-wi="'+it.i+'" style="width:auto;margin:0;padding:3px 8px;font-size:11px;" onclick="chatMemDel(this)">删除</button>'
+ +'</div>'
+ +'<div style="font-size:11.5px;color:var(--tx2);line-height:1.7;margin-top:4px;white-space:pre-wrap;">'+escChat(String(it.e.c||'').slice(0,120))+'</div>'
+ +'</div>';
+ }).join('');
+}
+function chatMemDel(btn){
+ var i=parseInt(btn.getAttribute('data-wi'),10);
+ var arr=chatWbArr();
+ if(!arr[i])return;
+ arr.splice(i,1);
+ try{localStorage.setItem('toolChatWb',JSON.stringify(arr));}catch(e){}
+ chatRenderMemList();chatMemCount();chatWbCount();
 }
 function renderNpcList(){
  var box=document.getElementById('npcList');
@@ -2840,7 +2976,8 @@ function renderNpcList(){
  +'<div id="npcCfg'+i+'" style="display:none;margin-top:8px;">'
  +'<input value="'+escChat(x.u)+'" data-npc="'+i+'" data-k="u" placeholder="API 地址（留空沿用当前会话配置）" style="margin:0 0 6px;font-size:12px;" onchange="npcSet(this)">'
  +'<input value="'+escChat(x.k)+'" data-npc="'+i+'" data-k="k" placeholder="API Key（留空沿用）" style="margin:0 0 6px;font-size:12px;" onchange="npcSet(this)">'
- +'<input value="'+escChat(x.m)+'" data-npc="'+i+'" data-k="m" placeholder="模型名（留空沿用）" style="margin:0;font-size:12px;" onchange="npcSet(this)">'
+ +'<input value="'+escChat(x.m)+'" data-npc="'+i+'" data-k="m" placeholder="模型名（留空沿用）" style="margin:0 0 6px;font-size:12px;" onchange="npcSet(this)">'
+ +'<input value="'+escChat(x.jb)+'" data-npc="'+i+'" data-k="jb" placeholder="破限词（可选，仅注入 TA 的模型）" style="margin:0;font-size:12px;" onchange="npcSet(this)">'
  +'</div>'
  +'</div>';
  }).join('');
