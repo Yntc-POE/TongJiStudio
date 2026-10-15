@@ -2,9 +2,18 @@
 <html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="app-version" content="4.1.0">
+<meta name="app-version" content="4.1.1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>桐记工坊 v4.1.0</title>
+<title>桐记工坊 v4.1.1</title>
+<!-- PWA -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#1677ff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="桐记">
+<link rel="apple-touch-icon" href="./icons/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
 <style>
 :root{
   --bg:#f7f8fa;
@@ -387,7 +396,7 @@ body.chat-immersive #chatImmersiveExit{display:block;}
 <div class="settings-group">
 <div class="settings-group-title">更新</div>
 <div class="setting-row clickable" onclick="checkUpdateManual()">
-<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v4.1.0</div></div>
+<div>检查更新<div class="sub" id="updateCheckResult">当前版本 v4.1.1</div></div>
 <span class="chev">&rsaquo;</span>
 </div>
 </div>
@@ -408,7 +417,7 @@ body.chat-immersive #chatImmersiveExit{display:block;}
 </div>
 </div>
 <div class="top-controls">
-<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v4.1.0</span></h2>
+<h2> 桐记工坊 <span style="font-size:11px;color:var(--tx3);font-weight:400;">v4.1.1</span></h2>
 <div style="display:flex;gap:6px;align-items:center;">
 <button class="help-btn" onclick="exportConfig()">导出</button>
 <label class="help-btn" for="configFile">导入</label>
@@ -1074,7 +1083,7 @@ QQ群：<span>1036501276</span><br>
 <p>作者：<span>桐</span> | 联系方式：<span>2228907871</span> | QQ群：<span>1036501276</span></p>
 <p>本工具为<span>公益使用</span>，如发现任何收费行为，请及时联系作者举报！</p>
 <p>桐记工坊完全免费。如果它帮到了你，欢迎 <a style="color:var(--accent);cursor:pointer;" onclick="openDonate()">赞赏支持作者</a>（随缘、不强制）。</p>
-<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v4.1.0 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
+<p style="font-size:11px;color:var(--tx3);margin-top:8px;">桐记工坊 v4.1.1 · 首个正式版 · 19 个约束模块 · 人设卡 / 提示词 / 插件 / 生图 / 正则 五大模块</p>
 </div>
 
 <canvas id="watermarkCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;opacity:0.05;"></canvas>
@@ -2595,6 +2604,30 @@ function wbNorm(it){
  if(typeof keys==='string')keys=keys.split(',');
  return {n:String(it.name||it.comment||'条目').slice(0,30),k:keys.map(function(x){return String(x).trim();}).filter(function(x){return !!x;}),c:String(it.content||'')};
 }
+function chatWbCollect(j){
+ var list=[];
+ if(!j||typeof j!=='object')return list;
+ if(Array.isArray(j.entries)){
+  j.entries.forEach(function(it){var n=wbNorm(it);if(n.c)list.push(n);});
+ }else if(j.entries&&typeof j.entries==='object'){
+  Object.keys(j.entries).forEach(function(k){
+   var it=j.entries[k];
+   if(it&&typeof it==='object'){
+    var n=wbNorm(it);if(n.c)list.push(n);
+   }
+  });
+ }else if(Array.isArray(j)){
+  j.forEach(function(it){var n=wbNorm(it);if(n.c)list.push(n);});
+ }else if(j.character_book&&j.character_book.entries){
+  Object.keys(j.character_book.entries).forEach(function(k){
+   var it=j.character_book.entries[k];
+   if(it&&typeof it==='object'){var n=wbNorm(it);if(n.c)list.push(n);}
+  });
+ }else if(j.name||j.content||j.comment){
+  var n0=wbNorm(j);if(n0.c)list.push(n0);
+ }
+ return list;
+}
 function chatImportWb(inp){
  var f=inp.files&&inp.files[0];
  inp.value='';
@@ -2612,16 +2645,8 @@ function chatImportWb(inp){
  var j=null;
  try{j=JSON.parse(raw);}catch(ej){j=null;}
  if(j){
- if(j&&j.entries&&!Array.isArray(j.entries)){
- var ks2=Object.keys(j.entries);
- ks2.forEach(function(k2){var it=j.entries[k2];if(it){var nn=wbNorm(it);if(nn.c)list.push(nn);}});
- }else if(j&&Array.isArray(j.entries)){
- j.entries.forEach(function(it){var nn=wbNorm(it);if(nn.c)list.push(nn);});
- }else if(Array.isArray(j)){
- j.forEach(function(it){var nn=wbNorm(it);if(nn.c)list.push(nn);});
- }else{
- errMsg='JSON 格式不认识';
- }
+ list=chatWbCollect(j);
+ if(!list.length)errMsg='JSON 格式不认识';
  }else{
  if(raw.indexOf('【条目名】')>=0){
  var arrT=parseWbEntries(raw);
@@ -3380,6 +3405,18 @@ function xtImportFile(inp){
   if(xi) xi.addEventListener('keydown', function(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); xtSend(); } });
   xtLoad();
 })();
+</script>
+<script>
+/* PWA: 注册 Service Worker（离线缓存 + 主屏图标） */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js').then(function(reg){
+      console.log('[PWA] Service Worker 已注册:', reg.scope);
+    }).catch(function(err){
+      console.warn('[PWA] Service Worker 注册失败（不影响使用）:', err);
+    });
+  });
+}
 </script>
 </body>
 </html>

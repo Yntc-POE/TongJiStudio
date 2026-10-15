@@ -1,0 +1,105 @@
+桐记工坊 · PWA 版（iPhone 可用）
+================================
+
+【这是什么】
+把桐记工坊变成了 PWA（渐进式网页应用），iPhone 上也能像 App 一样用：
+· 添加到主屏幕后有独立图标
+· 全屏运行，没有浏览器地址栏
+· 支持离线使用（第一次打开后）
+· 数据存在本机，不会丢
+
+【文件清单】
+  index.html              主程序（已加 PWA 支持）
+  manifest.json           App 名称/图标/启动配置
+  sw.js                   离线缓存服务
+  icons/
+    icon-180.png          iPhone 主屏图标
+    icon-192.png          Android / 通用
+    icon-512.png          高清图标
+    icon-maskable-512.png 自适应图标
+
+【前提条件】
+PWA 必须通过 https:// 或 localhost 访问才能注册 Service Worker。
+用「文件」App 直接打开本地 html 文件的话，能正常使用，但离线缓存不生效。
+
+所以有两条路：
+  A. 部署到网上（推荐，体验最好）
+  B. 本地文件打开（能用，但没有离线缓存）
+
+
+================================
+【A. 部署到网上（推荐）】
+================================
+
+最简单的三种方式，任选一个：
+
+--- 方式1：GitHub Pages（免费，你已有仓库）---
+1. 把 TongJiHotUpdate 里的文件全部上传到你的 GitHub 仓库
+   （index.html、manifest.json、sw.js、icons 文件夹）
+2. 仓库 Settings → Pages → Source 选 main 分支 → Save
+3. 等 1-2 分钟，访问 https://Yntc-POE.github.io/TongJiStudio/
+4. iPhone Safari 打开这个网址 → 完成
+
+--- 方式2：Vercel / Netlify（免费，拖拽上传）---
+1. 打开 vercel.com 或 netlify.com，注册登录
+2. 把 TongJiHotUpdate 整个文件夹拖进去
+3. 自动部署，得到网址
+4. iPhone Safari 打开 → 完成
+
+--- 方式3：Cloudflare Pages（免费，速度快）---
+1. 打开 pages.cloudflare.com
+2. 上传文件夹
+3. 得到网址 → iPhone Safari 打开
+
+
+================================
+【B. iPhone 添加到主屏幕步骤】
+================================
+
+1. iPhone 用 Safari 打开你的网址（必须是 Safari，微信内置浏览器不行）
+2. 点底部「分享」按钮（方框 + 向上箭头）
+3. 向下滑，找到「添加到主屏幕」
+4. 名字会自动填「桐记」，可改
+5. 点右上角「添加」
+6. 主屏幕出现图标，点击即全屏打开，和 App 一样
+
+【注意】
+· 一定要用 Safari，Chrome 在 iOS 上不行
+· 添加后第一次打开需要联网（缓存资源）
+· 之后断网也能用
+
+
+================================
+【本地文件方式（不用部署）】
+================================
+
+如果你不想部署，只想自己用：
+
+1. 把 TongJiHotUpdate 里的 index.html 传到 iPhone
+   （微信「文件传输助手」/ QQ / iCloud Drive 都行）
+2. iPhone「文件」App 找到它
+3. 长按 → 共享 → 用 Safari 打开
+   （或者直接点开，选择 Safari）
+
+缺点：
+· 没有主屏图标（除非用「添加到主屏幕」，但本地文件不支持）
+· 每次打开要重新找文件
+· Service Worker 不生效（离线缓存无效）
+
+所以还是推荐部署到网上。
+
+
+================================
+【更新版本怎么办】
+================================
+
+以后更新内容时：
+1. 改 index.html（版本号 +1）
+2. 如果改了界面，同时更新 sw.js 里的 CACHE_NAME
+   （例如 tongji-v4.1.1 → tongji-v4.2.0）
+3. 重新上传到托管平台
+4. 用户打开 App 会自动更新（网络优先策略）
+
+【关键链接】
+仓库主页：https://github.com/Yntc-POE/TongJiStudio
+Pages 地址：https://Yntc-POE.github.io/TongJiStudio/
